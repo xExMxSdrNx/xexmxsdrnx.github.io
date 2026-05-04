@@ -7,73 +7,48 @@
 
 <style>
 body{margin:0;font-family:sans-serif;background:#eaeaea}
-
-/* HEADER */
 .header{padding:12px;font-size:18px;font-weight:bold}
 
-/* AKUN */
+.menu-bar{display:flex;gap:10px;padding:10px;justify-content:center}
+.menu-bar button{
+padding:6px 12px;border:none;border-radius:10px;
+background:#333;color:#fff;cursor:pointer;
+}
+
 #accountMenu{text-align:center;padding:10px}
 #accountMenu button{
 margin:5px;padding:6px 12px;border:none;border-radius:10px;
 background:#ddd;cursor:pointer;
 }
-#accountMenu button.active{
-background:#00c853;color:#fff;
-}
+#accountMenu button.active{background:#00c853;color:#fff}
 
-/* GRID */
 .game-grid{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:14px;
-padding:12px;
+gap:14px;padding:12px;
 }
 
-/* CARD */
 .game-btn{
-background:#fff;
-border-radius:18px;
-padding:8px;
-text-align:center;
-cursor:pointer;
-transition:0.2s;
-height:150px;
-display:flex;
-flex-direction:column;
-justify-content:space-between;
+background:#fff;border-radius:18px;padding:8px;
+text-align:center;cursor:pointer;height:150px;
+display:flex;flex-direction:column;justify-content:space-between;
 }
 
-.game-btn:hover{
-transform:translateY(-6px);
-box-shadow:0 10px 18px rgba(0,0,0,0.2);
-}
-
-.game-btn:active{
-transform:scale(0.95);
-}
-
-/* GAMBAR FIX */
 .game-btn img{
-width:100%;
-height:100px;
-object-fit:cover;
-border-radius:12px;
-transition:0.3s;
+width:100%;height:100px;object-fit:cover;border-radius:12px;
 }
 
-.game-btn:hover img{
-transform:scale(1.05);
-}
-
-.game-btn span{
-font-size:13px;
-color:#333;
+.counter{
+position:absolute;top:6px;right:6px;
+background:#ff3d00;color:#fff;font-size:11px;
+padding:2px 6px;border-radius:10px;
 }
 
 /* OVERLAY */
 .overlay{
 position:fixed;top:0;left:0;width:100%;height:100%;
 background:#000;display:none;flex-direction:column;
+z-index:999;
 }
 .overlay.active{display:flex}
 
@@ -83,12 +58,69 @@ padding:10px;background:#111;color:#fff;
 }
 
 iframe{flex:1;border:none}
+
+/* POPUP */
+.popup-bg{
+position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,0.5);
+display:none;
+z-index:999;
+}
+.popup-bg.active{display:block}
+
+.popup{
+position:fixed;
+top:50%;left:50%;
+transform:translate(-50%,-50%);
+background:#fff;padding:20px;border-radius:12px;
+display:none;width:85%;max-width:320px;
+z-index:1000;
+}
+.popup.active{display:block}
+
+.popup button{
+margin-top:10px;
+padding:6px 10px;
+border:none;
+background:#00c853;
+color:#fff;
+border-radius:8px;
+cursor:pointer;
+}
+
+.game-btn{
+transition: all 0.35s ease;
+}
+
+/* TOP 1 */
+.top1{
+border:3px solid gold !important;
+transform:scale(1.05);
+}
+
+/* TOP 2 */
+.top2{
+border:3px solid silver !important;
+transform:scale(1.03);
+}
+
+/* TOP 3 */
+.top3{
+border:3px solid #cd7f32 !important;
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="header">🎮 Game Xoon</div>
+
+<div class="menu-bar">
+<button onclick="showStats()">📊 Statistik</button>
+<button onclick="showFavorite()">⭐ Favorit</button>
+<button onclick="resetData()">🔄 Reset</button>
+</div>
 
 <div id="accountMenu">
 <button onclick="selectAccount('sn',this)">181088 SN</button>
@@ -98,6 +130,7 @@ iframe{flex:1;border:none}
 
 <div class="game-grid" id="gameGrid"></div>
 
+<!-- GAME -->
 <div class="overlay" id="overlay">
 <div class="topbar">
 <span id="title"></span>
@@ -109,7 +142,18 @@ iframe{flex:1;border:none}
 <iframe id="frame"></iframe>
 </div>
 
+<!-- POPUP -->
+<div class="popup-bg" id="popupBg" onclick="closePopup()"></div>
+<div class="popup" id="popup"></div>
+
 <script>
+
+/* STORAGE */
+let clickCount = JSON.parse(localStorage.getItem("clickCount")) || {};
+let lastGame = JSON.parse(localStorage.getItem("lastGame")) || {};
+
+let selectedAccount=null;
+let currentUrl='';
 
 /* ================= AKUN ================= */
 const AUTH={
@@ -124,16 +168,12 @@ sodron:"163129 SodroN",
 exm:"169999 ExM"
 };
 
-let selectedAccount=null;
-let currentUrl='';
-
 /* ================= FULL GAME ================= */
-/* 👉 ISI img: "URL_GAMBAR" SENDIRI PER GAME */
 const GAMES=[
 
 // ===== MAHJONG =====
 {n:"Mahjong Ways",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpUczY_aOMJM5GNBWxgqmzrmmnuwS3cukPUiUosQBnvQ&s=10",u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/55?"},
-{n:"Mahjong Ways 2",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRv4EfDyiVcf35GC4ltaBt0S_7EOUOIUPpqKA&s",u:"https://www.duolefast.com/common-web/full/game1009/1.0.4/web-mobile/index.html?bizAppId=100049&gameid=1200006&engameid=1009&"},
+{n:"Mahjong Ways2",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRv4EfDyiVcf35GC4ltaBt0S_7EOUOIUPpqKA&s",u:"https://www.duolefast.com/common-web/full/game1009/1.0.4/web-mobile/index.html?bizAppId=100049&gameid=1200006&engameid=1009&"},
 {n:"Mahjong 1",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZr0WiR3FUKKpiONPVPiJoilAdJ7mhMuCc31ROU9_40w&s",u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?mode=games&game_name=mahjong&game_id=116&"},
 {n:"Mahjong 2",img:"https://play-lh.googleusercontent.com/lGmoHo07lMwd7-ZTEVp-tdcuoCHtLLcS8DKpDW-w2uUGntKXvPu4yjdaXVzSY1NRrjhC=w256",u:"https://api.osgametheme.com/plug_new/theme7/xoon_full?"},
 
@@ -165,6 +205,7 @@ const GAMES=[
 {n:"Super Sweet",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5w-2KYWWduTBz2Lzt2PZfbGZqxx9foc1kFAJ30_rZJQ&s=10",u:"https://api.osgametheme.com/plug_new/theme30/xoon_full?"},
 
 // ===== FISHING =====
+{n:"Fishing",img:"https://i.pinimg.com/564x/95/af/79/95af79df11a7989482efc366d02c7b9f.jpg",u:"https://d1wtralw2m821s.cloudfront.net/games/fish6/index.html?mode=games&game_name=fish6&isHalf=false&game_id=104&"},
 {n:"Fishing Jackpot",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9M7xlEN49TVdE5HPKE4K5iXzvuSXxaF_940ZbNl9RIg&s=10",u:"https://api-sg-v2.yomi1413.com/gate/gateway/zzaaym/128?"},
 {n:"Deep Sea Fishing",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSJa5Fl3EJVp9N0Tqb_MfpO1dJAbVkwS7Z9iRHMTKspA&s=10",u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=deep_sea_fish&"},
 
@@ -182,6 +223,17 @@ const GAMES=[
 {n:"Big Hammer",img:"https://gmtbigdate.cn.com/wp-content/uploads/2025/07/go-bua-phat-tai.webp",u:"https://cdn-xoon.leadercc.com/games/big_hammer/"},
 {n:"Teen Patti",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0IFTNojdBTc4Xq5kAH4EHX1HM1faFVSTqtwO_ZGHWQQ&s=10",u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=in_teen_patti&"},
 
+{n:"Aztec",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCd3K29uoUamED1Ob25-YEax4Q8Um3hgQ1jufTjY0wcA&s=10",u:"https://www.duolefast.com/common-web/full/game1006/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200001&engameid=1006&"},
+{n:"DJ Live",img:"https://i.ytimg.com/vi/Kdt_j97lV3E/maxresdefault.jpg",u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/24?"},
+{n:"Gold Miner",img:"https://www.xepagaming.com/wp-content/uploads/2024/11/720_750-14.webp",u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/53?"},
+{n:"Bandito",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6cMluYjuj2r6u18W5721gf9AXZoxaLUNmjQ16a6H2Hg&s=10",u:"https://www.duolefast.com/common-web/full/game1026/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200008&engameid=1026&"},
+{n:"Yummy",img:"https://iprop-ua.com/tm/thumbs/6z7x8bqm.jpg",u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?mode=games&game_name=yammy_slots&"},
+{n:"Lucky Pig",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKcJFyADEBweF9bmBLSuieakuM2zviE-GM0VgSsmKV7A&s=10",u:"https://www.duolefast.com/common-web/full/game1017/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200002&engameid=1017&"},
+{n:"Wild Bounty",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjfPfIv4A7XCWVbutHjXqrLli95t2fYUeTfKvtEsyPHw&s=10",u:"https://www.duolefast.com/common-web/full/game1024/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200003&engameid=1024&"},
+{n:"Book Of Death",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3FJY6zAVcCnYpN9YwEEAjx6yMT5CBr82gd7Y-xXKtiI1gatPwPaPcBnw&s=10",u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/63?"},
+{n:"1001 Night",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvcUeEMZ0aBT_ArslSApLEdDoSxy-C1aiGZYE52tGmnAQOCqwgIlSUeTOM&s=10",u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/30?"},
+{n:"MyRich",img:"https://www.casinorating.com/media/game_logo/0002/20/thumb_119152_game_logo_standart.jpg",u:"https://d1wtralw2m821s.cloudfront.net/games/mrrich/index.html?pl=xoon&v=11&mode=games&game_name=mrrich&isHalf=false&game_id=129&"},
+
 // ===== PIRATE =====
 {n:"Pirate King",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1JdXoSBlUVIY6uRCvPGiqKv3yyZQ_3-LDCSsffwIHDA&s=10",u:"https://cdn-web.hotgame.win/game/PirateKing/half/?sdk=xoon&"},
 {n:"Pirate King 2",img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgs3ZE8rUQvR00AXl5FM8mmyw4JlMcKhpwh2Ei_Ly0PA&s=10",u:"https://d1wtralw2m821s.cloudfront.net/games/pirate_king/index.html?pl=xoon&v=11&isHalf=false&game_id=136&"},
@@ -189,26 +241,57 @@ const GAMES=[
 
 ];
 
-/* ================= RENDER ================= */
+/* RENDER */
 function render(){
 const grid=document.getElementById('gameGrid');
 grid.innerHTML='';
 
-GAMES.forEach(g=>{
+// gabung data
+let data = GAMES.map((g,i)=>({
+...g,
+index:i,
+count: (selectedAccount && clickCount[selectedAccount]?.[i]) || 0
+}));
+
+// sort
+data.sort((a,b)=>b.count - a.count);
+
+data.forEach((g,rank)=>{
+
 const btn=document.createElement('div');
 btn.className='game-btn';
 
+// 🎯 TOP 3 STYLE
+if(g.count > 0){
+if(rank===0) btn.classList.add("top1");
+else if(rank===1) btn.classList.add("top2");
+else if(rank===2) btn.classList.add("top3");
+}
+
 btn.innerHTML=`
-<img src="${g.img}" 
-onerror="this.src='https://cdn-icons-png.flaticon.com/512/565/565547.png'">
+<div style="position:relative">
+<img src="${g.img}">
+<div class="counter">${g.count}</div>
+</div>
 <span>${g.n}</span>
 `;
 
 btn.onclick=()=>{
+
 if(!selectedAccount){
 alert("Pilih akun dulu!");
 return;
 }
+
+if(!clickCount[selectedAccount]) clickCount[selectedAccount]={};
+
+clickCount[selectedAccount][g.index]=(clickCount[selectedAccount][g.index]||0)+1;
+
+localStorage.setItem("clickCount",JSON.stringify(clickCount));
+localStorage.setItem("lastGame",JSON.stringify({acc:selectedAccount,i:g.index}));
+
+render();
+
 currentUrl=g.u+AUTH[selectedAccount]+"&lang=en";
 openGame(g.n,currentUrl);
 };
@@ -217,19 +300,147 @@ grid.appendChild(btn);
 });
 }
 
-/* ================= CONTROL ================= */
+/* REFRESH DENGAN KONFIRMASI */
+function refreshGame(){
+
+if(!selectedAccount){
+alert("Pilih akun dulu!");
+return;
+}
+
+if(!confirm("Mau refresh game ini?")){
+return;
+}
+
+let last = JSON.parse(localStorage.getItem("lastGame"));
+
+if(last && last.acc === selectedAccount){
+
+if(!clickCount[selectedAccount]) clickCount[selectedAccount]={};
+
+clickCount[selectedAccount][last.i]=(clickCount[selectedAccount][last.i]||0)+1;
+
+localStorage.setItem("clickCount",JSON.stringify(clickCount));
+}
+
+// reload iframe
+document.getElementById('frame').src=currentUrl;
+
+render();
+}
+
+/* STATISTIK */
+function showStats(){
+if(!selectedAccount) return alert("Pilih akun dulu!");
+
+let data = GAMES.map((g,i)=>({
+name:g.n,
+count:clickCount[selectedAccount]?.[i]||0
+}))
+.filter(d=>d.count>0)
+.sort((a,b)=>b.count-a.count);
+
+let html="<b>📊 Statistik</b><br><br>";
+
+if(data.length===0){
+html+="Belum ada data";
+}else{
+
+// 🔥 TOP 10
+let top = data.slice(0,10);
+
+top.forEach((d,i)=>{
+html+=`${i+1}. ${d.name} — <b>${d.count}</b><br>`;
+});
+
+// 📦 SISANYA
+let rest = data.slice(10);
+if(rest.length>0){
+let oneClick = rest.filter(d=>d.count===1).length;
+let moreThanOne = rest.filter(d=>d.count>1);
+
+if(moreThanOne.length>0){
+html+="<br><b>Lainnya:</b><br>";
+moreThanOne.forEach(d=>{
+html+=`${d.name} — ${d.count}<br>`;
+});
+}
+
+if(oneClick>0){
+html+=`<br>+ ${oneClick} game lain (1 klik)`;
+}
+}
+
+}
+
+html+=`<br><br><button onclick="closePopup()">Tutup</button>`;
+showPopup(html);
+}
+
+/* FAVORIT */
+function showFavorite(){
+if(!selectedAccount) return alert("Pilih akun dulu!");
+
+let data = GAMES.map((g,i)=>({
+name:g.n,
+count:clickCount[selectedAccount]?.[i]||0
+}))
+
+// 🔥 filter
+.filter(d=>d.count > 0)
+
+// urut
+.sort((a,b)=>b.count-a.count)
+
+.slice(0,3);
+
+let html="<b>⭐ Top 3 Favorit</b><br><br>";
+
+if(data.length === 0){
+html+="Belum ada favorit";
+}else{
+data.forEach((d,i)=>{
+html+=`${i+1}. ${d.name} — <b>${d.count}</b><br>`;
+});
+}
+
+html+=`<br><button onclick="closePopup()">Tutup</button>`;
+showPopup(html);
+}
+
+/* RESET */
+function resetData(){
+if(confirm("Reset semua data?")){
+clickCount={};
+localStorage.clear();
+render();
+}
+}
+
+/* POPUP */
+function showPopup(html){
+document.getElementById("popup").innerHTML=html;
+document.getElementById("popup").classList.add("active");
+document.getElementById("popupBg").classList.add("active");
+}
+
+function closePopup(){
+document.getElementById("popup").classList.remove("active");
+document.getElementById("popupBg").classList.remove("active");
+}
+
+/* CONTROL */
 function selectAccount(acc,btn){
 selectedAccount=acc;
 document.querySelectorAll('#accountMenu button').forEach(b=>b.classList.remove('active'));
 btn.classList.add('active');
+render();
 }
 
 function openGame(n,u){
 document.getElementById('overlay').classList.add('active');
 document.getElementById('frame').src=u;
-
-const acc=ACCOUNT_NAME[selectedAccount]||'';
-document.getElementById('title').innerText=n+" | "+acc;
+document.getElementById('title').innerText=n+" | "+ACCOUNT_NAME[selectedAccount];
 }
 
 function closeGame(){
@@ -237,11 +448,9 @@ document.getElementById('overlay').classList.remove('active');
 document.getElementById('frame').src='';
 }
 
-function refreshGame(){
-document.getElementById('frame').src=currentUrl;
-}
-
+window.onload=()=>{
 render();
+};
 
 </script>
 
