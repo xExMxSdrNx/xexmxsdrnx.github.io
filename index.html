@@ -434,10 +434,7 @@ function showTokenMenu() {
     let currentToken = customTokens[selected];
     let html = `
         <b>🔑 Update Token - ${NAMA[selected]}</b><br><br>
-        <div class="info-text">Masukkan token baru</div>
-        
-        <input type="text" id="newToken" class="token-input" placeholder="Masukkan token baru" value="${currentToken}">
-        <div style="display:flex; gap:10px; margin-top:12px;">
+            <input type="text" id="newToken" class="token-input" placeholder="Masukkan token baru">        <div style="display:flex; gap:10px; margin-top:12px;">
             <button class="btn-sm" style="background:#2ecc71;" onclick="updateToken()">💾 Simpan</button>
             <button class="btn-sm" onclick="resetToken()">↺ Reset Default</button>
             <button class="btn-sm" onclick="closePopup()">Batal</button>
