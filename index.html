@@ -321,6 +321,7 @@
 </head>
 <body>
 
+<!-- LAYAR LOGIN SELALU DITAMPILKAN SAAT PERTAMA KALI LOAD -->
 <div class="login-screen" id="loginScreen">
     <div class="login-card">
         <div class="login-icon">🎰</div>
@@ -331,7 +332,6 @@
                 <div class="account-avatar">🎮</div>
                 <div class="account-info">
                     <div class="account-name">181088 SN</div>
-                    
                 </div>
                 <div class="account-arrow">→</div>
             </div>
@@ -339,7 +339,6 @@
                 <div class="account-avatar">🎮</div>
                 <div class="account-info">
                     <div class="account-name">163129 SodroN</div>
-                    
                 </div>
                 <div class="account-arrow">→</div>
             </div>
@@ -347,7 +346,6 @@
                 <div class="account-avatar">🎮</div>
                 <div class="account-info">
                     <div class="account-name">169999 ExM</div>
-                   
                 </div>
                 <div class="account-arrow">→</div>
             </div>
@@ -465,6 +463,7 @@ const AVATAR_IMG = {
     exm: "https://file.xoon.live/release/1c542bab-4585-41bd-a795-d4d598f165ba",
 };
 const GAMES = [
+    // ==================== POLA 1: api-sg.yomi1413.com (BIRU) ====================
     { n:"Jackpot Slot", img:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/773670/capsule_616x353.jpg?t=1702294961", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/21?", g:"biru" },
     { n:"DJ Live", img:"https://i.ytimg.com/vi/Kdt_j97lV3E/maxresdefault.jpg", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/24?", g:"biru" },
     { n:"Olympus 2", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCJe8zFKFr3xdUeb--9CQ5cz0YMUw5YiCtcV-aXvCODg&s=10", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/27?", g:"biru" },
@@ -484,25 +483,31 @@ const GAMES = [
     { n:"Mega Jackpot", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjXgxgFv_vx39rzV1OTHdnf_UM-hxyITHBLdEYIppzbw&s=10", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/62?", g:"biru" },
     { n:"Book Of Death", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3FJY6zAVcCnYpN9YwEEAjx6yMT5CBr82gd7Y-xXKtiI1gatPwPaPcBnw&s=10", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/63?", g:"biru" },
     { n:"Fast & Furious", img:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/773670/capsule_616x353.jpg?t=1702294961", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/65?", g:"biru" },
+
+    // ==================== POLA 2: duolefast.com (HIJAU) ====================
     { n:"Aztec", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCd3K29uoUamED1Ob25-YEax4Q8Um3hgQ1jufTjY0wcA&s=10", u:"https://www.duolefast.com/common-web/full/game1006/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200001&engameid=1006&", g:"hijau" },
     { n:"Mahjong Ways2", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRv4EfDyiVcf35GC4ltaBt0S_7EOUOIUPpqKA&s", u:"https://www.duolefast.com/common-web/full/game1009/1.0.4/web-mobile/index.html?bizAppId=100049&gameid=1200006&engameid=1009&", g:"hijau" },
     { n:"Monkey King", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfvQ14DvcviaCxnjmkvOxkeHre1JRvS6ydOMSQm48GQ&s=10", u:"https://www.duolefast.com/common-web/full/game1014/1.0.4/web-mobile/index.html?bizAppId=100049&gameid=1200007&engameid=1014&", g:"hijau" },
     { n:"Lucky Pig", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKcJFyADEBweF9bmBLSuieakuM2zviE-GM0VgSsmKV7A&s=10", u:"https://www.duolefast.com/common-web/full/game1017/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200002&engameid=1017&", g:"hijau" },
     { n:"Wild Bounty", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjfPfIv4A7XCWVbutHjXqrLli95t2fYUeTfKvtEsyPHw&s=10", u:"https://www.duolefast.com/common-web/full/game1024/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200003&engameid=1024&", g:"hijau" },
     { n:"Bandito", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6cMluYjuj2r6u18W5721gf9AXZoxaLUNmjQ16a6H2Hg&s=10", u:"https://www.duolefast.com/common-web/full/game1026/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200008&engameid=1026&", g:"hijau" },
+
+    // ==================== POLA 3: api.osgametheme.com (ORANYE) ====================
     { n:"Olympus", img:"https://i.pinimg.com/736x/9e/bf/df/9ebfdf763cc97a7ec9b9ae91d630aef4.jpg", u:"https://api.osgametheme.com/plug_new/theme1/xoon_full?", g:"oranye" },
     { n:"Mahjong 2", img:"https://play-lh.googleusercontent.com/lGmoHo07lMwd7-ZTEVp-tdcuoCHtLLcS8DKpDW-w2uUGntKXvPu4yjdaXVzSY1NRrjhC=w256", u:"https://api.osgametheme.com/plug_new/theme7/xoon_full?", g:"oranye" },
     { n:"Athena", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOWAPR7JEbgkQIs1tOnResaw62AEVrfsjeebiD1EfiwA&s=10", u:"https://api.osgametheme.com/plug_new/theme11/xoon_full?", g:"oranye" },
     { n:"Super Sweet", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5w-2KYWWduTBz2Lzt2PZfbGZqxx9foc1kFAJ30_rZJQ&s=10", u:"https://api.osgametheme.com/plug_new/theme30/xoon_full?", g:"oranye" },
     { n:"Golden Tree", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_R-2yK_Y9lN_AFvqUKiv0aY1EpEZ3_QLBcIGSo0CmuQ&s=10", u:"https://api.osgametheme.com/plug_new/theme37/xoon_full?", g:"oranye" },
+
+    // ==================== POLA 4: d1wtralw2m821s (game_id) (UNGU) ====================
     { n:"Fishing", img:"https://i.pinimg.com/564x/95/af/79/95af79df11a7989482efc366d02c7b9f.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/fish6/index.html?mode=games&game_name=fish6&isHalf=false&game_id=104&", g:"ungu" },
     { n:"Sweet Bonanza", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHV2yPuimx_29mceWi8mjOiU8erK6jVHUSvFAnMkJPsA&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/sweet_feast/index.html?mode=games&game_name=sweet_feast&isHalf=false&game_id=106", g:"ungu" },
     { n:"Mahjong 1", img:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/773670/capsule_616x353.jpg?t=1702294961", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?mode=games&game_name=mahjong&game_id=116&", g:"ungu" },
     { n:"MyRich", img:"https://www.casinorating.com/media/game_logo/0002/20/thumb_119152_game_logo_standart.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/mrrich/index.html?pl=xoon&v=11&mode=games&game_name=mrrich&isHalf=false&game_id=129&", g:"ungu" },
     { n:"Pirate King 2", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgs3ZE8rUQvR00AXl5FM8mmyw4JlMcKhpwh2Ei_Ly0PA&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/pirate_king/index.html?pl=xoon&v=11&isHalf=false&game_id=136&", g:"ungu" },
     { n:"Deep Sea Fishing", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSJa5Fl3EJVp9N0Tqb_MfpO1dJAbVkwS7Z9iRHMTKspA&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=deep_sea_fish&", g:"ungu" },
-    { n:"Deep Sea Treasure", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSag4d-md_E6GhFiGpy7qEZpP1QPdOEy7WlukEDSXWA2w&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=deep_sea_treasures&", g:"ungu" },
-    { n:"Fruit Slot", img:"https://esx.esxscloud.com/liveglb/202506101059/content/resource_manage/md5_94f8895fd6c590d38706754ef13be1d9_.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=fruit_liberty_bell&", g:"ungu" },
+    { n:"Deep Sea Treasure", img:"https://esx.esxscloud.com/liveglb/202506101059/content/resource_manage/md5_94f8895fd6c590d38706754ef13be1d9_.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=deep_sea_treasures&", g:"ungu" },
+    { n:"Fruit Slot", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwTNc9tkeK726xyIxpOp1vNk7v9X2PxHBHWrzKZQE9pw&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=fruit_liberty_bell&", g:"ungu" },
     { n:"Greedy Monkey", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwkiSLOIDaVOVefNP8pqUxIpon-dWPkyrqsgV2kjn22gef9Rirak0ZRsYf&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/monkey_wheel/index.html?", g:"ungu" },
     { n:"Lucky Gems", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUaqycGmRmTPoNHB9Xn2IiUoEudcUjhCFxD2NmhBPNdQ&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=fortune_gems&", g:"ungu" },
     { n:"Lucky Slot", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-7POxm5TuUxNX0nEPDLBTYOW7mR4ExCdvTgdxrSI_uQ&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=luckyslots&", g:"ungu" },
@@ -510,6 +515,8 @@ const GAMES = [
     { n:"Teen Patti", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0IFTNojdBTc4Xq5kAH4EHX1HM1faFVSTqtwO_ZGHWQQ&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=in_teen_patti&", g:"ungu" },
     { n:"The Monkey King", img:"https://mir-s3-cdn-cf.behance.net/projects/404/ed6663235630209.Y3JvcCwzNzEyLDI5MDQsMTc0LDA.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/monkeyking/index.html?", g:"ungu" },
     { n:"Yummy", img:"https://iprop-ua.com/tm/thumbs/6z7x8bqm.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?mode=games&game_name=yammy_slots&", g:"ungu" },
+
+    // ==================== POLA 5: DOMAIN LAIN (HITAM) ====================
     { n:"Big Hammer", img:"https://gmtbigdate.cn.com/wp-content/uploads/2025/07/go-bua-phat-tai.webp", u:"https://cdn-xoon.leadercc.com/games/big_hammer/", g:"hitam" },
     { n:"Greedy King", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl-TxSFvqzqfJj6IuZU1mo5vjCln15l-OdcsSu0RBHxw&s=10", u:"https://www.duolefast.com/common-web/full/game845/", g:"hitam" },
     { n:"Greedy Lion", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpM9K7VqdfNnGASDo7-wVV1rmqp83N62cLGi0MKsdfvw&s=10", u:"https://cdn-web.hotgame.win/game/GreedyLion/", g:"hitam" },
@@ -646,28 +653,54 @@ function login(acc) {
     selected = acc;
     localStorage.setItem("account", acc);
     loadData();
+    // Sembunyikan login screen, tampilkan dashboard
     document.getElementById("loginScreen").style.display = "none";
     document.getElementById("dashboard").classList.add("active");
     updateUserBox();
     renderGames();
 }
 
-function updateUserBox() { let userBox = document.getElementById("userBox"); let avatarUrl = AVATAR_IMG[selected]; let name = NAMA[selected]; if (avatarUrl) { userBox.innerHTML = `<img class="avatar-img" src="${avatarUrl}" onerror="this.style.display='none'; this.nextSibling.style.display='flex';"><div class="avatar-placeholder" style="display:none;">${name.charAt(0)}</div><span>${name}</span><button class="logout" onclick="logout()">Logout</button>`; } else { userBox.innerHTML = `<div class="avatar-placeholder">${name.charAt(0)}</div><span>${name}</span><button class="logout" onclick="logout()">Logout</button>`; } }
-function logout() { selected = null; localStorage.removeItem("account"); closeGame(); document.getElementById("loginScreen").style.display = "flex"; document.getElementById("dashboard").classList.remove("active"); }
+function updateUserBox() { 
+    let userBox = document.getElementById("userBox"); 
+    let avatarUrl = AVATAR_IMG[selected]; 
+    let name = NAMA[selected]; 
+    if (avatarUrl) { 
+        userBox.innerHTML = `<img class="avatar-img" src="${avatarUrl}" onerror="this.style.display='none'; this.nextSibling.style.display='flex';"><div class="avatar-placeholder" style="display:none;">${name.charAt(0)}</div><span>${name}</span><button class="logout" onclick="logout()">Logout</button>`; 
+    } else { 
+        userBox.innerHTML = `<div class="avatar-placeholder">${name.charAt(0)}</div><span>${name}</span><button class="logout" onclick="logout()">Logout</button>`; 
+    } 
+}
+
+function logout() { 
+    selected = null; 
+    localStorage.removeItem("account"); 
+    closeGame(); 
+    // Tampilkan login screen, sembunyikan dashboard
+    document.getElementById("loginScreen").style.display = "flex";
+    document.getElementById("dashboard").classList.remove("active");
+}
+
 function showPopup(html) { document.getElementById("popup").innerHTML = html; document.getElementById("popup").classList.add("active"); document.getElementById("popupBg").classList.add("active"); }
 function closePopup() { document.getElementById("popup").classList.remove("active"); document.getElementById("popupBg").classList.remove("active"); }
 
+// PROSES INIT: TIDAK PERNAH LANGSUNG MASUK KE DASHBOARD
+// Login screen selalu tampil pertama kali, meskipun ada account di localStorage
 function init() {
-    let acc = localStorage.getItem("account");
-    if (acc && NAMA[acc]) {
-        selected = acc;
-        loadData();
-        document.getElementById("loginScreen").style.display = "none";
-        document.getElementById("dashboard").classList.add("active");
-        updateUserBox();
-        renderGames();
-    }
+    // Hapus semua auto-login - selalu tampilkan login screen
+    // JANGAN ambil account dari localStorage untuk auto login
+    
+    // Pastikan login screen tampil, dashboard tersembunyi
+    document.getElementById("loginScreen").style.display = "flex";
+    document.getElementById("dashboard").classList.remove("active");
+    
+    // Hapus selected agar tidak ada session yang tersisa
+    selected = null;
+    
+    // Hapus juga localStorage account agar tidak dipakai lagi untuk auto login
+    localStorage.removeItem("account");
 }
+
+// Panggil init saat halaman dimuat
 init();
 </script>
 </body>
