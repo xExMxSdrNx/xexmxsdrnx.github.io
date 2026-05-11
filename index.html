@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Super Mario Sederhana - Lompat & Hindari Musuh</title>
+    <title>Super Mario Sederhana - Lompat & Hindari Goomba</title>
     <style>
         * {
             user-select: none;
@@ -136,8 +136,8 @@
         
         // --- GROUND ---
         const GROUND_Y = H - 42;    // tanah (dasar lantai)
-        const PLAYER_WIDTH = 28;
-        const PLAYER_HEIGHT = 28;
+        const PLAYER_WIDTH = 30;
+        const PLAYER_HEIGHT = 30;
         
         // --- PARAMETER MARIO (player) ---
         let player = {
@@ -153,11 +153,11 @@
         
         // --- MUSUH (Goomba sederhana) ---
         let enemies = [];
-        const ENEMY_W = 26;
-        const ENEMY_H = 26;
+        const ENEMY_W = 28;
+        const ENEMY_H = 28;
         let frameCounter = 0;
-        let spawnGap = 75;      // frame antar spawn (semakin tinggi skor semakin cepat nanti)
-        let baseSpawnGap = 75;
+        let spawnGap = 70;      // frame antar spawn
+        let baseSpawnGap = 70;
         
         // --- GAME STATE ---
         let score = 0;
@@ -178,7 +178,7 @@
         // --- FUNGSI BANTU ---
         function updateUI(){
             scoreSpan.innerText = Math.floor(score);
-            if(score > bestScore){
+            if(Math.floor(score) > bestScore){
                 bestScore = Math.floor(score);
                 bestSpan.innerText = bestScore;
                 localStorage.setItem('marioBestScore', bestScore);
@@ -196,21 +196,19 @@
             player.y = GROUND_Y - PLAYER_HEIGHT;
             player.vy = 0;
             player.grounded = true;
-            // reset spawn gap ke default
             spawnGap = baseSpawnGap;
         }
         
-        // lompat (hanya jika game running dan karakter di tanah)
+        // lompat
         function playerJump(){
             if(!gameRunning) return;
             if(player.grounded){
                 player.vy = player.jumpPower;
                 player.grounded = false;
-                // efek suara imajiner: vibe sedikit (opsional)
             }
         }
         
-        // update logika fisik dan musuh
+        // update logika
         function updateGame(){
             if(!gameRunning) return;
             
@@ -227,7 +225,7 @@
                 player.grounded = false;
             }
             
-            // batas atas (opsional, tidak terlalu dibutuhkan)
+            // batas atas
             if(player.y < 0){
                 player.y = 0;
                 if(player.vy < 0) player.vy = 0;
@@ -237,19 +235,17 @@
             for(let i=0; i<enemies.length; i++){
                 enemies[i].x -= enemies[i].speed;
             }
-            // hapus musuh yang keluar layar (x + width < 0)
+            // hapus musuh yang keluar layar
             enemies = enemies.filter(e => e.x + e.w > 0);
             
-            // 3. Spawn musuh secara periodik (semakin tinggi score, semakin cepat spawn)
-            // difficulty: gap berkurang hingga minimum 32 frame, dan speed bertambah
-            let dynamicGap = Math.max(32, baseSpawnGap - Math.floor(score / 280));
+            // 3. Spawn musuh secara periodik
+            let dynamicGap = Math.max(35, baseSpawnGap - Math.floor(score / 250));
             if(frameCounter >= dynamicGap){
                 frameCounter = 0;
-                // speed musuh: mulai 3.5, semakin tinggi score bisa sampai 6.8
-                let moveSpeed = 3.5 + Math.min(4.5, Math.floor(score / 400));
+                let moveSpeed = 3.2 + Math.min(4.0, Math.floor(score / 450));
                 enemies.push({
                     x: W,
-                    y: GROUND_Y - ENEMY_H + 2,  // sedikit lebih rendah agar jejak tanah
+                    y: GROUND_Y - ENEMY_H + 2,
                     w: ENEMY_W,
                     h: ENEMY_H,
                     speed: moveSpeed
@@ -258,148 +254,211 @@
                 frameCounter++;
             }
             
-            // 4. Deteksi tabrakan (AABB) antara Mario dan musuh -> GAME OVER
+            // 4. Deteksi tabrakan
             for(let i=0; i<enemies.length; i++){
                 const e = enemies[i];
-                // hitung kotak tabrakan mario
                 if(player.x < e.x + e.w &&
                     player.x + player.width > e.x &&
                     player.y < e.y + e.h &&
                     player.y + player.height > e.y){
-                    // tabrakan! matikan game
                     gameRunning = false;
                     statusDiv.innerText = "💀 GAME OVER 💀";
                     break;
                 }
             }
             
-            // 5. Tambah skor seiring waktu (semakin bertahan hidup)
+            // 5. Tambah skor
             if(gameRunning){
-                // skor bertambah setiap frame, 0.2 per frame = ~12 per detik (60fps)
-                score += 0.2;
+                score += 0.25;
                 updateUI();
             }
         }
         
-        // --- GAMBAR SEMUA ELEMEN (dengan sentuhan Mario khas) ---
+        // --- GAMBAR SEMUA ELEMEN ---
         function drawGround(){
-            // tanah gaya Super Mario world
-            ctx.fillStyle = "#8b5a2b";
+            // tanah
+            ctx.fillStyle = "#7a4316";
             ctx.fillRect(0, GROUND_Y, W, H - GROUND_Y + 2);
             // garis atas tanah
-            ctx.fillStyle = "#c97e3a";
-            ctx.fillRect(0, GROUND_Y-4, W, 6);
+            ctx.fillStyle = "#b87c3a";
+            ctx.fillRect(0, GROUND_Y-5, W, 6);
             ctx.fillStyle = "#e3a56d";
             ctx.fillRect(0, GROUND_Y-2, W, 4);
-            // rumput sederhana
+            // rumput
             ctx.fillStyle = "#5c9e3e";
-            for(let i=0; i<12; i++){
-                ctx.fillRect(i*70+10, GROUND_Y-8, 6, 10);
+            for(let i=0; i<15; i++){
+                ctx.fillRect(i*55+10, GROUND_Y-10, 7, 12);
             }
         }
         
-        // gambar Mario dengan topi dan kumis (cute)
+        // gambar Mario
         function drawMario(x, y, w, h){
-            // overall overalls merah
-            ctx.fillStyle = "#e52525";
+            // badan overall merah
+            ctx.fillStyle = "#e32119";
             ctx.fillRect(x, y, w, h);
-            // skin tone
-            ctx.fillStyle = "#f9be7c";
-            ctx.fillRect(x+4, y-4, w-8, 10);
+            
+            // wajah (skin)
+            ctx.fillStyle = "#fcd7a0";
+            ctx.fillRect(x+4, y-6, w-8, 12);
+            
             // topi merah
             ctx.fillStyle = "#c22";
-            ctx.fillRect(x+2, y-8, w-4, 8);
-            ctx.fillStyle = "#fff0b5";
-            ctx.fillRect(x+6, y-7, 6, 4);
+            ctx.fillRect(x+2, y-10, w-4, 8);
+            ctx.fillStyle = "#ff4444";
+            ctx.fillRect(x+3, y-9, w-6, 6);
+            
+            // logo M di topi
+            ctx.fillStyle = "#fff";
+            ctx.font = "bold 12px 'Courier New'";
+            ctx.fillText("M", x+11, y-4);
+            
             // kumis
-            ctx.fillStyle = "#5e3a1a";
-            ctx.fillRect(x+6, y+4, 5, 3);
-            ctx.fillRect(x+16, y+4, 5, 3);
+            ctx.fillStyle = "#4a2a0a";
+            ctx.fillRect(x+6, y+3, 7, 3);
+            ctx.fillRect(x+17, y+3, 7, 3);
+            
             // mata
             ctx.fillStyle = "#000";
-            ctx.fillRect(x+9, y-1, 3, 4);
-            ctx.fillRect(x+17, y-1, 3, 4);
-            // overalls kancing
+            ctx.fillRect(x+9, y-2, 3, 4);
+            ctx.fillRect(x+18, y-2, 3, 4);
+            
+            // alis
+            ctx.fillStyle = "#2a1a05";
+            ctx.fillRect(x+7, y-5, 6, 2);
+            ctx.fillRect(x+17, y-5, 6, 2);
+            
+            // kancing overall
             ctx.fillStyle = "#ffd966";
             ctx.beginPath();
-            ctx.arc(x+14, y+12, 3, 0, Math.PI*2);
+            ctx.arc(x+15, y+13, 3.5, 0, Math.PI*2);
             ctx.fill();
-            ctx.fillStyle = "#bc8f4b";
-            ctx.fillRect(x+6, y+16, 5, 8);
-            ctx.fillRect(x+18, y+16, 5, 8);
+            ctx.fillStyle = "#c97e2a";
+            ctx.fillRect(x+5, y+19, 6, 9);
+            ctx.fillRect(x+19, y+19, 6, 9);
+            
+            // sepatu coklat
+            ctx.fillStyle = "#8b4513";
+            ctx.fillRect(x+3, y+h-5, 8, 6);
+            ctx.fillRect(x+19, y+h-5, 8, 6);
         }
         
-        // gambar musuh (Goomba bulat dengan alis)
+        // gambar musuh Goomba
         function drawGoomba(x, y, w, h){
+            // badan
             ctx.fillStyle = "#6b3e1c";
             ctx.beginPath();
-            ctx.ellipse(x+w/2, y+h/2, w/2, h/2, 0, 0, Math.PI*2);
+            ctx.ellipse(x+w/2, y+h/2, w/2, h/2.2, 0, 0, Math.PI*2);
             ctx.fill();
+            
+            // mata
+            ctx.fillStyle = "#2a1a06";
+            ctx.beginPath();
+            ctx.ellipse(x+w/3, y+h/2-3, 5, 6, 0, 0, Math.PI*2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(x+2*w/3, y+h/2-3, 5, 6, 0, 0, Math.PI*2);
+            ctx.fill();
+            
+            // putih mata
+            ctx.fillStyle = "#fff8e7";
+            ctx.beginPath();
+            ctx.arc(x+w/3-1, y+h/2-4, 2, 0, Math.PI*2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(x+2*w/3-1, y+h/2-4, 2, 0, Math.PI*2);
+            ctx.fill();
+            
+            // alis
+            ctx.fillStyle = "#1f1204";
+            ctx.fillRect(x+6, y+h/2-7, 7, 3);
+            ctx.fillRect(x+15, y+h/2-7, 7, 3);
+            
+            // mulut
             ctx.fillStyle = "#4a2a10";
-            ctx.beginPath();
-            ctx.ellipse(x+w/3, y+h/2-2, 5, 6, 0, 0, Math.PI*2);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.ellipse(x+2*w/3, y+h/2-2, 5, 6, 0, 0, Math.PI*2);
-            ctx.fill();
-            ctx.fillStyle = "#fffff0";
-            ctx.fillRect(x+7, y+h/2+2, 12, 5);
-            // alis jahat
-            ctx.fillStyle = "#2c1a06";
-            ctx.fillRect(x+5, y+h/2-6, 7, 3);
-            ctx.fillRect(x+15, y+h/2-6, 7, 3);
+            ctx.fillRect(x+9, y+h/2+2, 10, 4);
+            
+            // kaki
+            ctx.fillStyle = "#4a2a10";
+            ctx.fillRect(x+4, y+h-5, 7, 5);
+            ctx.fillRect(x+17, y+h-5, 7, 5);
         }
         
-        // elemen dekoratif seperti awan & semak
         function drawBackground(){
             // langit gradien
-            const grad = ctx.createLinearGradient(0,0,0,200);
-            grad.addColorStop(0,"#73c8ff");
-            grad.addColorStop(1,"#b2deff");
+            const grad = ctx.createLinearGradient(0,0,0,250);
+            grad.addColorStop(0,"#5bb4ff");
+            grad.addColorStop(1,"#9ad4ff");
             ctx.fillStyle = grad;
-            ctx.fillRect(0,0,W,GROUND_Y-10);
+            ctx.fillRect(0,0,W,GROUND_Y-8);
+            
             // awan
-            ctx.fillStyle = "#f0f8ffdd";
-            ctx.shadowBlur = 0;
+            ctx.fillStyle = "#ffffffdd";
+            // awan kiri
             ctx.beginPath();
-            ctx.ellipse(120, 45, 35, 30, 0, 0, Math.PI*2);
-            ctx.ellipse(155, 32, 40, 32, 0, 0, Math.PI*2);
-            ctx.ellipse(195, 45, 32, 28, 0, 0, Math.PI*2);
+            ctx.ellipse(100, 55, 38, 32, 0, 0, Math.PI*2);
+            ctx.ellipse(135, 42, 42, 35, 0, 0, Math.PI*2);
+            ctx.ellipse(175, 55, 35, 30, 0, 0, Math.PI*2);
             ctx.fill();
+            
+            // awan kanan
             ctx.beginPath();
-            ctx.ellipse(600, 70, 42, 34, 0, 0, Math.PI*2);
-            ctx.ellipse(645, 58, 36, 32, 0, 0, Math.PI*2);
-            ctx.ellipse(680, 75, 30, 28, 0, 0, Math.PI*2);
+            ctx.ellipse(620, 65, 40, 34, 0, 0, Math.PI*2);
+            ctx.ellipse(665, 52, 44, 37, 0, 0, Math.PI*2);
+            ctx.ellipse(705, 68, 36, 32, 0, 0, Math.PI*2);
             ctx.fill();
+            
+            // awan kecil
+            ctx.beginPath();
+            ctx.ellipse(400, 35, 30, 25, 0, 0, Math.PI*2);
+            ctx.ellipse(430, 28, 28, 23, 0, 0, Math.PI*2);
+            ctx.fill();
+            
+            // matahari
+            ctx.fillStyle = "#ffdd77";
+            ctx.beginPath();
+            ctx.arc(730, 50, 28, 0, Math.PI*2);
+            ctx.fill();
+            ctx.fillStyle = "#ffcc44";
+            for(let i=0; i<12; i++){
+                let angle = i * Math.PI * 2 / 12;
+                let x = 730 + Math.cos(angle) * 38;
+                let y = 50 + Math.sin(angle) * 38;
+                ctx.fillRect(x-3, y-2, 6, 5);
+            }
+            
             // semak
-            ctx.fillStyle = "#4f8a3c";
+            ctx.fillStyle = "#3e7a2a";
             ctx.beginPath();
-            ctx.ellipse(500, GROUND_Y-14, 45, 22, 0, 0, Math.PI*2);
+            ctx.ellipse(480, GROUND_Y-14, 45, 24, 0, 0, Math.PI*2);
             ctx.fill();
-            ctx.fillStyle = "#3a6b2a";
+            ctx.fillStyle = "#2d5a1e";
             ctx.beginPath();
-            ctx.ellipse(530, GROUND_Y-18, 35, 20, 0, 0, Math.PI*2);
+            ctx.ellipse(510, GROUND_Y-20, 38, 22, 0, 0, Math.PI*2);
             ctx.fill();
         }
         
         function drawScoreEffects(){
-            // animasi skor berupa bintang
-            ctx.font = "bold 24monospace";
+            ctx.font = "bold 28px 'Courier New'";
+            ctx.fillStyle = "#ffdd77";
             ctx.shadowBlur = 0;
-            ctx.fillStyle = "#ffcf40";
-            ctx.shadowColor = "#b45f1b";
-            ctx.fillText("★", 30, 55);
-            ctx.font = "bold 14px 'Courier New'";
-            ctx.fillStyle = "#ffefb0";
+            ctx.fillText("★", 22, 52);
+            ctx.font = "bold 18px monospace";
+            ctx.fillStyle = "#ffeeaa";
             ctx.fillText("x " + Math.floor(score), 55, 58);
+            
+            // petunjuk lompat
+            if(player.grounded && gameRunning){
+                ctx.font = "italic 12px monospace";
+                ctx.fillStyle = "#ffffbb";
+                ctx.fillText("▶ LOMPAT!", player.x-5, player.y-12);
+            }
         }
         
         // --- LOOP UTAMA ---
         function gameLoop(){
-            // update logika
             updateGame();
             
-            // GAMBAR SEMUA
+            // gambar semua
             drawBackground();
             drawGround();
             
@@ -408,46 +467,48 @@
                 drawGoomba(e.x, e.y, e.w, e.h);
             }
             
-            // cast bayangan Mario
-            ctx.fillStyle = "#4b2f1490";
+            // bayangan Mario
+            ctx.fillStyle = "#2a1a0a90";
             ctx.beginPath();
-            ctx.ellipse(player.x+player.width/2, GROUND_Y+2, player.width/2+2, 6, 0, 0, Math.PI*2);
+            ctx.ellipse(player.x+player.width/2+2, GROUND_Y+3, player.width/2+3, 7, 0, 0, Math.PI*2);
             ctx.fill();
             
             // gambar Mario
             drawMario(player.x, player.y, player.width, player.height);
             
-            // efek tulisan jika game over
+            // efek game over
             if(!gameRunning){
-                ctx.font = "bold 34px 'Courier New', monospace";
-                ctx.shadowBlur = 0;
-                ctx.fillStyle = "#f03030";
+                ctx.font = "bold 36px 'Courier New', monospace";
+                ctx.fillStyle = "#e03030";
                 ctx.shadowColor = "#3a1a00";
-                ctx.fillText("GAME OVER", W/2-110, H/2-40);
+                ctx.fillText("GAME OVER", W/2-115, H/2-45);
                 ctx.font = "18px monospace";
-                ctx.fillStyle = "#ffe5a3";
-                ctx.fillText("Tekan RESTART", W/2-60, H/2+30);
+                ctx.fillStyle = "#ffecb3";
+                ctx.fillText("Klik RESTART untuk main lagi", W/2-140, H/2+25);
             }
             
             drawScoreEffects();
-            // Info gerak lompat (untuk gaya)
-            if(player.grounded && gameRunning){
-                ctx.fillStyle = "#fff7cc";
-                ctx.font = "bold 13px monospace";
-                ctx.fillText("✨ READY", player.x-10, player.y-8);
+            
+            // animasi bounce saat grounded
+            if(player.grounded && gameRunning && player.vy === 0){
+                ctx.fillStyle = "#ffdd99";
+                ctx.beginPath();
+                ctx.moveTo(player.x+5, player.y+player.height+2);
+                ctx.lineTo(player.x+15, player.y+player.height+9);
+                ctx.lineTo(player.x+25, player.y+player.height+2);
+                ctx.fill();
             }
             
             requestAnimationFrame(gameLoop);
         }
         
-        // --- EVENT HANDLER (Keyboard + Tombol)---
+        // --- EVENT HANDLER ---
         function handleKey(e){
             const key = e.key;
             if(key === ' ' || key === 'Space' || key === 'ArrowUp'){
                 e.preventDefault();
                 playerJump();
             }
-            // optional restart dengan tombol R
             if(key === 'r' || key === 'R'){
                 e.preventDefault();
                 restartGame();
@@ -456,7 +517,6 @@
         
         window.addEventListener('keydown', handleKey);
         
-        // tombol sentuh / mouse
         const jumpBtn = document.getElementById('jumpBtn');
         const restartBtn = document.getElementById('restartBtn');
         
@@ -470,7 +530,6 @@
             restartGame();
         });
         
-        // Prevent touch canvas dari scrolling dan juga bisa lompat jika tap canvas (opsi)
         canvas.addEventListener('touchstart', (e) => {
             e.preventDefault();
             playerJump();
@@ -480,15 +539,9 @@
             playerJump();
         });
         
-        // Initialize restart pertama kali untuk memastikan enemies bersih
+        // mulai game
         restartGame();
-        
-        // Mulai game loop
         gameLoop();
-        
-        // tambahan: sesuaikan kecepatan frame / spawn setelah restart, dynamic reset spawnGap tiap restart akan set ulang
-        // di restartGame sudah set spawnGap = baseSpawnGap dan frameCounter = 0
-        // DONE. 
     })();
 </script>
 </body>
