@@ -1,214 +1,495 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Untuk Sayangku ❤️</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Super Mario Sederhana - Lompat & Hindari Musuh</title>
+    <style>
+        * {
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-<style>
-body {
-    margin: 0;
-    font-family: sans-serif;
-    background: linear-gradient(135deg, #ff9a9e, #ff4d6d);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: white;
-    overflow: hidden;
-}
+        body {
+            background: linear-gradient(145deg, #0a2f5a 0%, #0a1f3a 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            font-family: 'Courier New', 'VT323', monospace;
+        }
 
-.container {
-    max-width: 320px;
-}
+        .game-container {
+            background: #000;
+            border-radius: 28px;
+            padding: 12px 12px 14px 12px;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.5), inset 0 1px 4px rgba(255,255,255,0.2);
+        }
 
-h1 {
-    font-size: 2.2em;
-}
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 20px;
+            box-shadow: 0 0 0 3px #f7d44a, 0 0 0 6px #b45f1b;
+            cursor: pointer;
+        }
 
-#text {
-    font-size: 1.2em;
-    min-height: 60px;
-}
+        .info-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-top: 14px;
+            margin-bottom: 8px;
+            padding: 5px 18px;
+            background: #1e1a0e;
+            border-radius: 60px;
+            color: #f8e45c;
+            text-shadow: 2px 2px 0 #6b2e00;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
 
-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 20px;
-    background: white;
-    color: #ff4d6d;
-    font-weight: bold;
-    cursor: pointer;
-}
+        .score-box, .best-box {
+            background: #2c2416;
+            padding: 4px 16px;
+            border-radius: 32px;
+            letter-spacing: 2px;
+        }
 
-/* efek klimaks */
-.big {
-    font-size: 1.6em;
-    font-weight: bold;
-    animation: pulse 1.5s infinite;
-}
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 20px;
+        }
 
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
+        button {
+            background: #f5bc70;
+            border: none;
+            font-size: 1.8rem;
+            font-weight: bold;
+            font-family: monospace;
+            padding: 8px 24px;
+            border-radius: 60px;
+            box-shadow: 0 6px 0 #8b5a2b;
+            cursor: pointer;
+            transition: 0.07s linear;
+            color: #3c2400;
+        }
 
-/* hati */
-.heart {
-    position: absolute;
-    font-size: 16px;
-    animation: naik 4s linear forwards;
-}
+        button:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #8b5a2b;
+        }
 
-@keyframes naik {
-    from { transform: translateY(0); opacity: 1; }
-    to { transform: translateY(-250px); opacity: 0; }
-}
-</style>
+        .restart-btn {
+            background: #e0a800;
+            font-size: 1.3rem;
+            padding: 6px 20px;
+        }
+
+        .status {
+            background: #000000aa;
+            backdrop-filter: blur(4px);
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #ffd966;
+        }
+
+        @media (max-width: 550px) {
+            .info-panel { font-size: 1rem; padding: 4px 12px; }
+            button { padding: 5px 16px; font-size: 1.3rem; }
+            .score-box, .best-box { padding: 2px 12px; }
+        }
+    </style>
 </head>
-
 <body>
-
-<div class="container">
-    <h1>Hai Sayangku ❤️</h1>
-    <p id="text">Klik dulu ya 😊</p>
-    <button id="btn">Klik 💌</button>
+<div>
+    <div class="game-container">
+        <canvas id="gameCanvas" width="800" height="400"></canvas>
+        <div class="info-panel">
+            <div class="score-box">⭐ SCORE: <span id="scoreValue">0</span></div>
+            <div class="best-box">🏆 BEST: <span id="bestValue">0</span></div>
+            <div class="status" id="gameStatusText">▶️ BERJALAN</div>
+        </div>
+        <div class="controls">
+            <button id="jumpBtn">⬆️ LOMPAT</button>
+            <button id="restartBtn" class="restart-btn">🔄 RESTART</button>
+        </div>
+        <div style="text-align: center; margin-top: 12px; font-size: 12px; color:#bba87a;">Tekan SPACE / Klik Lompat | Hindari musuh hijau</div>
+    </div>
 </div>
 
 <script>
+    (function(){
+        // --- KONFIGURASI CANVAS ---
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
 
-// ================= PESAN AWAL =================
-const pesan = [
-    "Sayang...",
-    "Aku nggak tau harus mulai dari mana...",
-    "Kadang aku mikir...",
-    "gimana bisa aku sedeket ini sama pean sekarang...",
-    "Padahal dulu kita cuma orang asing 😊",
-    
-    "Dan sekarang...",
-    "pean jadi orang yang paling sering aku pikirin...",
-    "yang paling sering aku tunggu kabarnya...",
-    
-    "Aku tahu...",
-    "kita nggak selalu baik-baik aja...",
-    "kadang ada salah...",
-    "kadang ada diam...",
-    
-    "Tapi anehnya...",
-    "aku nggak pernah benar-benar pengen jauh dari pean 🤗",
-    
-    "Karena setiap hari...",
-    "aku selalu milih pean..."
-];
-
-let i = 0;
-
-// ================= EFEK NGETIK =================
-function ketik(teks, selesai){
-    const el = document.getElementById("text");
-    el.innerHTML = "";
-    let idx = 0;
-
-    const interval = setInterval(()=>{
-        el.innerHTML += teks[idx];
-        idx++;
-
-        if(idx >= teks.length){
-            clearInterval(interval);
-            setTimeout(selesai, 1800);
+        // Ukuran tetap 800x400
+        const W = 800;
+        const H = 400;
+        
+        // --- GROUND ---
+        const GROUND_Y = H - 42;    // tanah (dasar lantai)
+        const PLAYER_WIDTH = 28;
+        const PLAYER_HEIGHT = 28;
+        
+        // --- PARAMETER MARIO (player) ---
+        let player = {
+            x: 70,
+            y: GROUND_Y - PLAYER_HEIGHT,  // berdiri di tanah
+            width: PLAYER_WIDTH,
+            height: PLAYER_HEIGHT,
+            vy: 0,
+            gravity: 0.8,
+            jumpPower: -11,
+            grounded: true
+        };
+        
+        // --- MUSUH (Goomba sederhana) ---
+        let enemies = [];
+        const ENEMY_W = 26;
+        const ENEMY_H = 26;
+        let frameCounter = 0;
+        let spawnGap = 75;      // frame antar spawn (semakin tinggi skor semakin cepat nanti)
+        let baseSpawnGap = 75;
+        
+        // --- GAME STATE ---
+        let score = 0;
+        let bestScore = 0;
+        let gameRunning = true;
+        
+        // --- SKOR & UI elements ---
+        const scoreSpan = document.getElementById('scoreValue');
+        const bestSpan = document.getElementById('bestValue');
+        const statusDiv = document.getElementById('gameStatusText');
+        
+        // Muat best score dari localStorage
+        if(localStorage.getItem('marioBestScore')){
+            bestScore = parseInt(localStorage.getItem('marioBestScore')) || 0;
+            bestSpan.innerText = bestScore;
         }
-    }, 80); // makin besar = makin pelan
-}
-
-// ================= JALAN CERITA =================
-function jalan(){
-    if(i < pesan.length){
-        ketik(pesan[i], ()=>{
-            i++;
-            jalan();
+        
+        // --- FUNGSI BANTU ---
+        function updateUI(){
+            scoreSpan.innerText = Math.floor(score);
+            if(score > bestScore){
+                bestScore = Math.floor(score);
+                bestSpan.innerText = bestScore;
+                localStorage.setItem('marioBestScore', bestScore);
+            }
+        }
+        
+        // restart game
+        function restartGame(){
+            gameRunning = true;
+            score = 0;
+            updateUI();
+            statusDiv.innerText = "▶️ BERJALAN";
+            enemies = [];
+            frameCounter = 0;
+            player.y = GROUND_Y - PLAYER_HEIGHT;
+            player.vy = 0;
+            player.grounded = true;
+            // reset spawn gap ke default
+            spawnGap = baseSpawnGap;
+        }
+        
+        // lompat (hanya jika game running dan karakter di tanah)
+        function playerJump(){
+            if(!gameRunning) return;
+            if(player.grounded){
+                player.vy = player.jumpPower;
+                player.grounded = false;
+                // efek suara imajiner: vibe sedikit (opsional)
+            }
+        }
+        
+        // update logika fisik dan musuh
+        function updateGame(){
+            if(!gameRunning) return;
+            
+            // 1. Update Mario gravity & posisi Y
+            player.vy += player.gravity;
+            player.y += player.vy;
+            
+            // deteksi tanah
+            if(player.y >= GROUND_Y - PLAYER_HEIGHT){
+                player.y = GROUND_Y - PLAYER_HEIGHT;
+                player.vy = 0;
+                player.grounded = true;
+            } else {
+                player.grounded = false;
+            }
+            
+            // batas atas (opsional, tidak terlalu dibutuhkan)
+            if(player.y < 0){
+                player.y = 0;
+                if(player.vy < 0) player.vy = 0;
+            }
+            
+            // 2. Update posisi musuh (bergerak ke kiri)
+            for(let i=0; i<enemies.length; i++){
+                enemies[i].x -= enemies[i].speed;
+            }
+            // hapus musuh yang keluar layar (x + width < 0)
+            enemies = enemies.filter(e => e.x + e.w > 0);
+            
+            // 3. Spawn musuh secara periodik (semakin tinggi score, semakin cepat spawn)
+            // difficulty: gap berkurang hingga minimum 32 frame, dan speed bertambah
+            let dynamicGap = Math.max(32, baseSpawnGap - Math.floor(score / 280));
+            if(frameCounter >= dynamicGap){
+                frameCounter = 0;
+                // speed musuh: mulai 3.5, semakin tinggi score bisa sampai 6.8
+                let moveSpeed = 3.5 + Math.min(4.5, Math.floor(score / 400));
+                enemies.push({
+                    x: W,
+                    y: GROUND_Y - ENEMY_H + 2,  // sedikit lebih rendah agar jejak tanah
+                    w: ENEMY_W,
+                    h: ENEMY_H,
+                    speed: moveSpeed
+                });
+            } else {
+                frameCounter++;
+            }
+            
+            // 4. Deteksi tabrakan (AABB) antara Mario dan musuh -> GAME OVER
+            for(let i=0; i<enemies.length; i++){
+                const e = enemies[i];
+                // hitung kotak tabrakan mario
+                if(player.x < e.x + e.w &&
+                    player.x + player.width > e.x &&
+                    player.y < e.y + e.h &&
+                    player.y + player.height > e.y){
+                    // tabrakan! matikan game
+                    gameRunning = false;
+                    statusDiv.innerText = "💀 GAME OVER 💀";
+                    break;
+                }
+            }
+            
+            // 5. Tambah skor seiring waktu (semakin bertahan hidup)
+            if(gameRunning){
+                // skor bertambah setiap frame, 0.2 per frame = ~12 per detik (60fps)
+                score += 0.2;
+                updateUI();
+            }
+        }
+        
+        // --- GAMBAR SEMUA ELEMEN (dengan sentuhan Mario khas) ---
+        function drawGround(){
+            // tanah gaya Super Mario world
+            ctx.fillStyle = "#8b5a2b";
+            ctx.fillRect(0, GROUND_Y, W, H - GROUND_Y + 2);
+            // garis atas tanah
+            ctx.fillStyle = "#c97e3a";
+            ctx.fillRect(0, GROUND_Y-4, W, 6);
+            ctx.fillStyle = "#e3a56d";
+            ctx.fillRect(0, GROUND_Y-2, W, 4);
+            // rumput sederhana
+            ctx.fillStyle = "#5c9e3e";
+            for(let i=0; i<12; i++){
+                ctx.fillRect(i*70+10, GROUND_Y-8, 6, 10);
+            }
+        }
+        
+        // gambar Mario dengan topi dan kumis (cute)
+        function drawMario(x, y, w, h){
+            // overall overalls merah
+            ctx.fillStyle = "#e52525";
+            ctx.fillRect(x, y, w, h);
+            // skin tone
+            ctx.fillStyle = "#f9be7c";
+            ctx.fillRect(x+4, y-4, w-8, 10);
+            // topi merah
+            ctx.fillStyle = "#c22";
+            ctx.fillRect(x+2, y-8, w-4, 8);
+            ctx.fillStyle = "#fff0b5";
+            ctx.fillRect(x+6, y-7, 6, 4);
+            // kumis
+            ctx.fillStyle = "#5e3a1a";
+            ctx.fillRect(x+6, y+4, 5, 3);
+            ctx.fillRect(x+16, y+4, 5, 3);
+            // mata
+            ctx.fillStyle = "#000";
+            ctx.fillRect(x+9, y-1, 3, 4);
+            ctx.fillRect(x+17, y-1, 3, 4);
+            // overalls kancing
+            ctx.fillStyle = "#ffd966";
+            ctx.beginPath();
+            ctx.arc(x+14, y+12, 3, 0, Math.PI*2);
+            ctx.fill();
+            ctx.fillStyle = "#bc8f4b";
+            ctx.fillRect(x+6, y+16, 5, 8);
+            ctx.fillRect(x+18, y+16, 5, 8);
+        }
+        
+        // gambar musuh (Goomba bulat dengan alis)
+        function drawGoomba(x, y, w, h){
+            ctx.fillStyle = "#6b3e1c";
+            ctx.beginPath();
+            ctx.ellipse(x+w/2, y+h/2, w/2, h/2, 0, 0, Math.PI*2);
+            ctx.fill();
+            ctx.fillStyle = "#4a2a10";
+            ctx.beginPath();
+            ctx.ellipse(x+w/3, y+h/2-2, 5, 6, 0, 0, Math.PI*2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(x+2*w/3, y+h/2-2, 5, 6, 0, 0, Math.PI*2);
+            ctx.fill();
+            ctx.fillStyle = "#fffff0";
+            ctx.fillRect(x+7, y+h/2+2, 12, 5);
+            // alis jahat
+            ctx.fillStyle = "#2c1a06";
+            ctx.fillRect(x+5, y+h/2-6, 7, 3);
+            ctx.fillRect(x+15, y+h/2-6, 7, 3);
+        }
+        
+        // elemen dekoratif seperti awan & semak
+        function drawBackground(){
+            // langit gradien
+            const grad = ctx.createLinearGradient(0,0,0,200);
+            grad.addColorStop(0,"#73c8ff");
+            grad.addColorStop(1,"#b2deff");
+            ctx.fillStyle = grad;
+            ctx.fillRect(0,0,W,GROUND_Y-10);
+            // awan
+            ctx.fillStyle = "#f0f8ffdd";
+            ctx.shadowBlur = 0;
+            ctx.beginPath();
+            ctx.ellipse(120, 45, 35, 30, 0, 0, Math.PI*2);
+            ctx.ellipse(155, 32, 40, 32, 0, 0, Math.PI*2);
+            ctx.ellipse(195, 45, 32, 28, 0, 0, Math.PI*2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.ellipse(600, 70, 42, 34, 0, 0, Math.PI*2);
+            ctx.ellipse(645, 58, 36, 32, 0, 0, Math.PI*2);
+            ctx.ellipse(680, 75, 30, 28, 0, 0, Math.PI*2);
+            ctx.fill();
+            // semak
+            ctx.fillStyle = "#4f8a3c";
+            ctx.beginPath();
+            ctx.ellipse(500, GROUND_Y-14, 45, 22, 0, 0, Math.PI*2);
+            ctx.fill();
+            ctx.fillStyle = "#3a6b2a";
+            ctx.beginPath();
+            ctx.ellipse(530, GROUND_Y-18, 35, 20, 0, 0, Math.PI*2);
+            ctx.fill();
+        }
+        
+        function drawScoreEffects(){
+            // animasi skor berupa bintang
+            ctx.font = "bold 24monospace";
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = "#ffcf40";
+            ctx.shadowColor = "#b45f1b";
+            ctx.fillText("★", 30, 55);
+            ctx.font = "bold 14px 'Courier New'";
+            ctx.fillStyle = "#ffefb0";
+            ctx.fillText("x " + Math.floor(score), 55, 58);
+        }
+        
+        // --- LOOP UTAMA ---
+        function gameLoop(){
+            // update logika
+            updateGame();
+            
+            // GAMBAR SEMUA
+            drawBackground();
+            drawGround();
+            
+            // gambar musuh
+            for(let e of enemies){
+                drawGoomba(e.x, e.y, e.w, e.h);
+            }
+            
+            // cast bayangan Mario
+            ctx.fillStyle = "#4b2f1490";
+            ctx.beginPath();
+            ctx.ellipse(player.x+player.width/2, GROUND_Y+2, player.width/2+2, 6, 0, 0, Math.PI*2);
+            ctx.fill();
+            
+            // gambar Mario
+            drawMario(player.x, player.y, player.width, player.height);
+            
+            // efek tulisan jika game over
+            if(!gameRunning){
+                ctx.font = "bold 34px 'Courier New', monospace";
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = "#f03030";
+                ctx.shadowColor = "#3a1a00";
+                ctx.fillText("GAME OVER", W/2-110, H/2-40);
+                ctx.font = "18px monospace";
+                ctx.fillStyle = "#ffe5a3";
+                ctx.fillText("Tekan RESTART", W/2-60, H/2+30);
+            }
+            
+            drawScoreEffects();
+            // Info gerak lompat (untuk gaya)
+            if(player.grounded && gameRunning){
+                ctx.fillStyle = "#fff7cc";
+                ctx.font = "bold 13px monospace";
+                ctx.fillText("✨ READY", player.x-10, player.y-8);
+            }
+            
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // --- EVENT HANDLER (Keyboard + Tombol)---
+        function handleKey(e){
+            const key = e.key;
+            if(key === ' ' || key === 'Space' || key === 'ArrowUp'){
+                e.preventDefault();
+                playerJump();
+            }
+            // optional restart dengan tombol R
+            if(key === 'r' || key === 'R'){
+                e.preventDefault();
+                restartGame();
+            }
+        }
+        
+        window.addEventListener('keydown', handleKey);
+        
+        // tombol sentuh / mouse
+        const jumpBtn = document.getElementById('jumpBtn');
+        const restartBtn = document.getElementById('restartBtn');
+        
+        jumpBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            playerJump();
         });
-    } else {
-        klimaks();
-    }
-}
-
-// ================= KLIMAKS PANJANG =================
-function klimaks(){
-    const ending = [
-        "Dan akhirnya aku sadar...",
-        "perasaan ini nggak sesederhana yang aku kira...",
         
-        "Aku nggak cuma nyaman sama pean...",
+        restartBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            restartGame();
+        });
         
-        "Aku bener-bener sayang sama pean ❤️",
+        // Prevent touch canvas dari scrolling dan juga bisa lompat jika tap canvas (opsi)
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            playerJump();
+        });
+        canvas.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            playerJump();
+        });
         
-        "Sayang yang nggak cuma datang sesaat...",
-        "tapi yang selalu ada, bahkan di hari biasa...",
+        // Initialize restart pertama kali untuk memastikan enemies bersih
+        restartGame();
         
-        "Aku suka semua tentang pean...",
-        "cara pean ngomong...",
-        "cara pean perhatian...",
+        // Mulai game loop
+        gameLoop();
         
-        "Dan kalau aku harus milih lagi...",
-        
-        "aku bakal tetap milih pean...",
-        "lagi...",
-        "dan lagi...",
-        
-        "bukan karena nggak ada pilihan lain...",
-        
-        "tapi karena pean yang aku mau 🤗",
-        
-        "Aku sayang pean...",
-        "hari ini...",
-        "besok...",
-        "dan seterusnya ❤️",
-        "i Love you sayangku (Novia) #masRoso 💕"
-    ];
-
-    let j = 0;
-
-    function jalanEnding(){
-        if(j < ending.length){
-            ketik(ending[j], ()=>{
-                j++;
-                jalanEnding();
-            });
-        } else {
-            document.getElementById("text").classList.add("big");
-            efekHati();
-        }
-    }
-
-    jalanEnding();
-}
-
-// ================= EFEK HATI =================
-function efekHati(){
-    setInterval(()=>{
-        const h = document.createElement("div");
-        h.className = "heart";
-        h.innerHTML = "❤️";
-
-        h.style.left = Math.random()*100 + "vw";
-        h.style.bottom = "0px";
-
-        document.body.appendChild(h);
-
-        setTimeout(()=>h.remove(),4000);
-    }, 300);
-}
-
-// ================= START =================
-document.getElementById("btn").addEventListener("click", function(){
-    this.style.display = "none";
-    jalan();
-});
-
+        // tambahan: sesuaikan kecepatan frame / spawn setelah restart, dynamic reset spawnGap tiap restart akan set ulang
+        // di restartGame sudah set spawnGap = baseSpawnGap dan frameCounter = 0
+        // DONE. 
+    })();
 </script>
-
 </body>
 </html>
