@@ -18,6 +18,7 @@
             min-height: 100vh;
             padding: 12px;
             color: white;
+            overflow-x: hidden;
         }
 
         .login-screen {
@@ -130,13 +131,8 @@
             gap: 8px;
             box-shadow: 0 2px 8px rgba(243,156,18,0.3);
         }
-        .rupiah-header span:first-child {
-            font-size: 11px;
-        }
-        .rupiah-header span:last-child {
-            font-size: 13px;
-            font-weight: bold;
-        }
+        .rupiah-header span:first-child { font-size: 11px; }
+        .rupiah-header span:last-child { font-size: 13px; font-weight: bold; }
         .topup-btn { background: rgba(0,0,0,0.25); padding: 4px 10px; border-radius: 30px; font-size: 11px; }
         .logout { background: rgba(255,255,255,0.1); border: none; padding: 6px 14px; border-radius: 40px; color: white; cursor: pointer; font-size: 12px; }
         .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -373,6 +369,13 @@
             50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(243,156,18,0.6); }
         }
         .assistant-pulse { animation: pulse 1s ease; }
+        
+        .draggable {
+            cursor: grab;
+        }
+        .draggable:active {
+            cursor: grabbing;
+        }
     </style>
 </head>
 <body>
@@ -446,19 +449,19 @@
 <div class="popup-bg" id="popupBg" onclick="closePopup()"></div>
 <div class="popup" id="popup"></div>
 
-<!-- ASISTEN CERDAS -->
+<!-- ASISTEN CERDAS - DRAGGABLE -->
 <div id="smartAssistant" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
     <div id="assistantAvatar" style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #f39c12, #e67e22); cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; transition: all 0.3s; border: 2px solid rgba(255,255,255,0.3);">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjBJ-hSe8m2-lp3_5-KoR0abh3VkkLC7u64XxRJfSaonq41nPymiKz6TdB&s=10" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover;">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjBJ-hSe8m2-lp3_5-KoR0abh3VkkLC7u64XxRJfSaonq41nPymiKz6TdB&s=10" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover; pointer-events: none;">
     </div>
     <div id="assistantChat" style="position: absolute; bottom: 70px; right: 0; width: 320px; background: rgba(15, 25, 45, 0.98); backdrop-filter: blur(20px); border-radius: 24px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 10px 40px rgba(0,0,0,0.4); display: none; flex-direction: column; overflow: hidden;">
         <div style="padding: 12px 16px; background: linear-gradient(135deg, #f39c12, #e67e22); display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-weight: bold; color: #0f0c29;">🤖 Asisten Cerdas Xoon</span>
+            <span style="font-weight: bold; color: #0f0c29;">🤖 BOTodroN</span>
             <button id="closeAssistant" style="background: none; border: none; color: #0f0c29; font-size: 20px; cursor: pointer;">&times;</button>
         </div>
         <div id="assistantMessages" style="height: 350px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
             <div style="background: rgba(255,255,255,0.1); border-radius: 16px; padding: 8px 12px; max-width: 85%; align-self: flex-start;">
-                <span style="font-size: 12px;">👋 Halo! Saya Asisten Cerdas Xoon. Saya akan memantau permainan Anda! Klik game untuk mulai!</span>
+                <span style="font-size: 12px;">👋 Halo! Saya bot odron. Saya akan memantau permainan Anda! Klik game untuk mulai!</span>
             </div>
         </div>
         <div id="assistantStats" style="padding: 10px 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 11px; background: rgba(0,0,0,0.3);">
@@ -481,6 +484,7 @@
 </div>
 
 <script>
+// DEFAULT AUTH TOKENS
 const DEFAULT_TOKENS = { sn: 'TOKEN-SN', sodron: 'TOKEN-SODRON', exm: 'TOKEN-EXM' };
 const UID_NICK = { sn: { uid: '1761775490951002938', nick: '-S.N-' }, sodron: { uid: '1756457056973000156', nick: 'SodLoN' }, exm: { uid: '1758377110961000927', nick: 'ExM' } };
 
@@ -614,7 +618,7 @@ function saveTopUp() {
     showToast(`💎 Top up ${formatRupiah(a)} berhasil!`, true); 
     renderGames(); 
     if (currentGame) updatePanelDisplay(); 
-    if (window.Assistant) Assistant.addMessage(`💰 Top up ${formatRupiah(a)} (Rp ${formatRupiahIDR(a)})`, 'info');
+    if (window.Assistant) Assistant.addMessage(`💰 Top up ${formatRupiah(a)}`, 'info');
 }
 function showTopUpHistory() { 
     let totalKoin = topUpHistory.reduce((a,b) => a + b.nominal, 0); 
@@ -728,7 +732,7 @@ function renderGames() {
 function toggleUpdatePanel() { document.getElementById("updatePanel").classList.toggle("show"); updatePanelDisplay(); }
 function closeUpdatePanel() { document.getElementById("updatePanel").classList.remove("show"); }
 function closeGame() { 
-    if (currentGame && window.Assistant && Assistant.gameSessions[currentGame.n]) { Assistant.endGameSession(currentGame.n); }
+    if (currentGame && window.Assistant && Assistant.gameSessions && Assistant.gameSessions[currentGame.n]) { Assistant.endGameSession(currentGame.n); }
     document.getElementById("gameContainer").classList.remove("active"); 
     document.getElementById("gameFrame").src = ""; 
     currentGame = null; 
@@ -792,6 +796,9 @@ function importData(input) {
 }
 
 function login(acc) {
+    if (currentGame && window.Assistant && Assistant.gameSessions && Assistant.gameSessions[currentGame.n]) {
+        Assistant.endGameSession(currentGame.n);
+    }
     selected = acc;
     localStorage.setItem("account", acc);
     loadData();
@@ -799,7 +806,7 @@ function login(acc) {
     document.getElementById("dashboard").classList.add("active");
     updateUserBox();
     renderGames();
-    if (window.Assistant) { Assistant.init(); Assistant.resetForAccount(acc); }
+    if (window.Assistant) { Assistant.resetForAccount(acc); }
 }
 
 function updateUserBox() { 
@@ -811,12 +818,20 @@ function updateUserBox() {
 }
 
 function logout() { 
+    if (currentGame && window.Assistant && Assistant.gameSessions && Assistant.gameSessions[currentGame.n]) {
+        Assistant.endGameSession(currentGame.n);
+    }
     selected = null; 
     localStorage.removeItem("account"); 
     closeGame(); 
     document.getElementById("loginScreen").style.display = "flex";
     document.getElementById("dashboard").classList.remove("active");
-    if (window.Assistant) document.getElementById("assistantChat").style.display = "none";
+    if (window.Assistant) {
+        document.getElementById("assistantChat").style.display = "none";
+        Assistant.gameSessions = {};
+        Assistant.currentSessionId = null;
+        Assistant.currentAccount = null;
+    }
 }
 
 function showPopup(html) { document.getElementById("popup").innerHTML = html; document.getElementById("popup").classList.add("active"); document.getElementById("popupBg").classList.add("active"); }
@@ -828,26 +843,158 @@ const Assistant = {
     currentSessionId: null,
     lastNotificationTime: {},
     notificationInterval: null,
+    currentAccount: null,
+    isDragging: false,
+    dragStartX: 0,
+    dragStartY: 0,
+    dragThreshold: 5,
     
-    init() { this.loadSessions(); this.startMonitoring(); this.setupEventListeners(); },
-    
-    loadSessions() {
-        let saved = localStorage.getItem(`assistant_sessions_${selected || 'default'}`);
-        if (saved) this.gameSessions = JSON.parse(saved);
+    init() { 
+        this.currentAccount = selected;
+        this.loadSessions(); 
+        this.startMonitoring(); 
+        this.setupEventListeners(); 
+        this.setupDraggable();
     },
     
-    saveSessions() { if (selected) localStorage.setItem(`assistant_sessions_${selected}`, JSON.stringify(this.gameSessions)); },
+    setupDraggable() {
+        const avatar = document.getElementById('assistantAvatar');
+        const assistant = document.getElementById('smartAssistant');
+        let dragStarted = false;
+        let startX, startY, startLeft, startBottom;
+        
+        const onMouseDown = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            this.isDragging = false;
+            dragStarted = false;
+            const rect = assistant.getBoundingClientRect();
+            startX = e.clientX;
+            startY = e.clientY;
+            startLeft = rect.left;
+            startBottom = window.innerHeight - rect.bottom;
+            avatar.style.cursor = 'grabbing';
+            
+            const onMouseMove = (moveEvent) => {
+                moveEvent.preventDefault();
+                const deltaX = Math.abs(moveEvent.clientX - startX);
+                const deltaY = Math.abs(moveEvent.clientY - startY);
+                
+                if (deltaX > this.dragThreshold || deltaY > this.dragThreshold) {
+                    this.isDragging = true;
+                    dragStarted = true;
+                }
+                
+                if (this.isDragging) {
+                    let newLeft = startLeft + (moveEvent.clientX - startX);
+                    let newBottom = startBottom + (startY - moveEvent.clientY);
+                    newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - 70));
+                    newBottom = Math.max(0, Math.min(newBottom, window.innerHeight - 70));
+                    assistant.style.left = newLeft + 'px';
+                    assistant.style.bottom = newBottom + 'px';
+                    assistant.style.right = 'auto';
+                }
+            };
+            
+            const onMouseUp = () => {
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+                avatar.style.cursor = 'grab';
+                
+                setTimeout(() => {
+                    if (!this.isDragging && !dragStarted) {
+                        this.toggleChat();
+                    }
+                    this.isDragging = false;
+                    dragStarted = false;
+                }, 10);
+            };
+            
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        };
+        
+        const onTouchStart = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            this.isDragging = false;
+            dragStarted = false;
+            const rect = assistant.getBoundingClientRect();
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            startLeft = rect.left;
+            startBottom = window.innerHeight - rect.bottom;
+            
+            const onTouchMove = (moveEvent) => {
+                moveEvent.preventDefault();
+                const deltaX = Math.abs(moveEvent.touches[0].clientX - startX);
+                const deltaY = Math.abs(moveEvent.touches[0].clientY - startY);
+                
+                if (deltaX > this.dragThreshold || deltaY > this.dragThreshold) {
+                    this.isDragging = true;
+                    dragStarted = true;
+                }
+                
+                if (this.isDragging) {
+                    let newLeft = startLeft + (moveEvent.touches[0].clientX - startX);
+                    let newBottom = startBottom + (startY - moveEvent.touches[0].clientY);
+                    newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - 70));
+                    newBottom = Math.max(0, Math.min(newBottom, window.innerHeight - 70));
+                    assistant.style.left = newLeft + 'px';
+                    assistant.style.bottom = newBottom + 'px';
+                    assistant.style.right = 'auto';
+                }
+            };
+            
+            const onTouchEnd = () => {
+                document.removeEventListener('touchmove', onTouchMove);
+                document.removeEventListener('touchend', onTouchEnd);
+                
+                setTimeout(() => {
+                    if (!this.isDragging && !dragStarted) {
+                        this.toggleChat();
+                    }
+                    this.isDragging = false;
+                    dragStarted = false;
+                }, 10);
+            };
+            
+            document.addEventListener('touchmove', onTouchMove);
+            document.addEventListener('touchend', onTouchEnd);
+        };
+        
+        avatar.addEventListener('mousedown', onMouseDown);
+        avatar.addEventListener('touchstart', onTouchStart);
+        avatar.style.cursor = 'grab';
+    },
+    
+    loadSessions() {
+        if (!this.currentAccount) return;
+        let saved = localStorage.getItem(`assistant_sessions_${this.currentAccount}`);
+        if (saved) { this.gameSessions = JSON.parse(saved); }
+        else { this.gameSessions = {}; }
+    },
+    
+    saveSessions() { 
+        if (this.currentAccount) {
+            localStorage.setItem(`assistant_sessions_${this.currentAccount}`, JSON.stringify(this.gameSessions));
+        }
+    },
     
     startGameSession(gameName) {
         let now = Date.now();
         let existing = this.gameSessions[gameName];
-        if (existing && !existing.ended) { this.currentSessionId = gameName; return; }
+        if (existing && !existing.ended && existing.account === this.currentAccount) { 
+            this.currentSessionId = gameName; 
+            return; 
+        }
         let lastProfit = getTotalProfitGame(gameName);
         this.gameSessions[gameName] = {
             gameName: gameName, startTime: now, lastUpdateTime: now,
             totalPlayTime: existing ? existing.totalPlayTime || 0 : 0,
             startProfit: lastProfit, lastProfit: lastProfit, profitChanges: [], ended: false,
-            clickCount: (clicks[gameName] || 0)
+            clickCount: (clicks[gameName] || 0),
+            account: this.currentAccount
         };
         this.currentSessionId = gameName;
         this.saveSessions();
@@ -858,7 +1005,7 @@ const Assistant = {
     
     updateGameProfit(gameName, oldSaldo, newSaldo, perubahan) {
         let session = this.gameSessions[gameName];
-        if (!session) return;
+        if (!session || session.account !== this.currentAccount) return;
         let currentProfit = getTotalProfitGame(gameName);
         let profitChange = currentProfit - session.lastProfit;
         session.lastProfit = currentProfit;
@@ -870,7 +1017,6 @@ const Assistant = {
     },
     
     analyzeAndNotify(gameName, perubahanKoin, profitChange, currentProfit) {
-        let session = this.gameSessions[gameName];
         let playTime = this.getCurrentPlayTime(gameName);
         let menit = Math.floor(playTime / 60000);
         
@@ -908,10 +1054,10 @@ const Assistant = {
     },
     
     checkPlayTime(gameName, menit) {
-        let lastWarn = this.lastNotificationTime[`time_${gameName}`] || 0;
+        let lastWarn = this.lastNotificationTime[`time_${gameName}_${this.currentAccount}`] || 0;
         let now = Date.now();
         if (menit >= 10 && menit % 5 === 0 && (now - lastWarn) > 300000) {
-            this.lastNotificationTime[`time_${gameName}`] = now;
+            this.lastNotificationTime[`time_${gameName}_${this.currentAccount}`] = now;
             this.showNotification('⏰ Peringatan Waktu', `Anda sudah bermain ${gameName} selama ${menit} menit. Jaga fokus!`, 'warning');
             this.addMessage(`⏰ Sudah ${menit} menit bermain ${gameName}. Istirahat sebentar yuk!`, 'warning');
         }
@@ -923,12 +1069,15 @@ const Assistant = {
     
     updateClickCount(gameName) {
         let session = this.gameSessions[gameName];
-        if (session) { session.clickCount = clicks[gameName] || 0; this.saveSessions(); }
+        if (session && session.account === this.currentAccount) { 
+            session.clickCount = clicks[gameName] || 0; 
+            this.saveSessions(); 
+        }
     },
     
     endGameSession(gameName) {
         let session = this.gameSessions[gameName];
-        if (session && !session.ended) {
+        if (session && !session.ended && session.account === this.currentAccount) {
             session.ended = true;
             let playTime = this.getCurrentPlayTime(gameName);
             let menit = Math.floor(playTime / 60000);
@@ -947,7 +1096,7 @@ const Assistant = {
     
     getCurrentPlayTime(gameName) {
         let session = this.gameSessions[gameName];
-        if (!session) return 0;
+        if (!session || session.account !== this.currentAccount) return 0;
         if (session.ended) return session.totalPlayTime;
         return (session.totalPlayTime || 0) + (Date.now() - session.startTime);
     },
@@ -955,7 +1104,7 @@ const Assistant = {
     updatePlayTimes() {
         for (let gameName in this.gameSessions) {
             let session = this.gameSessions[gameName];
-            if (session && !session.ended) {
+            if (session && !session.ended && session.account === this.currentAccount) {
                 let currentTime = Date.now();
                 let elapsed = currentTime - session.startTime;
                 session.totalPlayTime = (session.totalPlayTime || 0) + elapsed;
@@ -969,7 +1118,7 @@ const Assistant = {
         if (this.notificationInterval) clearInterval(this.notificationInterval);
         this.notificationInterval = setInterval(() => {
             this.updatePlayTimes();
-            if (currentGame && this.currentSessionId) {
+            if (currentGame && this.currentSessionId === currentGame.n) {
                 let playTime = this.getCurrentPlayTime(currentGame.n);
                 let menit = Math.floor(playTime / 60000);
                 this.checkPlayTime(currentGame.n, menit);
@@ -978,33 +1127,39 @@ const Assistant = {
     },
     
     setupEventListeners() {
-        document.getElementById('assistantAvatar').onclick = () => this.toggleChat();
         document.getElementById('closeAssistant').onclick = () => this.closeChat();
         setInterval(() => this.updateStatusDisplay(), 5000);
     },
     
     toggleChat() {
         let chat = document.getElementById('assistantChat');
-        chat.style.display = chat.style.display === 'none' || chat.style.display === '' ? 'flex' : 'none';
-        if (chat.style.display === 'flex') this.updateStatusDisplay();
+        if (chat) {
+            chat.style.display = chat.style.display === 'none' || chat.style.display === '' ? 'flex' : 'none';
+            if (chat.style.display === 'flex') this.updateStatusDisplay();
+        }
     },
     
-    closeChat() { document.getElementById('assistantChat').style.display = 'none'; },
+    closeChat() { 
+        let chat = document.getElementById('assistantChat');
+        if (chat) chat.style.display = 'none'; 
+    },
     
     updateStatusDisplay() {
         let statusEl = document.getElementById('assistantGameStatus');
-        if (currentGame && this.currentSessionId === currentGame.n) {
+        if (!statusEl) return;
+        if (currentGame && this.currentSessionId === currentGame.n && this.gameSessions[currentGame.n] && this.gameSessions[currentGame.n].account === this.currentAccount) {
             let playTime = this.getCurrentPlayTime(currentGame.n);
             let menit = Math.floor(playTime / 60000);
             let detik = Math.floor((playTime % 60000) / 1000);
             let profit = getTotalProfitGame(currentGame.n);
             statusEl.innerHTML = `${currentGame.n} | ${menit}m ${detik}s | ${profit >= 0 ? '+' : ''}${formatRupiah(profit)}`;
-        } else if (currentGame) { statusEl.innerHTML = `${currentGame.n} (belum tercatat)`; }
+        } else if (currentGame) { statusEl.innerHTML = `${currentGame.n} (Mulai main untuk record)`; }
         else { statusEl.innerHTML = 'Tidak ada game aktif'; }
     },
     
     addMessage(text, type = 'info') {
         let messagesDiv = document.getElementById('assistantMessages');
+        if (!messagesDiv) return;
         let msgDiv = document.createElement('div');
         let time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
         let bgColor = 'rgba(255,255,255,0.1)';
@@ -1020,18 +1175,35 @@ const Assistant = {
     
     showNotification(title, message, type = 'info') {
         let notif = document.getElementById('assistantNotification');
+        if (!notif) return;
         document.getElementById('notificationTitle').innerHTML = title;
         document.getElementById('notificationMessage').innerHTML = message;
         let colors = { profit: '#2ecc71', loss: '#e74c3c', warning: '#f39c12', info: '#f39c12' };
         notif.style.borderLeftColor = colors[type] || '#f39c12';
         notif.style.display = 'flex';
         let avatar = document.getElementById('assistantAvatar');
-        avatar.classList.add('assistant-pulse');
-        setTimeout(() => avatar.classList.remove('assistant-pulse'), 1000);
-        setTimeout(() => { notif.style.display = 'none'; }, 5000);
+        if (avatar) {
+            avatar.classList.add('assistant-pulse');
+            setTimeout(() => avatar.classList.remove('assistant-pulse'), 1000);
+        }
+        setTimeout(() => { if (notif) notif.style.display = 'none'; }, 5000);
     },
     
-    resetForAccount(account) { this.loadSessions(); this.currentSessionId = null; }
+    resetForAccount(account) {
+        if (this.notificationInterval) { clearInterval(this.notificationInterval); this.notificationInterval = null; }
+        this.gameSessions = {};
+        this.currentSessionId = null;
+        this.lastNotificationTime = {};
+        this.currentAccount = account;
+        this.loadSessions();
+        let messagesDiv = document.getElementById('assistantMessages');
+        if (messagesDiv) {
+            messagesDiv.innerHTML = '<div style="background: rgba(255,255,255,0.1); border-radius: 16px; padding: 8px 12px; max-width: 85%; align-self: flex-start;"><span style="font-size: 12px;">👋 Halo! Saya Asisten Cerdas Xoon. Saya akan memantau permainan Anda! Klik game untuk mulai!</span></div>';
+        }
+        this.addMessage(`🔄 Berganti ke akun ${NAMA[account]}`, 'info');
+        this.updateStatusDisplay();
+        this.startMonitoring();
+    }
 };
 
 function init() {
