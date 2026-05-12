@@ -134,7 +134,7 @@
             box-shadow: 0 2px 8px rgba(243,156,18,0.3);
         }
         .rupiah-header span:first-child {
-            font-size: 14px;
+            font-size: 12px;
         }
         .rupiah-header span:last-child {
             font-size: 14px;
@@ -298,33 +298,49 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: linear-gradient(145deg, #1e2a3a, #16212e);
-            padding: 24px;
-            border-radius: 40px;
-            width: 340px;
+            padding: 20px;
+            border-radius: 32px;
+            width: 90%;
+            max-width: 380px;
+            max-height: 85vh;
             z-index: 1101;
             display: none;
             text-align: center;
             border: 1px solid rgba(255,255,255,0.1);
             box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            overflow-y: auto;
         }
         .popup.active, .popup-bg.active { display: block; }
-        .stats-card { background: rgba(0,0,0,0.3); border-radius: 28px; padding: 20px; margin-bottom: 16px; }
-        .stats-title { font-size: 18px; font-weight: bold; background: linear-gradient(135deg, #f39c12, #e67e22); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 16px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 20px; }
-        .stats-item { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 12px; text-align: center; }
-        .stats-icon { font-size: 28px; margin-bottom: 4px; }
-        .stats-label { font-size: 11px; opacity: 0.6; margin-bottom: 4px; }
-        .stats-value { font-size: 18px; font-weight: bold; }
+        .stats-card { background: rgba(0,0,0,0.3); border-radius: 24px; padding: 16px; margin-bottom: 16px; }
+        .stats-title { font-size: 16px; font-weight: bold; background: linear-gradient(135deg, #f39c12, #e67e22); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 12px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
+        .stats-item { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 10px; text-align: center; }
+        .stats-icon { font-size: 24px; margin-bottom: 4px; }
+        .stats-label { font-size: 10px; opacity: 0.6; margin-bottom: 4px; }
+        .stats-value { font-size: 14px; font-weight: bold; }
         .stats-value.plus { color: #2ecc71; }
         .stats-value.minus { color: #e74c3c; }
         .game-list { max-height: 300px; overflow-y: auto; text-align: left; margin-top: 12px; }
-        .game-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 16px; margin-bottom: 8px; }
-        .game-name { font-size: 13px; font-weight: 500; }
-        .badge-click { background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 20px; font-size: 10px; margin-left: 8px; }
-        .game-profit { font-weight: bold; }
+        .game-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 12px; margin-bottom: 8px; }
+        .game-name { font-size: 12px; font-weight: 500; }
+        .badge-click { background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 20px; font-size: 9px; margin-left: 8px; }
+        .game-profit { font-weight: bold; font-size: 12px; }
         .game-profit.plus { color: #2ecc71; }
         .game-profit.minus { color: #e74c3c; }
-        .close-stats { background: linear-gradient(135deg, #f39c12, #e67e22); border: none; padding: 12px 24px; border-radius: 40px; font-weight: bold; cursor: pointer; width: 100%; color: #0f0c29; font-size: 14px; margin-top: 8px; }
+        .close-stats { 
+            background: linear-gradient(135deg, #f39c12, #e67e22); 
+            border: none; 
+            padding: 12px 20px; 
+            border-radius: 40px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            width: 100%; 
+            color: #0f0c29; 
+            font-size: 14px; 
+            margin-top: 8px;
+            position: sticky;
+            bottom: 0;
+        }
         
         .toast-notif { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); backdrop-filter: blur(12px); padding: 12px 24px; border-radius: 60px; z-index: 2000; font-weight: bold; animation: fadeOut 2.5s ease forwards; border-left: 4px solid #f39c12; white-space: nowrap; }
         @keyframes fadeOut { 0% { opacity: 1; } 70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
@@ -335,7 +351,7 @@
         .token-input { background: rgba(255,255,255,0.1); border: 1px solid #f39c12; padding: 10px; border-radius: 12px; width: 100%; margin: 8px 0; color: white; font-size: 12px; text-align: center; }
         .info-text { font-size: 11px; opacity: 0.6; margin-bottom: 8px; }
     
-        /* MONEY JAR STYLE - HANYA PADA GAMBAR */
+        /* MONEY JAR STYLE */
         .game-card.moneyjar .game-img img {
             border: 2px solid #ffd700;
             box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
@@ -358,7 +374,7 @@
 </head>
 <body>
 
-<!-- LAYAR LOGIN SELALU DITAMPILKAN SAAT PERTAMA KALI LOAD -->
+<!-- LAYAR LOGIN -->
 <div class="login-screen" id="loginScreen">
     <div class="login-card">
         <div class="login-icon">🎰</div>
@@ -398,13 +414,13 @@
             <span class="topup-btn" onclick="event.stopPropagation(); showTopUpMenu()">+ Top Up</span>
         </div>
         <div class="rupiah-header">
-            <span>💰 Rupiah:</span>
+            <span>💵 WD Value (50%):</span>
             <span id="rupiahHeaderValue">0</span>
         </div>
         <div class="btn-group">
             <button class="btn-sm" onclick="showGlobalStats()">📊 Stat</button>
             <button class="btn-sm" onclick="showTopUpHistory()">💳 History</button>
-            <button class="btn-sm" onclick="showTokenMenu()">🔑 Update Token</button>
+            <button class="btn-sm" onclick="showTokenMenu()">🔑 Token</button>
             <button class="btn-sm" onclick="showBackupMenu()">💾 Backup</button>
         </div>
     </div>
@@ -415,7 +431,7 @@
     <div class="game-header">
         <span id="gameTitle">🎮 Game</span>
         <div>
-            <button class="analyzer-btn" id="analyzerBtn" onclick="toggleUpdatePanel()">📊 Analyzer</button>
+            <button class="analyzer-btn" onclick="toggleUpdatePanel()">📊 Analyzer</button>
             <button class="close-game" onclick="closeGame()">✕ Close</button>
         </div>
     </div>
@@ -424,7 +440,7 @@
         <div class="panel-title">⚡ ANALYZER & UPDATE</div>
         <div class="game-info" id="panelGameName">🎮 Memuat...</div>
         <div class="saldo-panel"><div style="font-size:12px; opacity:0.7;">💰 SALDO KOIN</div><div class="saldo-large" id="gameSaldoDisplay">0</div></div>
-        <div class="saldo-panel" style="background: rgba(243,156,18,0.15); border-color: rgba(243,156,18,0.3);"><div style="font-size:12px; opacity:0.7;">💵 SALDO RUPIAH (50%)</div><div class="saldo-large" id="gameRupiahDisplay">0</div></div>
+        <div class="saldo-panel" style="background: rgba(243,156,18,0.15); border-color: rgba(243,156,18,0.3);"><div style="font-size:12px; opacity:0.7;">💵 NILAI WITHDRAW (50%)</div><div class="saldo-large" id="gameRupiahDisplay">0</div></div>
         <button class="btn-update" onclick="updateSaldoGame()">🔄 Update Saldo</button>
         <div class="analisa-section"><div style="font-size:12px; margin-bottom:8px; opacity:0.7;">📈 ANALISA</div><div class="analisa-text" id="panelAnalisa">-</div><div class="rekomendasi-box" id="panelRekomendasi">-</div></div>
         <div class="history-section"><div style="font-size:12px; margin-bottom:10px; opacity:0.7;">📝 RIWAYAT UPDATE</div><div id="panelHistory">-</div></div>
@@ -471,7 +487,6 @@ function saveToken(acc, token) {
 }
 
 function showTokenMenu() {
-    let currentToken = customTokens[selected];
     let html = `
         <b>🔑 Update Token - ${NAMA[selected]}</b><br><br>
         <input type="text" id="newToken" class="token-input" placeholder="Masukkan token baru">
@@ -506,7 +521,6 @@ const AVATAR_IMG = {
     exm: "https://file.xoon.live/release/1c542bab-4585-41bd-a795-d4d598f165ba",
 };
 const GAMES = [
-    // ==================== POLA 1: api-sg.yomi1413.com (BIRU) ====================
     { n:"Jackpot Slot", img:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/773670/capsule_616x353.jpg?t=1702294961", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/21?", g:"biru" },
     { n:"DJ Live", img:"https://i.ytimg.com/vi/Kdt_j97lV3E/maxresdefault.jpg", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/24?", g:"biru" },
     { n:"Olympus 2", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCJe8zFKFr3xdUeb--9CQ5cz0YMUw5YiCtcV-aXvCODg&s=10", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/27?", g:"biru" },
@@ -526,23 +540,17 @@ const GAMES = [
     { n:"Mega Jackpot", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjXgxgFv_vx39rzV1OTHdnf_UM-hxyITHBLdEYIppzbw&s=10", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/62?", g:"biru" },
     { n:"Book Of Death", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3FJY6zAVcCnYpN9YwEEAjx6yMT5CBr82gd7Y-xXKtiI1gatPwPaPcBnw&s=10", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/63?", g:"biru" },
     { n:"Fast & Furious", img:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/773670/capsule_616x353.jpg?t=1702294961", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/65?", g:"biru" },
-
-    // ==================== POLA 2: duolefast.com (HIJAU) ====================
     { n:"Aztec", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCd3K29uoUamED1Ob25-YEax4Q8Um3hgQ1jufTjY0wcA&s=10", u:"https://www.duolefast.com/common-web/full/game1006/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200001&engameid=1006&", g:"hijau" },
     { n:"Mahjong Ways2", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRv4EfDyiVcf35GC4ltaBt0S_7EOUOIUPpqKA&s", u:"https://www.duolefast.com/common-web/full/game1009/1.0.4/web-mobile/index.html?bizAppId=100049&gameid=1200006&engameid=1009&", g:"hijau" },
     { n:"Monkey King", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfvQ14DvcviaCxnjmkvOxkeHre1JRvS6ydOMSQm48GQ&s=10", u:"https://www.duolefast.com/common-web/full/game1014/1.0.4/web-mobile/index.html?bizAppId=100049&gameid=1200007&engameid=1014&", g:"hijau" },
     { n:"Lucky Pig", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKcJFyADEBweF9bmBLSuieakuM2zviE-GM0VgSsmKV7A&s=10", u:"https://www.duolefast.com/common-web/full/game1017/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200002&engameid=1017&", g:"hijau" },
     { n:"Wild Bounty", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjfPfIv4A7XCWVbutHjXqrLli95t2fYUeTfKvtEsyPHw&s=10", u:"https://www.duolefast.com/common-web/full/game1024/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200003&engameid=1024&", g:"hijau" },
     { n:"Bandito", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6cMluYjuj2r6u18W5721gf9AXZoxaLUNmjQ16a6H2Hg&s=10", u:"https://www.duolefast.com/common-web/full/game1026/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200008&engameid=1026&", g:"hijau" },
-
-    // ==================== POLA 3: api.osgametheme.com (ORANYE) ====================
     { n:"Olympus", img:"https://i.pinimg.com/736x/9e/bf/df/9ebfdf763cc97a7ec9b9ae91d630aef4.jpg", u:"https://api.osgametheme.com/plug_new/theme1/xoon_full?", g:"oranye", moneyjar: true },
     { n:"Mahjong 2", img:"https://play-lh.googleusercontent.com/lGmoHo07lMwd7-ZTEVp-tdcuoCHtLLcS8DKpDW-w2uUGntKXvPu4yjdaXVzSY1NRrjhC=w256", u:"https://api.osgametheme.com/plug_new/theme7/xoon_full?", g:"oranye", moneyjar: true },
     { n:"Athena", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOWAPR7JEbgkQIs1tOnResaw62AEVrfsjeebiD1EfiwA&s=10", u:"https://api.osgametheme.com/plug_new/theme11/xoon_full?", g:"oranye", moneyjar: true },
     { n:"Super Sweet", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5w-2KYWWduTBz2Lzt2PZfbGZqxx9foc1kFAJ30_rZJQ&s=10", u:"https://api.osgametheme.com/plug_new/theme30/xoon_full?", g:"oranye", moneyjar: true },
     { n:"Golden Tree", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_R-2yK_Y9lN_AFvqUKiv0aY1EpEZ3_QLBcIGSo0CmuQ&s=10", u:"https://api.osgametheme.com/plug_new/theme37/xoon_full?", g:"oranye", moneyjar: true },
-
-    // ==================== POLA 4: d1wtralw2m821s (game_id) (UNGU) ====================
     { n:"Fishing", img:"https://i.pinimg.com/564x/95/af/79/95af79df11a7989482efc366d02c7b9f.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/fish6/index.html?mode=games&game_name=fish6&isHalf=false&game_id=104&", g:"ungu", moneyjar: true },
     { n:"Sweet Bonanza", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHV2yPuimx_29mceWi8mjOiU8erK6jVHUSvFAnMkJPsA&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/sweet_feast/index.html?mode=games&game_name=sweet_feast&isHalf=false&game_id=106", g:"ungu", moneyjar: true },
     { n:"Mahjong 1", img:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/773670/capsule_616x353.jpg?t=1702294961", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?mode=games&game_name=mahjong&game_id=116&", g:"ungu" },
@@ -558,8 +566,6 @@ const GAMES = [
     { n:"Teen Patti", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0IFTNojdBTc4Xq5kAH4EHX1HM1faFVSTqtwO_ZGHWQQ&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=in_teen_patti&", g:"ungu" },
     { n:"The Monkey King", img:"https://mir-s3-cdn-cf.behance.net/projects/404/ed6663235630209.Y3JvcCwzNzEyLDI5MDQsMTc0LDA.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/monkeyking/index.html?", g:"ungu" },
     { n:"Yummy", img:"https://iprop-ua.com/tm/thumbs/6z7x8bqm.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?mode=games&game_name=yammy_slots&", g:"ungu", moneyjar: true },
-
-    // ==================== POLA 5: DOMAIN LAIN (HITAM) ====================
     { n:"Big Hammer", img:"https://gmtbigdate.cn.com/wp-content/uploads/2025/07/go-bua-phat-tai.webp", u:"https://cdn-xoon.leadercc.com/games/big_hammer/", g:"hitam", moneyjar: true },
     { n:"Greedy King", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl-TxSFvqzqfJj6IuZU1mo5vjCln15l-OdcsSu0RBHxw&s=10", u:"https://www.duolefast.com/common-web/full/game845/", g:"hitam" },
     { n:"Greedy Lion", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpM9K7VqdfNnGASDo7-wVV1rmqp83N62cLGi0MKsdfvw&s=10", u:"https://cdn-web.hotgame.win/game/GreedyLion/", g:"hitam" },
@@ -573,21 +579,30 @@ const GAMES = [
 
 let selected = null, clicks = {}, currentGame = null, saldoGlobal = 0, topUpHistory = [];
 
-function loadData() { if (!selected) return; saldoGlobal = parseInt(localStorage.getItem(`saldoGlobal_${selected}`)) || 0; topUpHistory = JSON.parse(localStorage.getItem(`topup_${selected}`) || "[]"); clicks = JSON.parse(localStorage.getItem(`clicks_${selected}`) || "{}"); updateSaldoDisplay(); }
-function saveSaldo() { localStorage.setItem(`saldoGlobal_${selected}`, saldoGlobal); updateSaldoDisplay(); }
+function loadData() { 
+    if (!selected) return; 
+    saldoGlobal = parseInt(localStorage.getItem(`saldoGlobal_${selected}`)) || 0; 
+    topUpHistory = JSON.parse(localStorage.getItem(`topup_${selected}`) || "[]"); 
+    clicks = JSON.parse(localStorage.getItem(`clicks_${selected}`) || "{}"); 
+    updateSaldoDisplay(); 
+}
+function saveSaldo() { 
+    localStorage.setItem(`saldoGlobal_${selected}`, saldoGlobal); 
+    updateSaldoDisplay(); 
+}
 function updateSaldoDisplay() { 
     let header = document.getElementById("saldoHeaderValue"); 
     if (header) header.innerHTML = formatRupiah(saldoGlobal); 
     let game = document.getElementById("gameSaldoDisplay"); 
     if (game) game.innerHTML = formatRupiah(saldoGlobal);
     
-    // Update Rupiah display (50% dari koin)
-    let rupiahValue = Math.floor(saldoGlobal * 0.5);
+    // Hitung nilai withdraw (50% dari koin)
+    let withdrawValue = Math.floor(saldoGlobal * 0.5);
     let rupiahHeader = document.getElementById("rupiahHeaderValue");
-    if (rupiahHeader) rupiahHeader.innerHTML = formatRupiahIDR(rupiahValue);
+    if (rupiahHeader) rupiahHeader.innerHTML = formatRupiahIDR(withdrawValue);
     
     let rupiahGame = document.getElementById("gameRupiahDisplay");
-    if (rupiahGame) rupiahGame.innerHTML = formatRupiahIDR(rupiahValue);
+    if (rupiahGame) rupiahGame.innerHTML = formatRupiahIDR(withdrawValue);
 }
 function formatRupiah(angka) { if (angka === null || isNaN(angka)) return "0"; return "💎 " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
 function formatRupiahIDR(angka) { if (angka === null || isNaN(angka)) return "0"; return "Rp " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
@@ -596,14 +611,86 @@ function getGameData(gameName) { return JSON.parse(localStorage.getItem(`gameDat
 function saveGameData(gameName, data) { localStorage.setItem(`gameData_${selected}_${gameName}`, JSON.stringify(data)); }
 function getTotalProfitGame(gameName) { let total = 0; for (let h of getGameData(gameName).history) total += h.perubahan; return total; }
 
-function showTopUpMenu() { showPopup(`<b>💎 TOP UP SALDO</b><br><br><input type="number" id="topupAmount" class="input-saldo" placeholder="Masukkan nominal"><div style="display:flex; gap:10px;"><button class="btn-sm" style="background:#2ecc71;" onclick="saveTopUp()">Top Up</button><button class="btn-sm" onclick="closePopup()">Batal</button></div>`); }
-function saveTopUp() { let a = parseInt(document.getElementById("topupAmount").value); if (isNaN(a) || a <= 0) { alert("Masukkan nominal valid!"); return; } topUpHistory.unshift({ id: Date.now(), tanggal: new Date().toLocaleDateString('id-ID'), waktu: new Date().toLocaleTimeString('id-ID'), nominal: a }); if (topUpHistory.length > 50) topUpHistory.pop(); localStorage.setItem(`topup_${selected}`, JSON.stringify(topUpHistory)); saldoGlobal += a; saveSaldo(); closePopup(); showToast(`💎 Top up ${formatRupiah(a)} berhasil!`, true); renderGames(); if (currentGame) updatePanelDisplay(); }
-function showTopUpHistory() { let total = topUpHistory.reduce((a,b) => a + b.nominal, 0); let html = `<b>💳 RIWAYAT TOP UP</b><br><br><div style="background:#1a1a3e; padding:10px; border-radius:12px;">Total: <b style="color:#2ecc71;">${formatRupiah(total)}</b></div>`; if (topUpHistory.length === 0) html += `<div style="text-align:center; opacity:0.6; margin-top:12px;">Belum ada top up</div>`; else { html += `<div class="popup-list" style="margin-top:12px;">`; topUpHistory.forEach(t => { html += `<div class="popup-list-item">📅 ${t.tanggal} ${t.waktu}<br>💎 ${formatRupiah(t.nominal)}</div>`; }); html += `</div>`; } html += `<br><button class="btn-sm" onclick="closePopup()">Tutup</button>`; showPopup(html); }
+function showTopUpMenu() { 
+    showPopup(`<b>💎 TOP UP SALDO</b><br><br><div style="background:#1a1a3e; padding:10px; border-radius:12px; margin-bottom:10px;">💡 1 Koin = Rp 1 (harga beli)<br>💰 Withdraw nanti = 50% dari koin</div><input type="number" id="topupAmount" class="input-saldo" placeholder="Masukkan nominal koin"><div style="display:flex; gap:10px;"><button class="btn-sm" style="background:#2ecc71;" onclick="saveTopUp()">Top Up</button><button class="btn-sm" onclick="closePopup()">Batal</button></div>`); 
+}
+function saveTopUp() { 
+    let a = parseInt(document.getElementById("topupAmount").value); 
+    if (isNaN(a) || a <= 0) { alert("Masukkan nominal valid!"); return; } 
+    topUpHistory.unshift({ id: Date.now(), tanggal: new Date().toLocaleDateString('id-ID'), waktu: new Date().toLocaleTimeString('id-ID'), nominal: a, rupiah: a }); 
+    if (topUpHistory.length > 50) topUpHistory.pop(); 
+    localStorage.setItem(`topup_${selected}`, JSON.stringify(topUpHistory)); 
+    saldoGlobal += a; 
+    saveSaldo(); 
+    closePopup(); 
+    showToast(`💎 Top up ${formatRupiah(a)} (Rp ${formatRupiahIDR(a)}) berhasil!`, true); 
+    renderGames(); 
+    if (currentGame) updatePanelDisplay(); 
+}
+function showTopUpHistory() { 
+    let totalKoin = topUpHistory.reduce((a,b) => a + b.nominal, 0); 
+    let totalRupiah = totalKoin;
+    let html = `<b>💳 RIWAYAT TOP UP</b><br><br><div style="background:#1a1a3e; padding:10px; border-radius:12px;">Total Top Up: <b style="color:#2ecc71;">${formatRupiah(totalKoin)} (Rp ${formatRupiahIDR(totalRupiah)})</b></div>`; 
+    if (topUpHistory.length === 0) html += `<div style="text-align:center; opacity:0.6; margin-top:12px;">Belum ada top up</div>`; 
+    else { 
+        html += `<div style="margin-top:12px; max-height:300px; overflow-y:auto;">`; 
+        topUpHistory.forEach(t => { 
+            html += `<div style="padding:8px; border-bottom:1px solid rgba(255,255,255,0.1);">📅 ${t.tanggal} ${t.waktu}<br>💎 ${formatRupiah(t.nominal)} = Rp ${formatRupiahIDR(t.rupiah)}</div>`; 
+        }); 
+        html += `</div>`; 
+    } 
+    html += `<br><button class="btn-sm" onclick="closePopup()">Tutup</button>`; 
+    showPopup(html); 
+}
 
-function updateSaldoGame() { showPopup(`<b>🔄 Update Saldo - ${currentGame.n}</b><br><br><div style="background:#1a1a3e; padding:10px; border-radius:12px; margin-bottom:10px;">Saldo saat ini: <b>${formatRupiah(saldoGlobal)}</b><br>Rupiah (50%): <b>${formatRupiahIDR(Math.floor(saldoGlobal * 0.5))}</b></div><input type="number" id="saldoInput" class="input-saldo" placeholder="Masukkan saldo koin saat ini"><div style="display:flex; gap:10px;"><button class="btn-sm" style="background:#2ecc71;" onclick="saveUpdateSaldo()">Simpan</button><button class="btn-sm" onclick="closePopup()">Batal</button></div>`); }
-function saveUpdateSaldo() { let baru = parseInt(document.getElementById("saldoInput").value); if (isNaN(baru)) { alert("Masukkan jumlah valid!"); return; } let lama = saldoGlobal, perubahan = baru - lama, gameData = getGameData(currentGame.n); gameData.history.unshift({ waktu: new Date().toLocaleString('id-ID'), saldoLama: lama, saldoBaru: baru, perubahan: perubahan }); if (gameData.history.length > 50) gameData.history.pop(); gameData.totalUpdate++; saveGameData(currentGame.n, gameData); saldoGlobal = baru; saveSaldo(); closePopup(); updatePanelDisplay(); renderGames(); if (perubahan > 0) showToast(`🎉 PROFIT +${formatRupiah(perubahan)}`, true); else if (perubahan < 0) showToast(`⚠️ LOSS ${formatRupiah(perubahan)}`, false); else showToast(`📊 Impas (0)`); }
+function updateSaldoGame() { 
+    let withdrawValue = Math.floor(saldoGlobal * 0.5);
+    showPopup(`<b>🔄 Update Saldo - ${currentGame.n}</b><br><br><div style="background:#1a1a3e; padding:10px; border-radius:12px; margin-bottom:10px;">Saldo koin saat ini: <b>${formatRupiah(saldoGlobal)}</b><br>Nilai withdraw (50%): <b>${formatRupiahIDR(withdrawValue)}</b></div><input type="number" id="saldoInput" class="input-saldo" placeholder="Masukkan saldo koin TERBARU"><div style="display:flex; gap:10px;"><button class="btn-sm" style="background:#2ecc71;" onclick="saveUpdateSaldo()">Simpan</button><button class="btn-sm" onclick="closePopup()">Batal</button></div>`); 
+}
+function saveUpdateSaldo() { 
+    let baru = parseInt(document.getElementById("saldoInput").value); 
+    if (isNaN(baru)) { alert("Masukkan jumlah valid!"); return; } 
+    let lama = saldoGlobal, perubahan = baru - lama; 
+    let gameData = getGameData(currentGame.n); 
+    gameData.history.unshift({ waktu: new Date().toLocaleString('id-ID'), saldoLama: lama, saldoBaru: baru, perubahan: perubahan }); 
+    if (gameData.history.length > 50) gameData.history.pop(); 
+    gameData.totalUpdate++; 
+    saveGameData(currentGame.n, gameData); 
+    saldoGlobal = baru; 
+    saveSaldo(); 
+    closePopup(); 
+    updatePanelDisplay(); 
+    renderGames(); 
+    let profitRupiah = Math.floor(perubahan * 0.5);
+    if (perubahan > 0) showToast(`🎉 PROFIT +${formatRupiah(perubahan)} (≈ Rp ${formatRupiahIDR(profitRupiah)})`, true); 
+    else if (perubahan < 0) showToast(`⚠️ LOSS ${formatRupiah(perubahan)} (≈ Rp ${formatRupiahIDR(Math.abs(profitRupiah))})`, false); 
+    else showToast(`📊 Impas (0)`); 
+}
 
-function updatePanelDisplay() { if (!currentGame) return; let totalProfit = getTotalProfitGame(currentGame.n); document.getElementById("panelGameName").innerHTML = `🎮 ${currentGame.n}`; document.getElementById("gameSaldoDisplay").innerHTML = formatRupiah(saldoGlobal); let rupiahValue = Math.floor(saldoGlobal * 0.5); document.getElementById("gameRupiahDisplay").innerHTML = formatRupiahIDR(rupiahValue); document.getElementById("panelAnalisa").innerHTML = totalProfit !== 0 ? (totalProfit > 0 ? `✅ Profit: ${formatRupiah(totalProfit)}` : `⚠️ Rugi: ${formatRupiah(totalProfit)}`) : `📊 Impas (0)`; let rekom = totalProfit > 0 ? "✅ LAYAK DIMAINKAN" : (totalProfit < -500000 ? "❌ TIDAK LAYAK" : (totalProfit < 0 ? "⚠️ WASPADA" : "📊 Belum ada profit")); let rekomClass = totalProfit > 0 ? "rekomendasi-layak" : (totalProfit < -500000 ? "rekomendasi-rugi" : (totalProfit < 0 ? "rekomendasi-waspada" : "")); let rekomEl = document.getElementById("panelRekomendasi"); rekomEl.innerHTML = rekom; rekomEl.className = "rekomendasi-box " + rekomClass; let gameData = getGameData(currentGame.n); if (gameData.history.length === 0) document.getElementById("panelHistory").innerHTML = '<div style="opacity:0.5; text-align:center;">Belum ada update</div>'; else { let html = ''; for (let h of gameData.history) { html += `<div class="history-item">📅 ${h.waktu}<br>💎 ${formatRupiah(h.saldoLama)} → ${formatRupiah(h.saldoBaru)}<br>Perubahan: <span class="${h.perubahan >= 0 ? 'profit-text' : 'loss-text'}">${h.perubahan >= 0 ? '+' : ''}${formatRupiah(h.perubahan)}</span><br>💰 Rupiah: ${formatRupiahIDR(Math.floor(h.saldoBaru * 0.5))}</div>`; } document.getElementById("panelHistory").innerHTML = html; } }
+function updatePanelDisplay() { 
+    if (!currentGame) return; 
+    let totalProfit = getTotalProfitGame(currentGame.n); 
+    document.getElementById("panelGameName").innerHTML = `🎮 ${currentGame.n}`; 
+    document.getElementById("gameSaldoDisplay").innerHTML = formatRupiah(saldoGlobal); 
+    let withdrawValue = Math.floor(saldoGlobal * 0.5); 
+    document.getElementById("gameRupiahDisplay").innerHTML = formatRupiahIDR(withdrawValue); 
+    document.getElementById("panelAnalisa").innerHTML = totalProfit !== 0 ? (totalProfit > 0 ? `✅ Profit Koin: ${formatRupiah(totalProfit)} (≈ Rp ${formatRupiahIDR(Math.floor(totalProfit * 0.5))})` : `⚠️ Rugi Koin: ${formatRupiah(totalProfit)} (≈ Rp ${formatRupiahIDR(Math.floor(Math.abs(totalProfit) * 0.5))})`) : `📊 Impas (0)`; 
+    let rekom = totalProfit > 0 ? "✅ LAYAK DIMAINKAN" : (totalProfit < -500000 ? "❌ TIDAK LAYAK" : (totalProfit < 0 ? "⚠️ WASPADA" : "📊 Belum ada profit")); 
+    let rekomClass = totalProfit > 0 ? "rekomendasi-layak" : (totalProfit < -500000 ? "rekomendasi-rugi" : (totalProfit < 0 ? "rekomendasi-waspada" : "")); 
+    let rekomEl = document.getElementById("panelRekomendasi"); 
+    rekomEl.innerHTML = rekom; 
+    rekomEl.className = "rekomendasi-box " + rekomClass; 
+    let gameData = getGameData(currentGame.n); 
+    if (gameData.history.length === 0) document.getElementById("panelHistory").innerHTML = '<div style="opacity:0.5; text-align:center;">Belum ada update</div>'; 
+    else { 
+        let html = ''; 
+        for (let h of gameData.history) { 
+            let profitRupiah = Math.floor(h.perubahan * 0.5);
+            html += `<div class="history-item">📅 ${h.waktu}<br>💎 ${formatRupiah(h.saldoLama)} → ${formatRupiah(h.saldoBaru)}<br>Perubahan: <span class="${h.perubahan >= 0 ? 'profit-text' : 'loss-text'}">${h.perubahan >= 0 ? '+' : ''}${formatRupiah(h.perubahan)}</span><br>💰 Nilai withdraw: ${formatRupiahIDR(Math.floor(h.saldoBaru * 0.5))} ${h.perubahan !== 0 ? `(${h.perubahan > 0 ? '+' : ''}${formatRupiahIDR(profitRupiah)} withdraw value)` : ''}</div>`; 
+        } 
+        document.getElementById("panelHistory").innerHTML = html; 
+    } 
+}
 
 function renderGames() { 
     const container = document.getElementById("groupsContainer"); 
@@ -620,8 +707,7 @@ function renderGames() {
         let grid = document.createElement("div"); 
         grid.className = "game-grid"; 
         for (let game of gameList) { 
-            // ✅ Gunakan nama game sebagai key, bukan indeks
-            let count = clicks[selected]?.[game.n] || 0; 
+            let count = clicks[game.n] || 0; 
             let totalProfit = getTotalProfitGame(game.n); 
             let statusText = "", statusClass = "", profitText = ""; 
             if (totalProfit !== 0) { 
@@ -645,10 +731,8 @@ function renderGames() {
             card.innerHTML = `<div class="game-img">${stickerHtml}<img src="${game.img}" onerror="this.src='https://via.placeholder.com/70?text=No'"><div class="counter">${count}</div></div><div class="game-name">${game.n}</div>${statusText ? `<div class="status-badge ${statusClass}">${statusText}</div>` : ''}${profitText ? `<div class="profit-card ${totalProfit > 0 ? 'profit-plus' : 'profit-minus'}">${profitText}</div>` : ''}`; 
             card.onclick = (function(g) { 
                 return function() { 
-                    if (!clicks[selected]) clicks[selected] = {}; 
-                    // ✅ Simpan berdasarkan NAMA GAME
-                    clicks[selected][g.n] = (clicks[selected][g.n] || 0) + 1; 
-                    localStorage.setItem(`clicks_${selected}`, JSON.stringify(clicks[selected])); 
+                    clicks[g.n] = (clicks[g.n] || 0) + 1; 
+                    localStorage.setItem(`clicks_${selected}`, JSON.stringify(clicks)); 
                     renderGames(); 
                     currentGame = g; 
                     let sep = g.u.includes("?") ? "&" : "?"; 
@@ -673,28 +757,28 @@ function closeGame() { document.getElementById("gameContainer").classList.remove
 function showGlobalStats() {
     let gameStats = [];
     for (let i=0; i<GAMES.length; i++) {
-        // ✅ Gunakan nama game sebagai key
-        let c = clicks[selected]?.[GAMES[i].n] || 0;
+        let c = clicks[GAMES[i].n] || 0;
         let profit = getTotalProfitGame(GAMES[i].n);
         if (c > 0 || profit !== 0) {
             gameStats.push({ name: GAMES[i].n, count: c, profit: profit });
         }
     }
     gameStats.sort((a,b) => b.count - a.count);
-    let totalTopUp = topUpHistory.reduce((a,b) => a + b.nominal, 0);
-    let rupiahNow = Math.floor(saldoGlobal * 0.5);
-    let profitLossRupiah = Math.floor((saldoGlobal - totalTopUp) * 0.5);
-    let html = `<div class="stats-card"><div class="stats-title">📊 ${NAMA[selected]}</div><div class="stats-grid"><div class="stats-item"><div class="stats-icon">💰</div><div class="stats-label">Saldo Koin</div><div class="stats-value">${formatRupiah(saldoGlobal)}</div></div><div class="stats-item"><div class="stats-icon">💵</div><div class="stats-label">Saldo Rupiah (50%)</div><div class="stats-value">${formatRupiahIDR(rupiahNow)}</div></div><div class="stats-item"><div class="stats-icon">💎</div><div class="stats-label">Total Top Up</div><div class="stats-value">${formatRupiah(totalTopUp)}</div></div><div class="stats-item"><div class="stats-icon">🏆</div><div class="stats-label">Profit/Loss Koin</div><div class="stats-value ${saldoGlobal - totalTopUp >= 0 ? 'plus' : 'minus'}">${saldoGlobal - totalTopUp >= 0 ? '+' : ''}${formatRupiah(saldoGlobal - totalTopUp)}</div></div><div class="stats-item"><div class="stats-icon">💵</div><div class="stats-label">Profit/Loss Rupiah</div><div class="stats-value ${profitLossRupiah >= 0 ? 'plus' : 'minus'}">${profitLossRupiah >= 0 ? '+' : ''}${formatRupiahIDR(profitLossRupiah)}</div></div><div class="stats-item"><div class="stats-icon">🎮</div><div class="stats-label">Game Dimainkan</div><div class="stats-value">${gameStats.length}</div></div></div></div><div class="stats-card"><div class="stats-title">🎯 DETAIL GAME</div><div class="game-list">${gameStats.length === 0 ? '<div style="text-align:center; opacity:0.5; padding:20px;">Belum ada data game</div>' : gameStats.map(g => `<div class="game-item"><div><span class="game-name">${g.name}</span><span class="badge-click">${g.count} klik</span></div><div class="game-stats"><span class="game-profit ${g.profit > 0 ? 'plus' : (g.profit < 0 ? 'minus' : '')}">${g.profit > 0 ? '+' : ''}${formatRupiah(g.profit)}</span></div></div>`).join('')}</div></div><button class="close-stats" onclick="closePopup()">Tutup</button>`;
+    let totalTopUpKoin = topUpHistory.reduce((a,b) => a + b.nominal, 0);
+    let withdrawNow = Math.floor(saldoGlobal * 0.5);
+    let profitLossKoin = saldoGlobal - totalTopUpKoin;
+    let profitLossRupiah = Math.floor(profitLossKoin * 0.5);
+    let html = `<div class="stats-card"><div class="stats-title">📊 ${NAMA[selected]}</div><div class="stats-grid"><div class="stats-item"><div class="stats-icon">💰</div><div class="stats-label">Saldo Koin</div><div class="stats-value">${formatRupiah(saldoGlobal)}</div></div><div class="stats-item"><div class="stats-icon">💵</div><div class="stats-label">Nilai Withdraw (50%)</div><div class="stats-value">${formatRupiahIDR(withdrawNow)}</div></div><div class="stats-item"><div class="stats-icon">💎</div><div class="stats-label">Total Top Up</div><div class="stats-value">${formatRupiah(totalTopUpKoin)} (Rp ${formatRupiahIDR(totalTopUpKoin)})</div></div><div class="stats-item"><div class="stats-icon">🏆</div><div class="stats-label">Profit/Loss Koin</div><div class="stats-value ${profitLossKoin >= 0 ? 'plus' : 'minus'}">${profitLossKoin >= 0 ? '+' : ''}${formatRupiah(profitLossKoin)}</div></div><div class="stats-item"><div class="stats-icon">💵</div><div class="stats-label">Profit/Loss Rupiah</div><div class="stats-value ${profitLossRupiah >= 0 ? 'plus' : 'minus'}">${profitLossRupiah >= 0 ? '+' : ''}${formatRupiahIDR(profitLossRupiah)}</div></div><div class="stats-item"><div class="stats-icon">🎮</div><div class="stats-label">Game Dimainkan</div><div class="stats-value">${gameStats.length}</div></div></div></div><div class="stats-card"><div class="stats-title">🎯 DETAIL GAME</div><div class="game-list">${gameStats.length === 0 ? '<div style="text-align:center; opacity:0.5; padding:20px;">Belum ada data game</div>' : gameStats.map(g => `<div class="game-item"><div><span class="game-name">${g.name}</span><span class="badge-click">${g.count} x main</span></div><div class="game-stats"><span class="game-profit ${g.profit > 0 ? 'plus' : (g.profit < 0 ? 'minus' : '')}">${g.profit > 0 ? '+' : ''}${formatRupiah(g.profit)}</span></div></div>`).join('')}</div></div><button class="close-stats" onclick="closePopup()">✕ Tutup</button>`;
     showPopup(html);
 }
 
 function showBackupMenu() {
     showPopup(`
         <b>💾 Backup & Restore - ${NAMA[selected]}</b><br><br>
-        <div style="font-size:12px; margin-bottom:12px;">Data yang akan dibackup: Saldo, Top Up, Riwayat Game</div>
-        <button class="btn-sm" style="background:#2ecc71; width:100%; margin-bottom:8px;" onclick="exportData()">📤 Export Data Akun Ini</button>
+        <div style="font-size:11px; margin-bottom:12px;">Data: Saldo Koin, Top Up, Riwayat Game, Klik</div>
+        <button class="btn-sm" style="background:#2ecc71; width:100%; margin-bottom:8px;" onclick="exportData()">📤 Export Data</button>
         <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(this)">
-        <button class="btn-sm" style="background:#f39c12; width:100%;" onclick="document.getElementById('importFile').click()">📥 Import Data ke Akun Ini</button>
+        <button class="btn-sm" style="background:#f39c12; width:100%;" onclick="document.getElementById('importFile').click()">📥 Import Data</button>
         <br><br>
         <button class="btn-sm" onclick="closePopup()">Tutup</button>
     `);
@@ -705,7 +789,7 @@ function exportData() {
         account: selected,
         saldoGlobal: saldoGlobal,
         topUpHistory: topUpHistory,
-        clicks: clicks[selected] || {},
+        clicks: clicks,
         gamesData: {}
     };
     for (let game of GAMES) {
@@ -733,7 +817,7 @@ function importData(input) {
         try {
             let data = JSON.parse(e.target.result);
             if (data.account !== selected) {
-                alert(`❌ GAGAL! File ini untuk akun ${data.account.toUpperCase()}, tidak bisa diimport ke akun ${selected.toUpperCase()}. Harap import data yang benar!`);
+                alert(`❌ GAGAL! File ini untuk akun ${data.account.toUpperCase()}, tidak bisa diimport ke akun ${selected.toUpperCase()}`);
                 input.value = '';
                 return;
             }
@@ -746,8 +830,8 @@ function importData(input) {
                 localStorage.setItem(`topup_${selected}`, JSON.stringify(topUpHistory));
             }
             if (data.clicks) {
-                clicks[selected] = data.clicks;
-                localStorage.setItem(`clicks_${selected}`, JSON.stringify(clicks[selected]));
+                clicks = data.clicks;
+                localStorage.setItem(`clicks_${selected}`, JSON.stringify(clicks));
             }
             if (data.gamesData) {
                 for (let [gameName, gameData] of Object.entries(data.gamesData)) {
@@ -772,7 +856,6 @@ function login(acc) {
     selected = acc;
     localStorage.setItem("account", acc);
     loadData();
-    // Sembunyikan login screen, tampilkan dashboard
     document.getElementById("loginScreen").style.display = "none";
     document.getElementById("dashboard").classList.add("active");
     updateUserBox();
@@ -794,7 +877,6 @@ function logout() {
     selected = null; 
     localStorage.removeItem("account"); 
     closeGame(); 
-    // Tampilkan login screen, sembunyikan dashboard
     document.getElementById("loginScreen").style.display = "flex";
     document.getElementById("dashboard").classList.remove("active");
 }
@@ -802,17 +884,18 @@ function logout() {
 function showPopup(html) { document.getElementById("popup").innerHTML = html; document.getElementById("popup").classList.add("active"); document.getElementById("popupBg").classList.add("active"); }
 function closePopup() { document.getElementById("popup").classList.remove("active"); document.getElementById("popupBg").classList.remove("active"); }
 
-// PROSES INIT: Login screen selalu tampil pertama kali
+// INIT - Cek apakah ada akun yang tersimpan
 function init() {
-    // Pastikan login screen tampil, dashboard tersembunyi
-    document.getElementById("loginScreen").style.display = "flex";
-    document.getElementById("dashboard").classList.remove("active");
-    
-    // Hapus selected agar tidak ada session yang tersisa
-    selected = null;
-    
-    // Hapus juga localStorage account agar tidak dipakai lagi untuk auto login
-    localStorage.removeItem("account");
+    let savedAccount = localStorage.getItem("account");
+    if (savedAccount && (savedAccount === 'sn' || savedAccount === 'sodron' || savedAccount === 'exm')) {
+        // Auto login ke akun yang tersimpan
+        login(savedAccount);
+    } else {
+        // Tampilkan login screen
+        document.getElementById("loginScreen").style.display = "flex";
+        document.getElementById("dashboard").classList.remove("active");
+        selected = null;
+    }
 }
 
 // Panggil init saat halaman dimuat
