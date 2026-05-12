@@ -123,6 +123,23 @@
             cursor: pointer;
             box-shadow: 0 2px 8px rgba(46,204,113,0.3);
         }
+        .rupiah-header {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(243,156,18,0.3);
+        }
+        .rupiah-header span:first-child {
+            font-size: 14px;
+        }
+        .rupiah-header span:last-child {
+            font-size: 14px;
+            font-weight: bold;
+        }
         .topup-btn { background: rgba(0,0,0,0.25); padding: 4px 10px; border-radius: 30px; font-size: 11px; }
         .logout { background: rgba(255,255,255,0.1); border: none; padding: 6px 14px; border-radius: 40px; color: white; cursor: pointer; font-size: 12px; }
         .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -317,6 +334,26 @@
         .input-saldo { background: rgba(255,255,255,0.1); border: 1px solid #f39c12; padding: 12px; border-radius: 16px; width: 100%; margin: 12px 0; color: white; font-size: 16px; text-align: center; }
         .token-input { background: rgba(255,255,255,0.1); border: 1px solid #f39c12; padding: 10px; border-radius: 12px; width: 100%; margin: 8px 0; color: white; font-size: 12px; text-align: center; }
         .info-text { font-size: 11px; opacity: 0.6; margin-bottom: 8px; }
+    
+        /* MONEY JAR STYLE - HANYA PADA GAMBAR */
+        .game-card.moneyjar .game-img img {
+            border: 2px solid #ffd700;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+        }
+
+        .moneyjar-sticker {
+            position: absolute;
+            bottom: -4px;
+            left: -4px;
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            color: #1a1a2e;
+            font-size: 9px;
+            font-weight: bold;
+            padding: 2px 5px;
+            border-radius: 12px;
+            z-index: 5;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
@@ -360,6 +397,10 @@
            <span id="saldoHeaderValue">0</span>
             <span class="topup-btn" onclick="event.stopPropagation(); showTopUpMenu()">+ Top Up</span>
         </div>
+        <div class="rupiah-header">
+            <span>💰 Rupiah:</span>
+            <span id="rupiahHeaderValue">0</span>
+        </div>
         <div class="btn-group">
             <button class="btn-sm" onclick="showGlobalStats()">📊 Stat</button>
             <button class="btn-sm" onclick="showTopUpHistory()">💳 History</button>
@@ -382,7 +423,8 @@
     <div class="update-panel" id="updatePanel">
         <div class="panel-title">⚡ ANALYZER & UPDATE</div>
         <div class="game-info" id="panelGameName">🎮 Memuat...</div>
-        <div class="saldo-panel"><div style="font-size:12px; opacity:0.7;">💰 SALDO SAAT INI</div><div class="saldo-large" id="gameSaldoDisplay">0</div></div>
+        <div class="saldo-panel"><div style="font-size:12px; opacity:0.7;">💰 SALDO KOIN</div><div class="saldo-large" id="gameSaldoDisplay">0</div></div>
+        <div class="saldo-panel" style="background: rgba(243,156,18,0.15); border-color: rgba(243,156,18,0.3);"><div style="font-size:12px; opacity:0.7;">💵 SALDO RUPIAH (50%)</div><div class="saldo-large" id="gameRupiahDisplay">0</div></div>
         <button class="btn-update" onclick="updateSaldoGame()">🔄 Update Saldo</button>
         <div class="analisa-section"><div style="font-size:12px; margin-bottom:8px; opacity:0.7;">📈 ANALISA</div><div class="analisa-text" id="panelAnalisa">-</div><div class="rekomendasi-box" id="panelRekomendasi">-</div></div>
         <div class="history-section"><div style="font-size:12px; margin-bottom:10px; opacity:0.7;">📝 RIWAYAT UPDATE</div><div id="panelHistory">-</div></div>
@@ -432,7 +474,8 @@ function showTokenMenu() {
     let currentToken = customTokens[selected];
     let html = `
         <b>🔑 Update Token - ${NAMA[selected]}</b><br><br>
-            <input type="text" id="newToken" class="token-input" placeholder="Masukkan token baru">        <div style="display:flex; gap:10px; margin-top:12px;">
+        <input type="text" id="newToken" class="token-input" placeholder="Masukkan token baru">
+        <div style="display:flex; gap:10px; margin-top:12px;">
             <button class="btn-sm" style="background:#2ecc71;" onclick="updateToken()">💾 Simpan</button>
             <button class="btn-sm" onclick="resetToken()">↺ Reset Default</button>
             <button class="btn-sm" onclick="closePopup()">Batal</button>
@@ -493,31 +536,31 @@ const GAMES = [
     { n:"Bandito", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6cMluYjuj2r6u18W5721gf9AXZoxaLUNmjQ16a6H2Hg&s=10", u:"https://www.duolefast.com/common-web/full/game1026/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200008&engameid=1026&", g:"hijau" },
 
     // ==================== POLA 3: api.osgametheme.com (ORANYE) ====================
-    { n:"Olympus", img:"https://i.pinimg.com/736x/9e/bf/df/9ebfdf763cc97a7ec9b9ae91d630aef4.jpg", u:"https://api.osgametheme.com/plug_new/theme1/xoon_full?", g:"oranye" },
-    { n:"Mahjong 2", img:"https://play-lh.googleusercontent.com/lGmoHo07lMwd7-ZTEVp-tdcuoCHtLLcS8DKpDW-w2uUGntKXvPu4yjdaXVzSY1NRrjhC=w256", u:"https://api.osgametheme.com/plug_new/theme7/xoon_full?", g:"oranye" },
-    { n:"Athena", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOWAPR7JEbgkQIs1tOnResaw62AEVrfsjeebiD1EfiwA&s=10", u:"https://api.osgametheme.com/plug_new/theme11/xoon_full?", g:"oranye" },
-    { n:"Super Sweet", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5w-2KYWWduTBz2Lzt2PZfbGZqxx9foc1kFAJ30_rZJQ&s=10", u:"https://api.osgametheme.com/plug_new/theme30/xoon_full?", g:"oranye" },
-    { n:"Golden Tree", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_R-2yK_Y9lN_AFvqUKiv0aY1EpEZ3_QLBcIGSo0CmuQ&s=10", u:"https://api.osgametheme.com/plug_new/theme37/xoon_full?", g:"oranye" },
+    { n:"Olympus", img:"https://i.pinimg.com/736x/9e/bf/df/9ebfdf763cc97a7ec9b9ae91d630aef4.jpg", u:"https://api.osgametheme.com/plug_new/theme1/xoon_full?", g:"oranye", moneyjar: true },
+    { n:"Mahjong 2", img:"https://play-lh.googleusercontent.com/lGmoHo07lMwd7-ZTEVp-tdcuoCHtLLcS8DKpDW-w2uUGntKXvPu4yjdaXVzSY1NRrjhC=w256", u:"https://api.osgametheme.com/plug_new/theme7/xoon_full?", g:"oranye", moneyjar: true },
+    { n:"Athena", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOWAPR7JEbgkQIs1tOnResaw62AEVrfsjeebiD1EfiwA&s=10", u:"https://api.osgametheme.com/plug_new/theme11/xoon_full?", g:"oranye", moneyjar: true },
+    { n:"Super Sweet", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5w-2KYWWduTBz2Lzt2PZfbGZqxx9foc1kFAJ30_rZJQ&s=10", u:"https://api.osgametheme.com/plug_new/theme30/xoon_full?", g:"oranye", moneyjar: true },
+    { n:"Golden Tree", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_R-2yK_Y9lN_AFvqUKiv0aY1EpEZ3_QLBcIGSo0CmuQ&s=10", u:"https://api.osgametheme.com/plug_new/theme37/xoon_full?", g:"oranye", moneyjar: true },
 
     // ==================== POLA 4: d1wtralw2m821s (game_id) (UNGU) ====================
-    { n:"Fishing", img:"https://i.pinimg.com/564x/95/af/79/95af79df11a7989482efc366d02c7b9f.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/fish6/index.html?mode=games&game_name=fish6&isHalf=false&game_id=104&", g:"ungu" },
-    { n:"Sweet Bonanza", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHV2yPuimx_29mceWi8mjOiU8erK6jVHUSvFAnMkJPsA&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/sweet_feast/index.html?mode=games&game_name=sweet_feast&isHalf=false&game_id=106", g:"ungu" },
+    { n:"Fishing", img:"https://i.pinimg.com/564x/95/af/79/95af79df11a7989482efc366d02c7b9f.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/fish6/index.html?mode=games&game_name=fish6&isHalf=false&game_id=104&", g:"ungu", moneyjar: true },
+    { n:"Sweet Bonanza", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHV2yPuimx_29mceWi8mjOiU8erK6jVHUSvFAnMkJPsA&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/sweet_feast/index.html?mode=games&game_name=sweet_feast&isHalf=false&game_id=106", g:"ungu", moneyjar: true },
     { n:"Mahjong 1", img:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/773670/capsule_616x353.jpg?t=1702294961", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?mode=games&game_name=mahjong&game_id=116&", g:"ungu" },
     { n:"MyRich", img:"https://www.casinorating.com/media/game_logo/0002/20/thumb_119152_game_logo_standart.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/mrrich/index.html?pl=xoon&v=11&mode=games&game_name=mrrich&isHalf=false&game_id=129&", g:"ungu" },
     { n:"Pirate King 2", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgs3ZE8rUQvR00AXl5FM8mmyw4JlMcKhpwh2Ei_Ly0PA&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/pirate_king/index.html?pl=xoon&v=11&isHalf=false&game_id=136&", g:"ungu" },
     { n:"Deep Sea Fishing", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSJa5Fl3EJVp9N0Tqb_MfpO1dJAbVkwS7Z9iRHMTKspA&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=deep_sea_fish&", g:"ungu" },
-    { n:"Deep Sea Treasure", img:"https://esx.esxscloud.com/liveglb/202506101059/content/resource_manage/md5_94f8895fd6c590d38706754ef13be1d9_.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=deep_sea_treasures&", g:"ungu" },
-    { n:"Fruit Slot", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwTNc9tkeK726xyIxpOp1vNk7v9X2PxHBHWrzKZQE9pw&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=fruit_liberty_bell&", g:"ungu" },
+    { n:"Deep Sea Treasure", img:"https://esx.esxscloud.com/liveglb/202506101059/content/resource_manage/md5_94f8895fd6c590d38706754ef13be1d9_.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=deep_sea_treasures&", g:"ungu", moneyjar: true },
+    { n:"Fruit Slot", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwTNc9tkeK726xyIxpOp1vNk7v9X2PxHBHWrzKZQE9pw&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=fruit_liberty_bell&", g:"ungu", moneyjar: true },
     { n:"Greedy Monkey", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwkiSLOIDaVOVefNP8pqUxIpon-dWPkyrqsgV2kjn22gef9Rirak0ZRsYf&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/monkey_wheel/index.html?", g:"ungu" },
-    { n:"Lucky Gems", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUaqycGmRmTPoNHB9Xn2IiUoEudcUjhCFxD2NmhBPNdQ&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=fortune_gems&", g:"ungu" },
+    { n:"Lucky Gems", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUaqycGmRmTPoNHB9Xn2IiUoEudcUjhCFxD2NmhBPNdQ&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=fortune_gems&", g:"ungu", moneyjar: true },
     { n:"Lucky Slot", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-7POxm5TuUxNX0nEPDLBTYOW7mR4ExCdvTgdxrSI_uQ&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=luckyslots&", g:"ungu" },
-    { n:"Speed Racing", img:"https://games.lol/wp-content/uploads/2019/04/speed-racing-free-full-version-1.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=speed_racing&", g:"ungu" },
+    { n:"Speed Racing", img:"https://games.lol/wp-content/uploads/2019/04/speed-racing-free-full-version-1.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=speed_racing&", g:"ungu", moneyjar: true },
     { n:"Teen Patti", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0IFTNojdBTc4Xq5kAH4EHX1HM1faFVSTqtwO_ZGHWQQ&s=10", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=in_teen_patti&", g:"ungu" },
     { n:"The Monkey King", img:"https://mir-s3-cdn-cf.behance.net/projects/404/ed6663235630209.Y3JvcCwzNzEyLDI5MDQsMTc0LDA.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/monkeyking/index.html?", g:"ungu" },
-    { n:"Yummy", img:"https://iprop-ua.com/tm/thumbs/6z7x8bqm.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?mode=games&game_name=yammy_slots&", g:"ungu" },
+    { n:"Yummy", img:"https://iprop-ua.com/tm/thumbs/6z7x8bqm.jpg", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?mode=games&game_name=yammy_slots&", g:"ungu", moneyjar: true },
 
     // ==================== POLA 5: DOMAIN LAIN (HITAM) ====================
-    { n:"Big Hammer", img:"https://gmtbigdate.cn.com/wp-content/uploads/2025/07/go-bua-phat-tai.webp", u:"https://cdn-xoon.leadercc.com/games/big_hammer/", g:"hitam" },
+    { n:"Big Hammer", img:"https://gmtbigdate.cn.com/wp-content/uploads/2025/07/go-bua-phat-tai.webp", u:"https://cdn-xoon.leadercc.com/games/big_hammer/", g:"hitam", moneyjar: true },
     { n:"Greedy King", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQl-TxSFvqzqfJj6IuZU1mo5vjCln15l-OdcsSu0RBHxw&s=10", u:"https://www.duolefast.com/common-web/full/game845/", g:"hitam" },
     { n:"Greedy Lion", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpM9K7VqdfNnGASDo7-wVV1rmqp83N62cLGi0MKsdfvw&s=10", u:"https://cdn-web.hotgame.win/game/GreedyLion/", g:"hitam" },
     { n:"Pirate King", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1JdXoSBlUVIY6uRCvPGiqKv3yyZQ_3-LDCSsffwIHDA&s=10", u:"https://cdn-web.hotgame.win/game/PirateKing/half/?sdk=xoon&", g:"hitam" },
@@ -532,8 +575,22 @@ let selected = null, clicks = {}, currentGame = null, saldoGlobal = 0, topUpHist
 
 function loadData() { if (!selected) return; saldoGlobal = parseInt(localStorage.getItem(`saldoGlobal_${selected}`)) || 0; topUpHistory = JSON.parse(localStorage.getItem(`topup_${selected}`) || "[]"); clicks = JSON.parse(localStorage.getItem(`clicks_${selected}`) || "{}"); updateSaldoDisplay(); }
 function saveSaldo() { localStorage.setItem(`saldoGlobal_${selected}`, saldoGlobal); updateSaldoDisplay(); }
-function updateSaldoDisplay() { let h = document.getElementById("saldoHeaderValue"); if (h) h.innerHTML = formatRupiah(saldoGlobal); let g = document.getElementById("gameSaldoDisplay"); if (g) g.innerHTML = formatRupiah(saldoGlobal); }
+function updateSaldoDisplay() { 
+    let header = document.getElementById("saldoHeaderValue"); 
+    if (header) header.innerHTML = formatRupiah(saldoGlobal); 
+    let game = document.getElementById("gameSaldoDisplay"); 
+    if (game) game.innerHTML = formatRupiah(saldoGlobal);
+    
+    // Update Rupiah display (50% dari koin)
+    let rupiahValue = Math.floor(saldoGlobal * 0.5);
+    let rupiahHeader = document.getElementById("rupiahHeaderValue");
+    if (rupiahHeader) rupiahHeader.innerHTML = formatRupiahIDR(rupiahValue);
+    
+    let rupiahGame = document.getElementById("gameRupiahDisplay");
+    if (rupiahGame) rupiahGame.innerHTML = formatRupiahIDR(rupiahValue);
+}
 function formatRupiah(angka) { if (angka === null || isNaN(angka)) return "0"; return "💎 " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
+function formatRupiahIDR(angka) { if (angka === null || isNaN(angka)) return "0"; return "Rp " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
 function showToast(msg, isProfit) { let t = document.createElement('div'); t.className = 'toast-notif'; if (isProfit === true) t.classList.add('toast-profit'); if (isProfit === false) t.classList.add('toast-loss'); t.innerHTML = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2500); }
 function getGameData(gameName) { return JSON.parse(localStorage.getItem(`gameData_${selected}_${gameName}`) || '{"history":[],"totalUpdate":0}'); }
 function saveGameData(gameName, data) { localStorage.setItem(`gameData_${selected}_${gameName}`, JSON.stringify(data)); }
@@ -543,12 +600,71 @@ function showTopUpMenu() { showPopup(`<b>💎 TOP UP SALDO</b><br><br><input typ
 function saveTopUp() { let a = parseInt(document.getElementById("topupAmount").value); if (isNaN(a) || a <= 0) { alert("Masukkan nominal valid!"); return; } topUpHistory.unshift({ id: Date.now(), tanggal: new Date().toLocaleDateString('id-ID'), waktu: new Date().toLocaleTimeString('id-ID'), nominal: a }); if (topUpHistory.length > 50) topUpHistory.pop(); localStorage.setItem(`topup_${selected}`, JSON.stringify(topUpHistory)); saldoGlobal += a; saveSaldo(); closePopup(); showToast(`💎 Top up ${formatRupiah(a)} berhasil!`, true); renderGames(); if (currentGame) updatePanelDisplay(); }
 function showTopUpHistory() { let total = topUpHistory.reduce((a,b) => a + b.nominal, 0); let html = `<b>💳 RIWAYAT TOP UP</b><br><br><div style="background:#1a1a3e; padding:10px; border-radius:12px;">Total: <b style="color:#2ecc71;">${formatRupiah(total)}</b></div>`; if (topUpHistory.length === 0) html += `<div style="text-align:center; opacity:0.6; margin-top:12px;">Belum ada top up</div>`; else { html += `<div class="popup-list" style="margin-top:12px;">`; topUpHistory.forEach(t => { html += `<div class="popup-list-item">📅 ${t.tanggal} ${t.waktu}<br>💎 ${formatRupiah(t.nominal)}</div>`; }); html += `</div>`; } html += `<br><button class="btn-sm" onclick="closePopup()">Tutup</button>`; showPopup(html); }
 
-function updateSaldoGame() { showPopup(`<b>🔄 Update Saldo - ${currentGame.n}</b><br><br><div style="background:#1a1a3e; padding:10px; border-radius:12px; margin-bottom:10px;">Saldo saat ini: <b>${formatRupiah(saldoGlobal)}</b></div><input type="number" id="saldoInput" class="input-saldo" placeholder="Masukkan saldo saat ini"><div style="display:flex; gap:10px;"><button class="btn-sm" style="background:#2ecc71;" onclick="saveUpdateSaldo()">Simpan</button><button class="btn-sm" onclick="closePopup()">Batal</button></div>`); }
+function updateSaldoGame() { showPopup(`<b>🔄 Update Saldo - ${currentGame.n}</b><br><br><div style="background:#1a1a3e; padding:10px; border-radius:12px; margin-bottom:10px;">Saldo saat ini: <b>${formatRupiah(saldoGlobal)}</b><br>Rupiah (50%): <b>${formatRupiahIDR(Math.floor(saldoGlobal * 0.5))}</b></div><input type="number" id="saldoInput" class="input-saldo" placeholder="Masukkan saldo koin saat ini"><div style="display:flex; gap:10px;"><button class="btn-sm" style="background:#2ecc71;" onclick="saveUpdateSaldo()">Simpan</button><button class="btn-sm" onclick="closePopup()">Batal</button></div>`); }
 function saveUpdateSaldo() { let baru = parseInt(document.getElementById("saldoInput").value); if (isNaN(baru)) { alert("Masukkan jumlah valid!"); return; } let lama = saldoGlobal, perubahan = baru - lama, gameData = getGameData(currentGame.n); gameData.history.unshift({ waktu: new Date().toLocaleString('id-ID'), saldoLama: lama, saldoBaru: baru, perubahan: perubahan }); if (gameData.history.length > 50) gameData.history.pop(); gameData.totalUpdate++; saveGameData(currentGame.n, gameData); saldoGlobal = baru; saveSaldo(); closePopup(); updatePanelDisplay(); renderGames(); if (perubahan > 0) showToast(`🎉 PROFIT +${formatRupiah(perubahan)}`, true); else if (perubahan < 0) showToast(`⚠️ LOSS ${formatRupiah(perubahan)}`, false); else showToast(`📊 Impas (0)`); }
 
-function updatePanelDisplay() { if (!currentGame) return; let totalProfit = getTotalProfitGame(currentGame.n); document.getElementById("panelGameName").innerHTML = `🎮 ${currentGame.n}`; document.getElementById("gameSaldoDisplay").innerHTML = formatRupiah(saldoGlobal); document.getElementById("panelAnalisa").innerHTML = totalProfit !== 0 ? (totalProfit > 0 ? `✅ Profit: ${formatRupiah(totalProfit)}` : `⚠️ Rugi: ${formatRupiah(totalProfit)}`) : `📊 Impas (0)`; let rekom = totalProfit > 0 ? "✅ LAYAK DIMAINKAN" : (totalProfit < -500000 ? "❌ TIDAK LAYAK" : (totalProfit < 0 ? "⚠️ WASPADA" : "📊 Belum ada profit")); let rekomClass = totalProfit > 0 ? "rekomendasi-layak" : (totalProfit < -500000 ? "rekomendasi-rugi" : (totalProfit < 0 ? "rekomendasi-waspada" : "")); let rekomEl = document.getElementById("panelRekomendasi"); rekomEl.innerHTML = rekom; rekomEl.className = "rekomendasi-box " + rekomClass; let gameData = getGameData(currentGame.n); if (gameData.history.length === 0) document.getElementById("panelHistory").innerHTML = '<div style="opacity:0.5; text-align:center;">Belum ada update</div>'; else { let html = ''; for (let h of gameData.history) { html += `<div class="history-item">📅 ${h.waktu}<br>💎 ${formatRupiah(h.saldoLama)} → ${formatRupiah(h.saldoBaru)}<br>Perubahan: <span class="${h.perubahan >= 0 ? 'profit-text' : 'loss-text'}">${h.perubahan >= 0 ? '+' : ''}${formatRupiah(h.perubahan)}</span></div>`; } document.getElementById("panelHistory").innerHTML = html; } }
+function updatePanelDisplay() { if (!currentGame) return; let totalProfit = getTotalProfitGame(currentGame.n); document.getElementById("panelGameName").innerHTML = `🎮 ${currentGame.n}`; document.getElementById("gameSaldoDisplay").innerHTML = formatRupiah(saldoGlobal); let rupiahValue = Math.floor(saldoGlobal * 0.5); document.getElementById("gameRupiahDisplay").innerHTML = formatRupiahIDR(rupiahValue); document.getElementById("panelAnalisa").innerHTML = totalProfit !== 0 ? (totalProfit > 0 ? `✅ Profit: ${formatRupiah(totalProfit)}` : `⚠️ Rugi: ${formatRupiah(totalProfit)}`) : `📊 Impas (0)`; let rekom = totalProfit > 0 ? "✅ LAYAK DIMAINKAN" : (totalProfit < -500000 ? "❌ TIDAK LAYAK" : (totalProfit < 0 ? "⚠️ WASPADA" : "📊 Belum ada profit")); let rekomClass = totalProfit > 0 ? "rekomendasi-layak" : (totalProfit < -500000 ? "rekomendasi-rugi" : (totalProfit < 0 ? "rekomendasi-waspada" : "")); let rekomEl = document.getElementById("panelRekomendasi"); rekomEl.innerHTML = rekom; rekomEl.className = "rekomendasi-box " + rekomClass; let gameData = getGameData(currentGame.n); if (gameData.history.length === 0) document.getElementById("panelHistory").innerHTML = '<div style="opacity:0.5; text-align:center;">Belum ada update</div>'; else { let html = ''; for (let h of gameData.history) { html += `<div class="history-item">📅 ${h.waktu}<br>💎 ${formatRupiah(h.saldoLama)} → ${formatRupiah(h.saldoBaru)}<br>Perubahan: <span class="${h.perubahan >= 0 ? 'profit-text' : 'loss-text'}">${h.perubahan >= 0 ? '+' : ''}${formatRupiah(h.perubahan)}</span><br>💰 Rupiah: ${formatRupiahIDR(Math.floor(h.saldoBaru * 0.5))}</div>`; } document.getElementById("panelHistory").innerHTML = html; } }
 
-function renderGames() { const container = document.getElementById("groupsContainer"); if (!container) return; container.innerHTML = ""; let groups = { biru:[], hijau:[], oranye:[], ungu:[], hitam:[] }; for (let g of GAMES) groups[g.g].push(g); let groupNames = { biru:"💙 POLA 1", hijau:"💚 POLA 2", oranye:"🧡 POLA 3", ungu:"💜 POLA 4", hitam:"🖤 POLA 5" }; let globalIdx = 0; for (let [key, gameList] of Object.entries(groups)) { if (gameList.length === 0) continue; let groupDiv = document.createElement("div"); groupDiv.className = `group group-${key}`; groupDiv.innerHTML = `<div class="group-title">${groupNames[key]} <span style="font-size:10px; background:rgba(0,0,0,0.4); padding:2px 8px; border-radius:20px;">${gameList.length} game</span></div>`; let grid = document.createElement("div"); grid.className = "game-grid"; for (let game of gameList) { let count = clicks[selected]?.[globalIdx] || 0; let totalProfit = getTotalProfitGame(game.n); let statusText = "", statusClass = "", profitText = ""; if (totalProfit !== 0) { if (totalProfit > 0) { statusText = "✅ LAYAK"; statusClass = "status-layak"; profitText = `+${formatRupiah(totalProfit)}`; } else if (totalProfit < -500000) { statusText = "❌ RUGI"; statusClass = "status-rugi"; profitText = `${formatRupiah(totalProfit)}`; } else if (totalProfit < 0) { statusText = "⚠️ WASPADA"; statusClass = "status-waspada"; profitText = `${formatRupiah(totalProfit)}`; } } let card = document.createElement("div"); card.className = "game-card"; card.innerHTML = `<div class="game-img"><img src="${game.img}" onerror="this.src='https://via.placeholder.com/70?text=No'"><div class="counter">${count}</div></div><div class="game-name">${game.n}</div>${statusText ? `<div class="status-badge ${statusClass}">${statusText}</div>` : ''}${profitText ? `<div class="profit-card ${totalProfit > 0 ? 'profit-plus' : 'profit-minus'}">${profitText}</div>` : ''}`; card.onclick = (function(g, idx) { return function() { if (!clicks[selected]) clicks[selected] = {}; clicks[selected][idx] = (clicks[selected][idx] || 0) + 1; localStorage.setItem(`clicks_${selected}`, JSON.stringify(clicks[selected])); renderGames(); currentGame = g; let sep = g.u.includes("?") ? "&" : "?"; let authStr = getAuthString(selected); document.getElementById("gameTitle").innerHTML = `🎮 ${g.n}`; document.getElementById("gameFrame").src = g.u + sep + authStr + "&lang=en"; document.getElementById("gameContainer").classList.add("active"); updatePanelDisplay(); }; })(game, globalIdx); grid.appendChild(card); globalIdx++; } groupDiv.appendChild(grid); container.appendChild(groupDiv); } }
+function renderGames() { 
+    const container = document.getElementById("groupsContainer"); 
+    if (!container) return; 
+    container.innerHTML = ""; 
+    let groups = { biru:[], hijau:[], oranye:[], ungu:[], hitam:[] }; 
+    for (let g of GAMES) groups[g.g].push(g); 
+    let groupNames = { biru:"💙 POLA 1", hijau:"💚 POLA 2", oranye:"🧡 POLA 3", ungu:"💜 POLA 4", hitam:"🖤 POLA 5" }; 
+    for (let [key, gameList] of Object.entries(groups)) { 
+        if (gameList.length === 0) continue; 
+        let groupDiv = document.createElement("div"); 
+        groupDiv.className = `group group-${key}`; 
+        groupDiv.innerHTML = `<div class="group-title">${groupNames[key]} <span style="font-size:10px; background:rgba(0,0,0,0.4); padding:2px 8px; border-radius:20px;">${gameList.length} game</span></div>`; 
+        let grid = document.createElement("div"); 
+        grid.className = "game-grid"; 
+        for (let game of gameList) { 
+            // ✅ Gunakan nama game sebagai key, bukan indeks
+            let count = clicks[selected]?.[game.n] || 0; 
+            let totalProfit = getTotalProfitGame(game.n); 
+            let statusText = "", statusClass = "", profitText = ""; 
+            if (totalProfit !== 0) { 
+                if (totalProfit > 0) { 
+                    statusText = "✅ LAYAK"; 
+                    statusClass = "status-layak"; 
+                    profitText = `+${formatRupiah(totalProfit)}`; 
+                } else if (totalProfit < -500000) { 
+                    statusText = "❌ RUGI"; 
+                    statusClass = "status-rugi"; 
+                    profitText = `${formatRupiah(totalProfit)}`; 
+                } else if (totalProfit < 0) { 
+                    statusText = "⚠️ WASPADA"; 
+                    statusClass = "status-waspada"; 
+                    profitText = `${formatRupiah(totalProfit)}`; 
+                } 
+            } 
+            let card = document.createElement("div");
+            card.className = "game-card" + (game.moneyjar ? " moneyjar" : "");
+            let stickerHtml = game.moneyjar ? `<div class="moneyjar-sticker">💰Money Jar</div>` : "";
+            card.innerHTML = `<div class="game-img">${stickerHtml}<img src="${game.img}" onerror="this.src='https://via.placeholder.com/70?text=No'"><div class="counter">${count}</div></div><div class="game-name">${game.n}</div>${statusText ? `<div class="status-badge ${statusClass}">${statusText}</div>` : ''}${profitText ? `<div class="profit-card ${totalProfit > 0 ? 'profit-plus' : 'profit-minus'}">${profitText}</div>` : ''}`; 
+            card.onclick = (function(g) { 
+                return function() { 
+                    if (!clicks[selected]) clicks[selected] = {}; 
+                    // ✅ Simpan berdasarkan NAMA GAME
+                    clicks[selected][g.n] = (clicks[selected][g.n] || 0) + 1; 
+                    localStorage.setItem(`clicks_${selected}`, JSON.stringify(clicks[selected])); 
+                    renderGames(); 
+                    currentGame = g; 
+                    let sep = g.u.includes("?") ? "&" : "?"; 
+                    let authStr = getAuthString(selected); 
+                    document.getElementById("gameTitle").innerHTML = `🎮 ${g.n}`; 
+                    document.getElementById("gameFrame").src = g.u + sep + authStr + "&lang=en"; 
+                    document.getElementById("gameContainer").classList.add("active"); 
+                    updatePanelDisplay(); 
+                }; 
+            })(game); 
+            grid.appendChild(card); 
+        } 
+        groupDiv.appendChild(grid); 
+        container.appendChild(groupDiv); 
+    } 
+}
 
 function toggleUpdatePanel() { document.getElementById("updatePanel").classList.toggle("show"); updatePanelDisplay(); }
 function closeUpdatePanel() { document.getElementById("updatePanel").classList.remove("show"); }
@@ -557,7 +673,8 @@ function closeGame() { document.getElementById("gameContainer").classList.remove
 function showGlobalStats() {
     let gameStats = [];
     for (let i=0; i<GAMES.length; i++) {
-        let c = clicks[selected]?.[i] || 0;
+        // ✅ Gunakan nama game sebagai key
+        let c = clicks[selected]?.[GAMES[i].n] || 0;
         let profit = getTotalProfitGame(GAMES[i].n);
         if (c > 0 || profit !== 0) {
             gameStats.push({ name: GAMES[i].n, count: c, profit: profit });
@@ -565,7 +682,9 @@ function showGlobalStats() {
     }
     gameStats.sort((a,b) => b.count - a.count);
     let totalTopUp = topUpHistory.reduce((a,b) => a + b.nominal, 0);
-    let html = `<div class="stats-card"><div class="stats-title">📊 ${NAMA[selected]}</div><div class="stats-grid"><div class="stats-item"><div class="stats-icon">💰</div><div class="stats-label">Saldo</div><div class="stats-value">${formatRupiah(saldoGlobal)}</div></div><div class="stats-item"><div class="stats-icon">💎</div><div class="stats-label">Total Top Up</div><div class="stats-value">${formatRupiah(totalTopUp)}</div></div><div class="stats-item"><div class="stats-icon">🏆</div><div class="stats-label">Profit/Loss</div><div class="stats-value ${saldoGlobal - totalTopUp >= 0 ? 'plus' : 'minus'}">${saldoGlobal - totalTopUp >= 0 ? '+' : ''}${formatRupiah(saldoGlobal - totalTopUp)}</div></div><div class="stats-item"><div class="stats-icon">🎮</div><div class="stats-label">Game Dimainkan</div><div class="stats-value">${gameStats.length}</div></div></div></div><div class="stats-card"><div class="stats-title">🎯 DETAIL GAME</div><div class="game-list">${gameStats.length === 0 ? '<div style="text-align:center; opacity:0.5; padding:20px;">Belum ada data game</div>' : gameStats.map(g => `<div class="game-item"><div><span class="game-name">${g.name}</span><span class="badge-click">${g.count} klik</span></div><div class="game-stats"><span class="game-profit ${g.profit > 0 ? 'plus' : (g.profit < 0 ? 'minus' : '')}">${g.profit > 0 ? '+' : ''}${formatRupiah(g.profit)}</span></div></div>`).join('')}</div></div><button class="close-stats" onclick="closePopup()">Tutup</button>`;
+    let rupiahNow = Math.floor(saldoGlobal * 0.5);
+    let profitLossRupiah = Math.floor((saldoGlobal - totalTopUp) * 0.5);
+    let html = `<div class="stats-card"><div class="stats-title">📊 ${NAMA[selected]}</div><div class="stats-grid"><div class="stats-item"><div class="stats-icon">💰</div><div class="stats-label">Saldo Koin</div><div class="stats-value">${formatRupiah(saldoGlobal)}</div></div><div class="stats-item"><div class="stats-icon">💵</div><div class="stats-label">Saldo Rupiah (50%)</div><div class="stats-value">${formatRupiahIDR(rupiahNow)}</div></div><div class="stats-item"><div class="stats-icon">💎</div><div class="stats-label">Total Top Up</div><div class="stats-value">${formatRupiah(totalTopUp)}</div></div><div class="stats-item"><div class="stats-icon">🏆</div><div class="stats-label">Profit/Loss Koin</div><div class="stats-value ${saldoGlobal - totalTopUp >= 0 ? 'plus' : 'minus'}">${saldoGlobal - totalTopUp >= 0 ? '+' : ''}${formatRupiah(saldoGlobal - totalTopUp)}</div></div><div class="stats-item"><div class="stats-icon">💵</div><div class="stats-label">Profit/Loss Rupiah</div><div class="stats-value ${profitLossRupiah >= 0 ? 'plus' : 'minus'}">${profitLossRupiah >= 0 ? '+' : ''}${formatRupiahIDR(profitLossRupiah)}</div></div><div class="stats-item"><div class="stats-icon">🎮</div><div class="stats-label">Game Dimainkan</div><div class="stats-value">${gameStats.length}</div></div></div></div><div class="stats-card"><div class="stats-title">🎯 DETAIL GAME</div><div class="game-list">${gameStats.length === 0 ? '<div style="text-align:center; opacity:0.5; padding:20px;">Belum ada data game</div>' : gameStats.map(g => `<div class="game-item"><div><span class="game-name">${g.name}</span><span class="badge-click">${g.count} klik</span></div><div class="game-stats"><span class="game-profit ${g.profit > 0 ? 'plus' : (g.profit < 0 ? 'minus' : '')}">${g.profit > 0 ? '+' : ''}${formatRupiah(g.profit)}</span></div></div>`).join('')}</div></div><button class="close-stats" onclick="closePopup()">Tutup</button>`;
     showPopup(html);
 }
 
@@ -683,12 +802,8 @@ function logout() {
 function showPopup(html) { document.getElementById("popup").innerHTML = html; document.getElementById("popup").classList.add("active"); document.getElementById("popupBg").classList.add("active"); }
 function closePopup() { document.getElementById("popup").classList.remove("active"); document.getElementById("popupBg").classList.remove("active"); }
 
-// PROSES INIT: TIDAK PERNAH LANGSUNG MASUK KE DASHBOARD
-// Login screen selalu tampil pertama kali, meskipun ada account di localStorage
+// PROSES INIT: Login screen selalu tampil pertama kali
 function init() {
-    // Hapus semua auto-login - selalu tampilkan login screen
-    // JANGAN ambil account dari localStorage untuk auto login
-    
     // Pastikan login screen tampil, dashboard tersembunyi
     document.getElementById("loginScreen").style.display = "flex";
     document.getElementById("dashboard").classList.remove("active");
