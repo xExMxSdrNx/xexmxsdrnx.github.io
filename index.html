@@ -20,7 +20,6 @@
             color: white;
         }
 
-        /* LOGIN SCREEN - ELEGAN */
         .login-screen {
             min-height: 100vh;
             display: flex;
@@ -48,7 +47,6 @@
         }
         .login-card p { opacity: 0.6; font-size: 12px; margin: 8px 0 24px; }
         
-        /* ACCOUNT CARDS - ELEGAN */
         .account-list {
             display: flex;
             flex-direction: column;
@@ -85,7 +83,6 @@
         .account-desc { font-size: 10px; opacity: 0.6; margin-top: 2px; }
         .account-arrow { font-size: 20px; opacity: 0.5; }
 
-        /* DASHBOARD */
         .dashboard { display: none; }
         .dashboard.active { display: block; }
 
@@ -134,10 +131,10 @@
             box-shadow: 0 2px 8px rgba(243,156,18,0.3);
         }
         .rupiah-header span:first-child {
-            font-size: 12px;
+            font-size: 11px;
         }
         .rupiah-header span:last-child {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
         }
         .topup-btn { background: rgba(0,0,0,0.25); padding: 4px 10px; border-radius: 30px; font-size: 11px; }
@@ -155,7 +152,6 @@
         }
         .btn-sm:active { background: #f39c12; color: #0f0c29; transform: scale(0.95); }
 
-        /* GAME GRID */
         .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
         .game-card {
             background: rgba(25, 32, 55, 0.7);
@@ -191,7 +187,7 @@
             left: 50%;
             transform: translateX(-50%);
             font-size: 9px;
-            padding: 3px 10px;
+            padding: 3px 8px;
             border-radius: 20px;
             white-space: nowrap;
             font-weight: 600;
@@ -199,7 +195,7 @@
         }
         .status-layak { background: #2ecc71; color: #fff; }
         .status-rugi { background: #e74c3c; color: #fff; }
-        .status-waspada { background: #f39c12; color: #000; }
+        .status-waspada { background: #f39c12; color: #000; font-size: 8px; }
         .profit-card { font-size: 9px; margin-top: 20px; font-weight: 600; }
         .profit-plus { color: #2ecc71; }
         .profit-minus { color: #e74c3c; }
@@ -211,7 +207,6 @@
         .group-ungu { border-left-color: #a855f7; }
         .group-hitam { border-left-color: #6b7280; }
 
-        /* GAME CONTAINER */
         .game-container {
             position: fixed;
             top: 0;
@@ -317,14 +312,14 @@
         .stats-item { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 10px; text-align: center; }
         .stats-icon { font-size: 24px; margin-bottom: 4px; }
         .stats-label { font-size: 10px; opacity: 0.6; margin-bottom: 4px; }
-        .stats-value { font-size: 14px; font-weight: bold; }
+        .stats-value { font-size: 13px; font-weight: bold; }
         .stats-value.plus { color: #2ecc71; }
         .stats-value.minus { color: #e74c3c; }
         .game-list { max-height: 300px; overflow-y: auto; text-align: left; margin-top: 12px; }
         .game-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(255,255,255,0.03); border-radius: 12px; margin-bottom: 8px; }
-        .game-name { font-size: 12px; font-weight: 500; }
-        .badge-click { background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 20px; font-size: 9px; margin-left: 8px; }
-        .game-profit { font-weight: bold; font-size: 12px; }
+        .game-name { font-size: 11px; font-weight: 500; }
+        .badge-click { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 20px; font-size: 9px; margin-left: 8px; }
+        .game-profit { font-weight: bold; font-size: 11px; }
         .game-profit.plus { color: #2ecc71; }
         .game-profit.minus { color: #e74c3c; }
         .close-stats { 
@@ -351,12 +346,10 @@
         .token-input { background: rgba(255,255,255,0.1); border: 1px solid #f39c12; padding: 10px; border-radius: 12px; width: 100%; margin: 8px 0; color: white; font-size: 12px; text-align: center; }
         .info-text { font-size: 11px; opacity: 0.6; margin-bottom: 8px; }
     
-        /* MONEY JAR STYLE */
         .game-card.moneyjar .game-img img {
             border: 2px solid #ffd700;
             box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
         }
-
         .moneyjar-sticker {
             position: absolute;
             bottom: -4px;
@@ -370,11 +363,20 @@
             z-index: 5;
             white-space: nowrap;
         }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(243,156,18,0.6); }
+        }
+        .assistant-pulse { animation: pulse 1s ease; }
     </style>
 </head>
 <body>
 
-<!-- LAYAR LOGIN -->
 <div class="login-screen" id="loginScreen">
     <div class="login-card">
         <div class="login-icon">🎰</div>
@@ -383,23 +385,17 @@
         <div class="account-list">
             <div class="account-card" onclick="login('sn')">
                 <div class="account-avatar">🎮</div>
-                <div class="account-info">
-                    <div class="account-name">181088 SN</div>
-                </div>
+                <div class="account-info"><div class="account-name">181088 SN</div></div>
                 <div class="account-arrow">→</div>
             </div>
             <div class="account-card" onclick="login('sodron')">
                 <div class="account-avatar">🎮</div>
-                <div class="account-info">
-                    <div class="account-name">163129 SodroN</div>
-                </div>
+                <div class="account-info"><div class="account-name">163129 SodroN</div></div>
                 <div class="account-arrow">→</div>
             </div>
             <div class="account-card" onclick="login('exm')">
                 <div class="account-avatar">🎮</div>
-                <div class="account-info">
-                    <div class="account-name">169999 ExM</div>
-                </div>
+                <div class="account-info"><div class="account-name">169999 ExM</div></div>
                 <div class="account-arrow">→</div>
             </div>
         </div>
@@ -414,7 +410,7 @@
             <span class="topup-btn" onclick="event.stopPropagation(); showTopUpMenu()">+ Top Up</span>
         </div>
         <div class="rupiah-header">
-            <span>💵 WD Value (50%):</span>
+            <span>💰 WD (50%):</span>
             <span id="rupiahHeaderValue">0</span>
         </div>
         <div class="btn-group">
@@ -440,7 +436,6 @@
         <div class="panel-title">⚡ ANALYZER & UPDATE</div>
         <div class="game-info" id="panelGameName">🎮 Memuat...</div>
         <div class="saldo-panel"><div style="font-size:12px; opacity:0.7;">💰 SALDO KOIN</div><div class="saldo-large" id="gameSaldoDisplay">0</div></div>
-        <div class="saldo-panel" style="background: rgba(243,156,18,0.15); border-color: rgba(243,156,18,0.3);"><div style="font-size:12px; opacity:0.7;">💵 NILAI WITHDRAW (50%)</div><div class="saldo-large" id="gameRupiahDisplay">0</div></div>
         <button class="btn-update" onclick="updateSaldoGame()">🔄 Update Saldo</button>
         <div class="analisa-section"><div style="font-size:12px; margin-bottom:8px; opacity:0.7;">📈 ANALISA</div><div class="analisa-text" id="panelAnalisa">-</div><div class="rekomendasi-box" id="panelRekomendasi">-</div></div>
         <div class="history-section"><div style="font-size:12px; margin-bottom:10px; opacity:0.7;">📝 RIWAYAT UPDATE</div><div id="panelHistory">-</div></div>
@@ -451,22 +446,44 @@
 <div class="popup-bg" id="popupBg" onclick="closePopup()"></div>
 <div class="popup" id="popup"></div>
 
+<!-- ASISTEN CERDAS -->
+<div id="smartAssistant" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
+    <div id="assistantAvatar" style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #f39c12, #e67e22); cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; transition: all 0.3s; border: 2px solid rgba(255,255,255,0.3);">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjBJ-hSe8m2-lp3_5-KoR0abh3VkkLC7u64XxRJfSaonq41nPymiKz6TdB&s=10" style="width: 55px; height: 55px; border-radius: 50%; object-fit: cover;">
+    </div>
+    <div id="assistantChat" style="position: absolute; bottom: 70px; right: 0; width: 320px; background: rgba(15, 25, 45, 0.98); backdrop-filter: blur(20px); border-radius: 24px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 10px 40px rgba(0,0,0,0.4); display: none; flex-direction: column; overflow: hidden;">
+        <div style="padding: 12px 16px; background: linear-gradient(135deg, #f39c12, #e67e22); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: bold; color: #0f0c29;">🤖 Asisten Cerdas Xoon</span>
+            <button id="closeAssistant" style="background: none; border: none; color: #0f0c29; font-size: 20px; cursor: pointer;">&times;</button>
+        </div>
+        <div id="assistantMessages" style="height: 350px; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+            <div style="background: rgba(255,255,255,0.1); border-radius: 16px; padding: 8px 12px; max-width: 85%; align-self: flex-start;">
+                <span style="font-size: 12px;">👋 Halo! Saya Asisten Cerdas Xoon. Saya akan memantau permainan Anda! Klik game untuk mulai!</span>
+            </div>
+        </div>
+        <div id="assistantStats" style="padding: 10px 12px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 11px; background: rgba(0,0,0,0.3);">
+            <div style="display: flex; justify-content: space-between;">
+                <span>📊 Status:</span>
+                <span id="assistantGameStatus">Belum ada game</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="assistantNotification" style="position: fixed; bottom: 100px; right: 80px; background: linear-gradient(135deg, #1a1a3e, #0f0c29); border-left: 4px solid #f39c12; padding: 12px 16px; border-radius: 16px; z-index: 9998; display: none; max-width: 280px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); backdrop-filter: blur(10px); animation: slideInRight 0.3s ease;">
+    <div style="display: flex; gap: 10px; align-items: center;">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjBJ-hSe8m2-lp3_5-KoR0abh3VkkLC7u64XxRJfSaonq41nPymiKz6TdB&s=10" style="width: 32px; height: 32px; border-radius: 50%;">
+        <div>
+            <div id="notificationTitle" style="font-weight: bold; font-size: 12px;">Asisten Cerdas</div>
+            <div id="notificationMessage" style="font-size: 11px; opacity: 0.9;"></div>
+        </div>
+    </div>
+</div>
+
 <script>
-// DEFAULT AUTH TOKENS
-const DEFAULT_TOKENS = {
-    sn: 'TOKEN-SN',
-    sodron: 'TOKEN-SODRON',
-    exm: 'TOKEN-EXM'
-};
+const DEFAULT_TOKENS = { sn: 'TOKEN-SN', sodron: 'TOKEN-SODRON', exm: 'TOKEN-EXM' };
+const UID_NICK = { sn: { uid: '1761775490951002938', nick: '-S.N-' }, sodron: { uid: '1756457056973000156', nick: 'SodLoN' }, exm: { uid: '1758377110961000927', nick: 'ExM' } };
 
-// UID dan nickname default
-const UID_NICK = {
-    sn: { uid: '1761775490951002938', nick: '-S.N-' },
-    sodron: { uid: '1756457056973000156', nick: 'SodLoN' },
-    exm: { uid: '1758377110961000927', nick: 'ExM' }
-};
-
-// Load custom tokens dari localStorage
 let customTokens = {
     sn: localStorage.getItem('token_sn') || DEFAULT_TOKENS.sn,
     sodron: localStorage.getItem('token_sodron') || DEFAULT_TOKENS.sodron,
@@ -487,32 +504,18 @@ function saveToken(acc, token) {
 }
 
 function showTokenMenu() {
-    let html = `
-        <b>🔑 Update Token - ${NAMA[selected]}</b><br><br>
-        <input type="text" id="newToken" class="token-input" placeholder="Masukkan token baru">
-        <div style="display:flex; gap:10px; margin-top:12px;">
-            <button class="btn-sm" style="background:#2ecc71;" onclick="updateToken()">💾 Simpan</button>
-            <button class="btn-sm" onclick="resetToken()">↺ Reset Default</button>
-            <button class="btn-sm" onclick="closePopup()">Batal</button>
-        </div>
-    `;
+    let html = `<b>🔑 Update Token - ${NAMA[selected]}</b><br><br><input type="text" id="newToken" class="token-input" placeholder="Masukkan token baru"><div style="display:flex; gap:10px; margin-top:12px;"><button class="btn-sm" style="background:#2ecc71;" onclick="updateToken()">💾 Simpan</button><button class="btn-sm" onclick="resetToken()">↺ Reset Default</button><button class="btn-sm" onclick="closePopup()">Batal</button></div>`;
     showPopup(html);
 }
 
 function updateToken() {
     let newToken = document.getElementById("newToken")?.value.trim();
-    if (!newToken) {
-        alert("Token tidak boleh kosong!");
-        return;
-    }
+    if (!newToken) { alert("Token tidak boleh kosong!"); return; }
     saveToken(selected, newToken);
     closePopup();
 }
 
-function resetToken() {
-    saveToken(selected, DEFAULT_TOKENS[selected]);
-    closePopup();
-}
+function resetToken() { saveToken(selected, DEFAULT_TOKENS[selected]); closePopup(); }
 
 const NAMA = { sn:"181088 SN", sodron:"163129 SodroN", exm:"169999 ExM" };
 const AVATAR_IMG = {
@@ -520,6 +523,7 @@ const AVATAR_IMG = {
     sodron: "https://file.xoon.live/release/1e94da51-86fd-4508-8e81-2bf7d6549e7d.png",
     exm: "https://file.xoon.live/release/1c542bab-4585-41bd-a795-d4d598f165ba",
 };
+
 const GAMES = [
     { n:"Jackpot Slot", img:"https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/773670/capsule_616x353.jpg?t=1702294961", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/21?", g:"biru" },
     { n:"DJ Live", img:"https://i.ytimg.com/vi/Kdt_j97lV3E/maxresdefault.jpg", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/24?", g:"biru" },
@@ -579,30 +583,14 @@ const GAMES = [
 
 let selected = null, clicks = {}, currentGame = null, saldoGlobal = 0, topUpHistory = [];
 
-function loadData() { 
-    if (!selected) return; 
-    saldoGlobal = parseInt(localStorage.getItem(`saldoGlobal_${selected}`)) || 0; 
-    topUpHistory = JSON.parse(localStorage.getItem(`topup_${selected}`) || "[]"); 
-    clicks = JSON.parse(localStorage.getItem(`clicks_${selected}`) || "{}"); 
-    updateSaldoDisplay(); 
-}
-function saveSaldo() { 
-    localStorage.setItem(`saldoGlobal_${selected}`, saldoGlobal); 
-    updateSaldoDisplay(); 
-}
+function loadData() { if (!selected) return; saldoGlobal = parseInt(localStorage.getItem(`saldoGlobal_${selected}`)) || 0; topUpHistory = JSON.parse(localStorage.getItem(`topup_${selected}`) || "[]"); clicks = JSON.parse(localStorage.getItem(`clicks_${selected}`) || "{}"); updateSaldoDisplay(); }
+function saveSaldo() { localStorage.setItem(`saldoGlobal_${selected}`, saldoGlobal); updateSaldoDisplay(); }
 function updateSaldoDisplay() { 
-    let header = document.getElementById("saldoHeaderValue"); 
-    if (header) header.innerHTML = formatRupiah(saldoGlobal); 
-    let game = document.getElementById("gameSaldoDisplay"); 
-    if (game) game.innerHTML = formatRupiah(saldoGlobal);
-    
-    // Hitung nilai withdraw (50% dari koin)
+    let header = document.getElementById("saldoHeaderValue"); if (header) header.innerHTML = formatRupiah(saldoGlobal); 
+    let game = document.getElementById("gameSaldoDisplay"); if (game) game.innerHTML = formatRupiah(saldoGlobal);
     let withdrawValue = Math.floor(saldoGlobal * 0.5);
     let rupiahHeader = document.getElementById("rupiahHeaderValue");
     if (rupiahHeader) rupiahHeader.innerHTML = formatRupiahIDR(withdrawValue);
-    
-    let rupiahGame = document.getElementById("gameRupiahDisplay");
-    if (rupiahGame) rupiahGame.innerHTML = formatRupiahIDR(withdrawValue);
 }
 function formatRupiah(angka) { if (angka === null || isNaN(angka)) return "0"; return "💎 " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
 function formatRupiahIDR(angka) { if (angka === null || isNaN(angka)) return "0"; return "Rp " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
@@ -617,30 +605,23 @@ function showTopUpMenu() {
 function saveTopUp() { 
     let a = parseInt(document.getElementById("topupAmount").value); 
     if (isNaN(a) || a <= 0) { alert("Masukkan nominal valid!"); return; } 
-    topUpHistory.unshift({ id: Date.now(), tanggal: new Date().toLocaleDateString('id-ID'), waktu: new Date().toLocaleTimeString('id-ID'), nominal: a, rupiah: a }); 
+    topUpHistory.unshift({ id: Date.now(), tanggal: new Date().toLocaleDateString('id-ID'), waktu: new Date().toLocaleTimeString('id-ID'), nominal: a }); 
     if (topUpHistory.length > 50) topUpHistory.pop(); 
     localStorage.setItem(`topup_${selected}`, JSON.stringify(topUpHistory)); 
     saldoGlobal += a; 
     saveSaldo(); 
     closePopup(); 
-    showToast(`💎 Top up ${formatRupiah(a)} (Rp ${formatRupiahIDR(a)}) berhasil!`, true); 
+    showToast(`💎 Top up ${formatRupiah(a)} berhasil!`, true); 
     renderGames(); 
     if (currentGame) updatePanelDisplay(); 
+    if (window.Assistant) Assistant.addMessage(`💰 Top up ${formatRupiah(a)} (Rp ${formatRupiahIDR(a)})`, 'info');
 }
 function showTopUpHistory() { 
     let totalKoin = topUpHistory.reduce((a,b) => a + b.nominal, 0); 
-    let totalRupiah = totalKoin;
-    let html = `<b>💳 RIWAYAT TOP UP</b><br><br><div style="background:#1a1a3e; padding:10px; border-radius:12px;">Total Top Up: <b style="color:#2ecc71;">${formatRupiah(totalKoin)} (Rp ${formatRupiahIDR(totalRupiah)})</b></div>`; 
+    let html = `<b>💳 RIWAYAT TOP UP</b><br><br><div style="background:#1a1a3e; padding:10px; border-radius:12px;">Total Top Up: <b style="color:#2ecc71;">${formatRupiah(totalKoin)}</b></div>`; 
     if (topUpHistory.length === 0) html += `<div style="text-align:center; opacity:0.6; margin-top:12px;">Belum ada top up</div>`; 
-    else { 
-        html += `<div style="margin-top:12px; max-height:300px; overflow-y:auto;">`; 
-        topUpHistory.forEach(t => { 
-            html += `<div style="padding:8px; border-bottom:1px solid rgba(255,255,255,0.1);">📅 ${t.tanggal} ${t.waktu}<br>💎 ${formatRupiah(t.nominal)} = Rp ${formatRupiahIDR(t.rupiah)}</div>`; 
-        }); 
-        html += `</div>`; 
-    } 
-    html += `<br><button class="btn-sm" onclick="closePopup()">Tutup</button>`; 
-    showPopup(html); 
+    else { html += `<div style="margin-top:12px; max-height:300px; overflow-y:auto;">`; topUpHistory.forEach(t => { html += `<div style="padding:8px; border-bottom:1px solid rgba(255,255,255,0.1);">📅 ${t.tanggal} ${t.waktu}<br>💎 ${formatRupiah(t.nominal)}</div>`; }); html += `</div>`; } 
+    html += `<br><button class="btn-sm" onclick="closePopup()">Tutup</button>`; showPopup(html); 
 }
 
 function updateSaldoGame() { 
@@ -661,6 +642,7 @@ function saveUpdateSaldo() {
     closePopup(); 
     updatePanelDisplay(); 
     renderGames(); 
+    if (window.Assistant) Assistant.updateGameProfit(currentGame.n, lama, baru, perubahan);
     let profitRupiah = Math.floor(perubahan * 0.5);
     if (perubahan > 0) showToast(`🎉 PROFIT +${formatRupiah(perubahan)} (≈ Rp ${formatRupiahIDR(profitRupiah)})`, true); 
     else if (perubahan < 0) showToast(`⚠️ LOSS ${formatRupiah(perubahan)} (≈ Rp ${formatRupiahIDR(Math.abs(profitRupiah))})`, false); 
@@ -672,9 +654,7 @@ function updatePanelDisplay() {
     let totalProfit = getTotalProfitGame(currentGame.n); 
     document.getElementById("panelGameName").innerHTML = `🎮 ${currentGame.n}`; 
     document.getElementById("gameSaldoDisplay").innerHTML = formatRupiah(saldoGlobal); 
-    let withdrawValue = Math.floor(saldoGlobal * 0.5); 
-    document.getElementById("gameRupiahDisplay").innerHTML = formatRupiahIDR(withdrawValue); 
-    document.getElementById("panelAnalisa").innerHTML = totalProfit !== 0 ? (totalProfit > 0 ? `✅ Profit Koin: ${formatRupiah(totalProfit)} (≈ Rp ${formatRupiahIDR(Math.floor(totalProfit * 0.5))})` : `⚠️ Rugi Koin: ${formatRupiah(totalProfit)} (≈ Rp ${formatRupiahIDR(Math.floor(Math.abs(totalProfit) * 0.5))})`) : `📊 Impas (0)`; 
+    document.getElementById("panelAnalisa").innerHTML = totalProfit !== 0 ? (totalProfit > 0 ? `✅ Profit: ${formatRupiah(totalProfit)}` : `⚠️ Rugi: ${formatRupiah(totalProfit)}`) : `📊 Impas (0)`; 
     let rekom = totalProfit > 0 ? "✅ LAYAK DIMAINKAN" : (totalProfit < -500000 ? "❌ TIDAK LAYAK" : (totalProfit < 0 ? "⚠️ WASPADA" : "📊 Belum ada profit")); 
     let rekomClass = totalProfit > 0 ? "rekomendasi-layak" : (totalProfit < -500000 ? "rekomendasi-rugi" : (totalProfit < 0 ? "rekomendasi-waspada" : "")); 
     let rekomEl = document.getElementById("panelRekomendasi"); 
@@ -685,8 +665,7 @@ function updatePanelDisplay() {
     else { 
         let html = ''; 
         for (let h of gameData.history) { 
-            let profitRupiah = Math.floor(h.perubahan * 0.5);
-            html += `<div class="history-item">📅 ${h.waktu}<br>💎 ${formatRupiah(h.saldoLama)} → ${formatRupiah(h.saldoBaru)}<br>Perubahan: <span class="${h.perubahan >= 0 ? 'profit-text' : 'loss-text'}">${h.perubahan >= 0 ? '+' : ''}${formatRupiah(h.perubahan)}</span><br>💰 Nilai withdraw: ${formatRupiahIDR(Math.floor(h.saldoBaru * 0.5))} ${h.perubahan !== 0 ? `(${h.perubahan > 0 ? '+' : ''}${formatRupiahIDR(profitRupiah)} withdraw value)` : ''}</div>`; 
+            html += `<div class="history-item">📅 ${h.waktu}<br>💎 ${formatRupiah(h.saldoLama)} → ${formatRupiah(h.saldoBaru)}<br>Perubahan: <span class="${h.perubahan >= 0 ? 'profit-text' : 'loss-text'}">${h.perubahan >= 0 ? '+' : ''}${formatRupiah(h.perubahan)}</span></div>`; 
         } 
         document.getElementById("panelHistory").innerHTML = html; 
     } 
@@ -711,19 +690,9 @@ function renderGames() {
             let totalProfit = getTotalProfitGame(game.n); 
             let statusText = "", statusClass = "", profitText = ""; 
             if (totalProfit !== 0) { 
-                if (totalProfit > 0) { 
-                    statusText = "✅ LAYAK"; 
-                    statusClass = "status-layak"; 
-                    profitText = `+${formatRupiah(totalProfit)}`; 
-                } else if (totalProfit < -500000) { 
-                    statusText = "❌ RUGI"; 
-                    statusClass = "status-rugi"; 
-                    profitText = `${formatRupiah(totalProfit)}`; 
-                } else if (totalProfit < 0) { 
-                    statusText = "⚠️ WASPADA"; 
-                    statusClass = "status-waspada"; 
-                    profitText = `${formatRupiah(totalProfit)}`; 
-                } 
+                if (totalProfit > 0) { statusText = "✅ LAYAK"; statusClass = "status-layak"; profitText = `+${formatRupiah(totalProfit)}`; } 
+                else if (totalProfit < -500000) { statusText = "❌ RUGI"; statusClass = "status-rugi"; profitText = `${formatRupiah(totalProfit)}`; } 
+                else if (totalProfit < 0) { statusText = "⚠️ WASPADA"; statusClass = "status-waspada"; profitText = `${formatRupiah(totalProfit)}`; } 
             } 
             let card = document.createElement("div");
             card.className = "game-card" + (game.moneyjar ? " moneyjar" : "");
@@ -733,6 +702,11 @@ function renderGames() {
                 return function() { 
                     clicks[g.n] = (clicks[g.n] || 0) + 1; 
                     localStorage.setItem(`clicks_${selected}`, JSON.stringify(clicks)); 
+                    if (window.Assistant) {
+                        if (!Assistant.gameSessions[g.n] || Assistant.gameSessions[g.n].ended) { Assistant.startGameSession(g.n); }
+                        else { Assistant.currentSessionId = g.n; Assistant.addMessage(`🔄 Kembali bermain **${g.n}**`, 'info'); }
+                        Assistant.updateClickCount(g.n);
+                    }
                     renderGames(); 
                     currentGame = g; 
                     let sep = g.u.includes("?") ? "&" : "?"; 
@@ -741,6 +715,7 @@ function renderGames() {
                     document.getElementById("gameFrame").src = g.u + sep + authStr + "&lang=en"; 
                     document.getElementById("gameContainer").classList.add("active"); 
                     updatePanelDisplay(); 
+                    if (window.Assistant) Assistant.updateStatusDisplay();
                 }; 
             })(game); 
             grid.appendChild(card); 
@@ -752,52 +727,39 @@ function renderGames() {
 
 function toggleUpdatePanel() { document.getElementById("updatePanel").classList.toggle("show"); updatePanelDisplay(); }
 function closeUpdatePanel() { document.getElementById("updatePanel").classList.remove("show"); }
-function closeGame() { document.getElementById("gameContainer").classList.remove("active"); document.getElementById("gameFrame").src = ""; currentGame = null; closeUpdatePanel(); }
+function closeGame() { 
+    if (currentGame && window.Assistant && Assistant.gameSessions[currentGame.n]) { Assistant.endGameSession(currentGame.n); }
+    document.getElementById("gameContainer").classList.remove("active"); 
+    document.getElementById("gameFrame").src = ""; 
+    currentGame = null; 
+    closeUpdatePanel(); 
+}
 
 function showGlobalStats() {
     let gameStats = [];
     for (let i=0; i<GAMES.length; i++) {
         let c = clicks[GAMES[i].n] || 0;
         let profit = getTotalProfitGame(GAMES[i].n);
-        if (c > 0 || profit !== 0) {
-            gameStats.push({ name: GAMES[i].n, count: c, profit: profit });
-        }
+        if (c > 0 || profit !== 0) { gameStats.push({ name: GAMES[i].n, count: c, profit: profit }); }
     }
     gameStats.sort((a,b) => b.count - a.count);
     let totalTopUpKoin = topUpHistory.reduce((a,b) => a + b.nominal, 0);
     let withdrawNow = Math.floor(saldoGlobal * 0.5);
     let profitLossKoin = saldoGlobal - totalTopUpKoin;
-    let profitLossRupiah = Math.floor(profitLossKoin * 0.5);
-    let html = `<div class="stats-card"><div class="stats-title">📊 ${NAMA[selected]}</div><div class="stats-grid"><div class="stats-item"><div class="stats-icon">💰</div><div class="stats-label">Saldo Koin</div><div class="stats-value">${formatRupiah(saldoGlobal)}</div></div><div class="stats-item"><div class="stats-icon">💵</div><div class="stats-label">Nilai Withdraw (50%)</div><div class="stats-value">${formatRupiahIDR(withdrawNow)}</div></div><div class="stats-item"><div class="stats-icon">💎</div><div class="stats-label">Total Top Up</div><div class="stats-value">${formatRupiah(totalTopUpKoin)} (Rp ${formatRupiahIDR(totalTopUpKoin)})</div></div><div class="stats-item"><div class="stats-icon">🏆</div><div class="stats-label">Profit/Loss Koin</div><div class="stats-value ${profitLossKoin >= 0 ? 'plus' : 'minus'}">${profitLossKoin >= 0 ? '+' : ''}${formatRupiah(profitLossKoin)}</div></div><div class="stats-item"><div class="stats-icon">💵</div><div class="stats-label">Profit/Loss Rupiah</div><div class="stats-value ${profitLossRupiah >= 0 ? 'plus' : 'minus'}">${profitLossRupiah >= 0 ? '+' : ''}${formatRupiahIDR(profitLossRupiah)}</div></div><div class="stats-item"><div class="stats-icon">🎮</div><div class="stats-label">Game Dimainkan</div><div class="stats-value">${gameStats.length}</div></div></div></div><div class="stats-card"><div class="stats-title">🎯 DETAIL GAME</div><div class="game-list">${gameStats.length === 0 ? '<div style="text-align:center; opacity:0.5; padding:20px;">Belum ada data game</div>' : gameStats.map(g => `<div class="game-item"><div><span class="game-name">${g.name}</span><span class="badge-click">${g.count} x main</span></div><div class="game-stats"><span class="game-profit ${g.profit > 0 ? 'plus' : (g.profit < 0 ? 'minus' : '')}">${g.profit > 0 ? '+' : ''}${formatRupiah(g.profit)}</span></div></div>`).join('')}</div></div><button class="close-stats" onclick="closePopup()">✕ Tutup</button>`;
+    let html = `<div class="stats-card"><div class="stats-title">📊 ${NAMA[selected]}</div><div class="stats-grid"><div class="stats-item"><div class="stats-icon">💰</div><div class="stats-label">Saldo Koin</div><div class="stats-value">${formatRupiah(saldoGlobal)}</div></div><div class="stats-item"><div class="stats-icon">💵</div><div class="stats-label">Nilai Withdraw</div><div class="stats-value">${formatRupiahIDR(withdrawNow)}</div></div><div class="stats-item"><div class="stats-icon">💎</div><div class="stats-label">Total Top Up</div><div class="stats-value">${formatRupiah(totalTopUpKoin)}</div></div><div class="stats-item"><div class="stats-icon">🏆</div><div class="stats-label">Profit/Loss Koin</div><div class="stats-value ${profitLossKoin >= 0 ? 'plus' : 'minus'}">${profitLossKoin >= 0 ? '+' : ''}${formatRupiah(profitLossKoin)}</div></div><div class="stats-item"><div class="stats-icon">🎮</div><div class="stats-label">Game Dimainkan</div><div class="stats-value">${gameStats.length}</div></div></div></div><div class="stats-card"><div class="stats-title">🎯 DETAIL GAME</div><div class="game-list">${gameStats.length === 0 ? '<div style="text-align:center; opacity:0.5; padding:20px;">Belum ada data game</div>' : gameStats.map(g => `<div class="game-item"><div><span class="game-name">${g.name}</span><span class="badge-click">${g.count} x main</span></div><div class="game-stats"><span class="game-profit ${g.profit > 0 ? 'plus' : (g.profit < 0 ? 'minus' : '')}">${g.profit > 0 ? '+' : ''}${formatRupiah(g.profit)}</span></div></div>`).join('')}</div></div><button class="close-stats" onclick="closePopup()">✕ Tutup</button>`;
     showPopup(html);
 }
 
 function showBackupMenu() {
-    showPopup(`
-        <b>💾 Backup & Restore - ${NAMA[selected]}</b><br><br>
-        <div style="font-size:11px; margin-bottom:12px;">Data: Saldo Koin, Top Up, Riwayat Game, Klik</div>
-        <button class="btn-sm" style="background:#2ecc71; width:100%; margin-bottom:8px;" onclick="exportData()">📤 Export Data</button>
-        <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(this)">
-        <button class="btn-sm" style="background:#f39c12; width:100%;" onclick="document.getElementById('importFile').click()">📥 Import Data</button>
-        <br><br>
-        <button class="btn-sm" onclick="closePopup()">Tutup</button>
-    `);
+    showPopup(`<b>💾 Backup & Restore - ${NAMA[selected]}</b><br><br><div style="font-size:11px; margin-bottom:12px;">Data: Saldo Koin, Top Up, Riwayat Game, Klik</div><button class="btn-sm" style="background:#2ecc71; width:100%; margin-bottom:8px;" onclick="exportData()">📤 Export Data</button><input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(this)"><button class="btn-sm" style="background:#f39c12; width:100%;" onclick="document.getElementById('importFile').click()">📥 Import Data</button><br><br><button class="btn-sm" onclick="closePopup()">Tutup</button>`);
 }
 
 function exportData() {
-    let allData = {
-        account: selected,
-        saldoGlobal: saldoGlobal,
-        topUpHistory: topUpHistory,
-        clicks: clicks,
-        gamesData: {}
-    };
+    let allData = { account: selected, saldoGlobal: saldoGlobal, topUpHistory: topUpHistory, clicks: clicks, gamesData: {} };
     for (let game of GAMES) {
         let key = `gameData_${selected}_${game.n}`;
         let data = localStorage.getItem(key);
-        if (data) {
-            allData.gamesData[game.n] = JSON.parse(data);
-        }
+        if (data) allData.gamesData[game.n] = JSON.parse(data);
     }
     let blob = new Blob([JSON.stringify(allData, null, 2)], {type: "application/json"});
     let a = document.createElement("a");
@@ -816,37 +778,14 @@ function importData(input) {
     reader.onload = function(e) {
         try {
             let data = JSON.parse(e.target.result);
-            if (data.account !== selected) {
-                alert(`❌ GAGAL! File ini untuk akun ${data.account.toUpperCase()}, tidak bisa diimport ke akun ${selected.toUpperCase()}`);
-                input.value = '';
-                return;
-            }
-            if (data.saldoGlobal !== undefined) {
-                saldoGlobal = data.saldoGlobal;
-                localStorage.setItem(`saldoGlobal_${selected}`, saldoGlobal);
-            }
-            if (data.topUpHistory) {
-                topUpHistory = data.topUpHistory;
-                localStorage.setItem(`topup_${selected}`, JSON.stringify(topUpHistory));
-            }
-            if (data.clicks) {
-                clicks = data.clicks;
-                localStorage.setItem(`clicks_${selected}`, JSON.stringify(clicks));
-            }
-            if (data.gamesData) {
-                for (let [gameName, gameData] of Object.entries(data.gamesData)) {
-                    let key = `gameData_${selected}_${gameName}`;
-                    localStorage.setItem(key, JSON.stringify(gameData));
-                }
-            }
-            updateSaldoDisplay();
-            renderGames();
-            if (currentGame) updatePanelDisplay();
-            showToast(`✅ Restore data ke ${NAMA[selected]} berhasil!`);
-            closePopup();
-        } catch(err) {
-            alert("File tidak valid!");
-        }
+            if (data.account !== selected) { alert(`❌ GAGAL! File ini untuk akun ${data.account.toUpperCase()}, tidak bisa diimport ke akun ${selected.toUpperCase()}`); input.value = ''; return; }
+            if (data.saldoGlobal !== undefined) { saldoGlobal = data.saldoGlobal; localStorage.setItem(`saldoGlobal_${selected}`, saldoGlobal); }
+            if (data.topUpHistory) { topUpHistory = data.topUpHistory; localStorage.setItem(`topup_${selected}`, JSON.stringify(topUpHistory)); }
+            if (data.clicks) { clicks = data.clicks; localStorage.setItem(`clicks_${selected}`, JSON.stringify(clicks)); }
+            if (data.gamesData) { for (let [gameName, gameData] of Object.entries(data.gamesData)) { localStorage.setItem(`gameData_${selected}_${gameName}`, JSON.stringify(gameData)); } }
+            updateSaldoDisplay(); renderGames(); if (currentGame) updatePanelDisplay();
+            showToast(`✅ Restore data ke ${NAMA[selected]} berhasil!`); closePopup();
+        } catch(err) { alert("File tidak valid!"); }
         input.value = '';
     };
     reader.readAsText(file);
@@ -860,17 +799,15 @@ function login(acc) {
     document.getElementById("dashboard").classList.add("active");
     updateUserBox();
     renderGames();
+    if (window.Assistant) { Assistant.init(); Assistant.resetForAccount(acc); }
 }
 
 function updateUserBox() { 
     let userBox = document.getElementById("userBox"); 
     let avatarUrl = AVATAR_IMG[selected]; 
     let name = NAMA[selected]; 
-    if (avatarUrl) { 
-        userBox.innerHTML = `<img class="avatar-img" src="${avatarUrl}" onerror="this.style.display='none'; this.nextSibling.style.display='flex';"><div class="avatar-placeholder" style="display:none;">${name.charAt(0)}</div><span>${name}</span><button class="logout" onclick="logout()">Logout</button>`; 
-    } else { 
-        userBox.innerHTML = `<div class="avatar-placeholder">${name.charAt(0)}</div><span>${name}</span><button class="logout" onclick="logout()">Logout</button>`; 
-    } 
+    if (avatarUrl) { userBox.innerHTML = `<img class="avatar-img" src="${avatarUrl}" onerror="this.style.display='none'; this.nextSibling.style.display='flex';"><div class="avatar-placeholder" style="display:none;">${name.charAt(0)}</div><span>${name}</span><button class="logout" onclick="logout()">Logout</button>`; } 
+    else { userBox.innerHTML = `<div class="avatar-placeholder">${name.charAt(0)}</div><span>${name}</span><button class="logout" onclick="logout()">Logout</button>`; } 
 }
 
 function logout() { 
@@ -879,26 +816,237 @@ function logout() {
     closeGame(); 
     document.getElementById("loginScreen").style.display = "flex";
     document.getElementById("dashboard").classList.remove("active");
+    if (window.Assistant) document.getElementById("assistantChat").style.display = "none";
 }
 
 function showPopup(html) { document.getElementById("popup").innerHTML = html; document.getElementById("popup").classList.add("active"); document.getElementById("popupBg").classList.add("active"); }
 function closePopup() { document.getElementById("popup").classList.remove("active"); document.getElementById("popupBg").classList.remove("active"); }
 
-// INIT - Cek apakah ada akun yang tersimpan
+// ==================== ASISTEN CERDAS ====================
+const Assistant = {
+    gameSessions: {},
+    currentSessionId: null,
+    lastNotificationTime: {},
+    notificationInterval: null,
+    
+    init() { this.loadSessions(); this.startMonitoring(); this.setupEventListeners(); },
+    
+    loadSessions() {
+        let saved = localStorage.getItem(`assistant_sessions_${selected || 'default'}`);
+        if (saved) this.gameSessions = JSON.parse(saved);
+    },
+    
+    saveSessions() { if (selected) localStorage.setItem(`assistant_sessions_${selected}`, JSON.stringify(this.gameSessions)); },
+    
+    startGameSession(gameName) {
+        let now = Date.now();
+        let existing = this.gameSessions[gameName];
+        if (existing && !existing.ended) { this.currentSessionId = gameName; return; }
+        let lastProfit = getTotalProfitGame(gameName);
+        this.gameSessions[gameName] = {
+            gameName: gameName, startTime: now, lastUpdateTime: now,
+            totalPlayTime: existing ? existing.totalPlayTime || 0 : 0,
+            startProfit: lastProfit, lastProfit: lastProfit, profitChanges: [], ended: false,
+            clickCount: (clicks[gameName] || 0)
+        };
+        this.currentSessionId = gameName;
+        this.saveSessions();
+        this.addMessage(`🎮 Memulai game **${gameName}**`, 'info');
+        this.addMessage(`💰 Profit awal: ${formatRupiah(lastProfit)}`, 'info');
+        this.showNotification('Memulai Game', `Selamat bermain ${gameName}! Semoga hoki! 🍀`);
+    },
+    
+    updateGameProfit(gameName, oldSaldo, newSaldo, perubahan) {
+        let session = this.gameSessions[gameName];
+        if (!session) return;
+        let currentProfit = getTotalProfitGame(gameName);
+        let profitChange = currentProfit - session.lastProfit;
+        session.lastProfit = currentProfit;
+        session.lastUpdateTime = Date.now();
+        session.profitChanges.push({ time: Date.now(), perubahan: perubahan, profitChange: profitChange, newProfit: currentProfit });
+        if (session.profitChanges.length > 20) session.profitChanges.shift();
+        this.saveSessions();
+        this.analyzeAndNotify(gameName, perubahan, profitChange, currentProfit);
+    },
+    
+    analyzeAndNotify(gameName, perubahanKoin, profitChange, currentProfit) {
+        let session = this.gameSessions[gameName];
+        let playTime = this.getCurrentPlayTime(gameName);
+        let menit = Math.floor(playTime / 60000);
+        
+        if (perubahanKoin > 0) {
+            let profitRupiah = Math.floor(perubahanKoin * 0.5);
+            if (perubahanKoin >= 100000) {
+                this.showNotification('🎉 PROFIT BESAR!', `Wah! Profit ${formatRupiah(perubahanKoin)} (Rp ${formatRupiahIDR(profitRupiah)}) di ${gameName}! Hebat! 🚀`, 'profit');
+                this.addMessage(`✅ **PROFIT BESAR**! +${formatRupiah(perubahanKoin)} (Rp ${formatRupiahIDR(profitRupiah)})`, 'profit');
+            } else if (perubahanKoin >= 25000) {
+                this.showNotification('👍 Profit Positif', `+${formatRupiah(perubahanKoin)} untuk ${gameName}! Pertahankan! 📈`, 'profit');
+                this.addMessage(`📈 Profit +${formatRupiah(perubahanKoin)} di ${gameName}`, 'profit');
+            } else {
+                this.showNotification('✨ Profit!', `+${formatRupiah(perubahanKoin)} untuk ${gameName}. Semangat terus! 💪`, 'profit');
+            }
+        } else if (perubahanKoin < 0) {
+            let lossRupiah = Math.floor(Math.abs(perubahanKoin) * 0.5);
+            if (perubahanKoin <= -100000) {
+                this.showNotification('⚠️ LOSS BESAR!', `Loss ${formatRupiah(perubahanKoin)} (Rp ${formatRupiahIDR(lossRupiah)}) di ${gameName}. Awas, jangan terpancing! 🛑`, 'loss');
+                this.addMessage(`❌ **LOSS BESAR**! ${formatRupiah(perubahanKoin)} (Rp ${formatRupiahIDR(lossRupiah)})`, 'loss');
+                this.addMessage(`💡 Saran: Istirahat sebentar atau coba game lain. Jangan kejar kekalahan!`, 'warning');
+            } else if (perubahanKoin <= -25000) {
+                this.showNotification('⚠️ Loss Signifikan', `Loss ${formatRupiah(perubahanKoin)} (Rp ${formatRupiahIDR(lossRupiah)}). Tetap hati-hati! 🧘`, 'loss');
+                this.addMessage(`📉 Loss ${formatRupiah(perubahanKoin)} di ${gameName}`, 'loss');
+            } else {
+                this.showNotification('💔 Loss Kecil', `Loss ${formatRupiah(perubahanKoin)}. Tenang, masih bisa bangkit! 💪`, 'loss');
+            }
+        }
+        this.checkPlayTime(gameName, menit);
+        
+        if (currentProfit > 0 && currentProfit >= 50000) {
+            this.addMessage(`🏆 Overall profit ${gameName}: ${formatRupiah(currentProfit)}`, 'profit');
+        } else if (currentProfit < 0 && currentProfit <= -50000) {
+            this.addMessage(`⚠️ Overall loss ${gameName}: ${formatRupiah(currentProfit)}. Pertimbangkan untuk ganti game.`, 'loss');
+        }
+    },
+    
+    checkPlayTime(gameName, menit) {
+        let lastWarn = this.lastNotificationTime[`time_${gameName}`] || 0;
+        let now = Date.now();
+        if (menit >= 10 && menit % 5 === 0 && (now - lastWarn) > 300000) {
+            this.lastNotificationTime[`time_${gameName}`] = now;
+            this.showNotification('⏰ Peringatan Waktu', `Anda sudah bermain ${gameName} selama ${menit} menit. Jaga fokus!`, 'warning');
+            this.addMessage(`⏰ Sudah ${menit} menit bermain ${gameName}. Istirahat sebentar yuk!`, 'warning');
+        }
+        if (menit === 30 || menit === 60) {
+            this.showNotification('⚠️ Waktu Bermain Panjang', `Sudah ${menit} menit di ${gameName}. Saatnya istirahat! 🧘`, 'warning');
+            this.addMessage(`⚠️ Anda sudah bermain ${menit} menit. Jaga kesehatan!`, 'warning');
+        }
+    },
+    
+    updateClickCount(gameName) {
+        let session = this.gameSessions[gameName];
+        if (session) { session.clickCount = clicks[gameName] || 0; this.saveSessions(); }
+    },
+    
+    endGameSession(gameName) {
+        let session = this.gameSessions[gameName];
+        if (session && !session.ended) {
+            session.ended = true;
+            let playTime = this.getCurrentPlayTime(gameName);
+            let menit = Math.floor(playTime / 60000);
+            let detik = Math.floor((playTime % 60000) / 1000);
+            let finalProfit = getTotalProfitGame(gameName);
+            this.saveSessions();
+            if (menit > 0 || detik > 5) {
+                this.addMessage(`🛑 Menutup game ${gameName}. Total bermain: ${menit}m ${detik}s`, 'info');
+                if (finalProfit > 0) this.showNotification('🎯 Selesai Bermain', `Profit akhir ${formatRupiah(finalProfit)} di ${gameName}. Selamat! 🎉`, 'profit');
+                else if (finalProfit < 0) this.showNotification('🎯 Selesai Bermain', `Loss akhir ${formatRupiah(finalProfit)} di ${gameName}. Cobain game lain! 💪`, 'loss');
+                else this.showNotification('🎯 Selesai Bermain', `Selesai bermain ${gameName}. Terima kasih! 👋`);
+            }
+        }
+        if (this.currentSessionId === gameName) this.currentSessionId = null;
+    },
+    
+    getCurrentPlayTime(gameName) {
+        let session = this.gameSessions[gameName];
+        if (!session) return 0;
+        if (session.ended) return session.totalPlayTime;
+        return (session.totalPlayTime || 0) + (Date.now() - session.startTime);
+    },
+    
+    updatePlayTimes() {
+        for (let gameName in this.gameSessions) {
+            let session = this.gameSessions[gameName];
+            if (session && !session.ended) {
+                let currentTime = Date.now();
+                let elapsed = currentTime - session.startTime;
+                session.totalPlayTime = (session.totalPlayTime || 0) + elapsed;
+                session.startTime = currentTime;
+            }
+        }
+        this.saveSessions();
+    },
+    
+    startMonitoring() {
+        if (this.notificationInterval) clearInterval(this.notificationInterval);
+        this.notificationInterval = setInterval(() => {
+            this.updatePlayTimes();
+            if (currentGame && this.currentSessionId) {
+                let playTime = this.getCurrentPlayTime(currentGame.n);
+                let menit = Math.floor(playTime / 60000);
+                this.checkPlayTime(currentGame.n, menit);
+            }
+        }, 30000);
+    },
+    
+    setupEventListeners() {
+        document.getElementById('assistantAvatar').onclick = () => this.toggleChat();
+        document.getElementById('closeAssistant').onclick = () => this.closeChat();
+        setInterval(() => this.updateStatusDisplay(), 5000);
+    },
+    
+    toggleChat() {
+        let chat = document.getElementById('assistantChat');
+        chat.style.display = chat.style.display === 'none' || chat.style.display === '' ? 'flex' : 'none';
+        if (chat.style.display === 'flex') this.updateStatusDisplay();
+    },
+    
+    closeChat() { document.getElementById('assistantChat').style.display = 'none'; },
+    
+    updateStatusDisplay() {
+        let statusEl = document.getElementById('assistantGameStatus');
+        if (currentGame && this.currentSessionId === currentGame.n) {
+            let playTime = this.getCurrentPlayTime(currentGame.n);
+            let menit = Math.floor(playTime / 60000);
+            let detik = Math.floor((playTime % 60000) / 1000);
+            let profit = getTotalProfitGame(currentGame.n);
+            statusEl.innerHTML = `${currentGame.n} | ${menit}m ${detik}s | ${profit >= 0 ? '+' : ''}${formatRupiah(profit)}`;
+        } else if (currentGame) { statusEl.innerHTML = `${currentGame.n} (belum tercatat)`; }
+        else { statusEl.innerHTML = 'Tidak ada game aktif'; }
+    },
+    
+    addMessage(text, type = 'info') {
+        let messagesDiv = document.getElementById('assistantMessages');
+        let msgDiv = document.createElement('div');
+        let time = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+        let bgColor = 'rgba(255,255,255,0.1)';
+        if (type === 'profit') bgColor = 'rgba(46,204,113,0.2)';
+        else if (type === 'loss') bgColor = 'rgba(231,76,60,0.2)';
+        else if (type === 'warning') bgColor = 'rgba(243,156,18,0.2)';
+        msgDiv.style.cssText = `background: ${bgColor}; border-radius: 16px; padding: 8px 12px; max-width: 85%; align-self: flex-start; margin-bottom: 4px;`;
+        msgDiv.innerHTML = `<span style="font-size: 10px; opacity: 0.6;">${time}</span><br><span style="font-size: 12px;">${text}</span>`;
+        messagesDiv.appendChild(msgDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        while (messagesDiv.children.length > 50) messagesDiv.removeChild(messagesDiv.firstChild);
+    },
+    
+    showNotification(title, message, type = 'info') {
+        let notif = document.getElementById('assistantNotification');
+        document.getElementById('notificationTitle').innerHTML = title;
+        document.getElementById('notificationMessage').innerHTML = message;
+        let colors = { profit: '#2ecc71', loss: '#e74c3c', warning: '#f39c12', info: '#f39c12' };
+        notif.style.borderLeftColor = colors[type] || '#f39c12';
+        notif.style.display = 'flex';
+        let avatar = document.getElementById('assistantAvatar');
+        avatar.classList.add('assistant-pulse');
+        setTimeout(() => avatar.classList.remove('assistant-pulse'), 1000);
+        setTimeout(() => { notif.style.display = 'none'; }, 5000);
+    },
+    
+    resetForAccount(account) { this.loadSessions(); this.currentSessionId = null; }
+};
+
 function init() {
     let savedAccount = localStorage.getItem("account");
     if (savedAccount && (savedAccount === 'sn' || savedAccount === 'sodron' || savedAccount === 'exm')) {
-        // Auto login ke akun yang tersimpan
         login(savedAccount);
+        setTimeout(() => { if (window.Assistant) Assistant.init(); }, 500);
     } else {
-        // Tampilkan login screen
         document.getElementById("loginScreen").style.display = "flex";
         document.getElementById("dashboard").classList.remove("active");
         selected = null;
     }
 }
 
-// Panggil init saat halaman dimuat
+window.Assistant = Assistant;
 init();
 </script>
 </body>
