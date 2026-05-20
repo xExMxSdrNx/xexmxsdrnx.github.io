@@ -3,15 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>x</title>
+<title>Google Full Frame</title>
 
 <style>
-html,body{
+html, body{
     margin:0;
+    padding:0;
     width:100%;
     height:100%;
     overflow:hidden;
     background:#000;
+}
+
+.frame-wrap{
+    width:100%;
+    height:100vh;
 }
 
 iframe{
@@ -23,28 +29,12 @@ iframe{
 </head>
 <body>
 
-<iframe id="frame"></iframe>
-
-<script>
-const url = "https://google.com/";
-
-document.getElementById("frame").src = url;
-
-// fallback kalau iframe diblok
-setTimeout(()=>{
-    try{
-        if(
-            document.getElementById("frame")
-            .contentWindow.location.href === "about:blank"
-        ){
-            window.location.href = url;
-        }
-    }catch(e){
-        // jika diblok security browser
-        window.location.href = url;
-    }
-},1500);
-</script>
+<div class="frame-wrap">
+    <iframe 
+        src="https://www.blowjobs.pro"
+        allowfullscreen>
+    </iframe>
+</div>
 
 </body>
 </html>
