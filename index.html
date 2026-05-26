@@ -298,6 +298,75 @@
     object-fit: cover;
     border: 1px solid #f39c12;
 }
+
+.mini-player{
+    position:fixed;
+    bottom:15px;
+    right:15px;
+    width:320px;
+    height:220px;
+    background:#111;
+    border-radius:18px;
+    overflow:hidden;
+    z-index:3000;
+    display:none;
+    box-shadow:0 10px 40px rgba(0,0,0,0.6);
+}
+
+.mini-header{
+    cursor: grab;
+    touch-action: none;
+}
+
+.mini-player{
+    touch-action: none;
+}
+
+.mini-player.active{
+    display:block;
+}
+
+.mini-header{
+    height:42px;
+    background:#1f2937;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 10px;
+    font-size:12px;
+}
+
+#miniGameHolder{
+    width:100%;
+    height:calc(100% - 42px);
+}
+
+#miniGameHolder iframe{
+    width:100%;
+    height:100%;
+    border:none;
+}
+
+.mini-header button {
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border-radius: 8px;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+#youtubeFrame {
+    width: 100%;
+    height: calc(100% - 42px);
+    border: none;
+}
+#miniGameFrame{
+    width:100%;
+    height:calc(100% - 42px);
+    border:none;
+    background:black;
+}
       </style>
 </head>
 <body>
@@ -308,26 +377,102 @@
             <img class="avatar-img" id="avatarImg" src="https://64.media.tumblr.com/b50b5a08674088df761ca4e44447fc6c/f28f4d9012181f70-cb/s500x750/0e33ffbe2891ef2a9cd22387d7554b599d791410.gif" onerror="this.style.display='none';">
             <span id="nicknameDisplay">Player</span>
         </div>
-        <div class="btn-group-header">
-            <button class="btn-sm btn-warning" onclick="resetAllCounters()">🔄 Reset Klik</button>
-            <button class="btn-sm" onclick="showGameManager()">🗑️ Kelola Game</button>
-        </div>
+       <div class="btn-group-header">
+    <button class="btn-sm btn-warning" onclick="resetAllCounters()">🔄 Reset Klik</button>
+
+    <button class="btn-sm" onclick="showYoutube()">📺 ONLINE</button>
+
+    <button class="btn-sm" onclick="showGameManager()">🗑️ Kelola Game</button>
+</div>
     </div>
     <div id="groupsContainer"></div>
 </div>
+<!-- MINI PLAYER -->
+<div id="miniPlayer" class="mini-player">
 
-<div class="game-container" id="gameContainer">
-    <div class="game-sidebar" id="gameSidebar"></div>
-    <div class="game-main">
-      <div class="game-header">
-    <div class="game-header-left">
-        <img class="game-header-avatar" id="gameHeaderAvatar" src="" onerror="this.style.display='none'">
-        <span id="gameTitle">🎮 Game</span>
+    <div class="mini-header">
+
+        <span id="miniTitle">🎮 Running</span>
+
+        <div style="display:flex; gap:6px;">
+            <button onclick="restoreGame()">⬆</button>
+            <button onclick="closeGame()">✕</button>
+        </div>
+
     </div>
-    <button class="close-game" onclick="closeGame()">✕ Close</button>
+
+    <div id="miniGameHolder"></div>
+
 </div>
-        <iframe class="game-frame" id="gameFrame" src="about:blank"></iframe>
+
+<!-- GAME CONTAINER -->
+<div class="game-container" id="gameContainer">
+
+    <div class="game-sidebar" id="gameSidebar"></div>
+
+    <div class="game-main">
+
+        <!-- HEADER -->
+        <div class="game-header">
+
+            <div class="game-header-left">
+                <img 
+                    class="game-header-avatar"
+                    id="gameHeaderAvatar"
+                    src=""
+                    onerror="this.style.display='none'">
+
+                <span id="gameTitle">🎮 Game</span>
+            </div>
+
+            <div style="display:flex; gap:8px;">
+                <button class="close-game" onclick="minimizeGame()">➖ Mini</button>
+                <button class="close-game" onclick="closeGame()">✕ Close</button>
+            </div>
+
+        </div>
+
+        <!-- GAME FRAME -->
+        <iframe
+            class="game-frame"
+            id="gameFrame"
+            src="about:blank">
+        </iframe>
+
     </div>
+
+</div>
+
+<div class="game-container" id="youtubeContainer">
+
+    <div class="game-main">
+
+        <div class="game-header">
+
+            <div class="game-header-left">
+                <span>📺 ONLINE</span>
+            </div>
+
+            <button class="close-game" onclick="closeYoutube()">
+                ✕ Close
+            </button>
+
+        </div>
+
+   
+
+        <iframe
+            class="game-frame"
+            id="browserFrame"
+            src="https://xexmxsdrnx.github.io">
+        </iframe>
+
+    </div>
+
+</div>
+
+    </div>
+
 </div>
 
 <div class="popup-bg" id="popupBg" onclick="closePopup()"></div>
@@ -698,9 +843,15 @@ function renderSidebar() {
     }
 }
 
-function closeGame() { 
-    document.getElementById("gameContainer").classList.remove("active"); 
-    document.getElementById("gameFrame").src = ""; 
+function closeGame() {
+    document.getElementById("gameContainer").classList.remove("active");
+
+    document.getElementById("gameContainer").style.display = "";
+
+    document.getElementById("miniPlayer").classList.remove("active");
+
+    document.getElementById("gameFrame").src = "";
+
     currentGame = null;
 }
 
@@ -715,10 +866,157 @@ function closePopup() {
     document.getElementById("popupBg").classList.remove("active"); 
 }
 
+function minimizeGame() {
+
+    let frame = document.getElementById("gameFrame");
+
+    document
+        .getElementById("miniGameHolder")
+        .appendChild(frame);
+
+    document
+        .getElementById("gameContainer")
+        .classList.remove("active");
+
+    document
+        .getElementById("miniPlayer")
+        .classList.add("active");
+
+    if(currentGame){
+        document
+            .getElementById("miniTitle")
+            .innerText = `🎮 ${currentGame.n}`;
+    }
+}
+
+function restoreGame() {
+
+    let frame = document.getElementById("gameFrame");
+
+    document
+        .querySelector(".game-main")
+        .appendChild(frame);
+
+    document
+        .getElementById("gameContainer")
+        .classList.add("active");
+
+    document
+        .getElementById("miniPlayer")
+        .classList.remove("active");
+}
+
+
+
+(function () {
+
+    const mini = document.getElementById("miniPlayer");
+    const header = document.querySelector(".mini-header");
+
+    let isDragging = false;
+
+    let startX = 0;
+    let startY = 0;
+
+    let initialX = 0;
+    let initialY = 0;
+
+    header.addEventListener("touchstart", startDrag, {
+        passive: false
+    });
+
+    header.addEventListener("mousedown", startDrag);
+
+    function startDrag(e) {
+
+        isDragging = true;
+
+        const touch = e.touches ? e.touches[0] : e;
+
+        startX = touch.clientX;
+        startY = touch.clientY;
+
+        const rect = mini.getBoundingClientRect();
+
+        initialX = rect.left;
+        initialY = rect.top;
+
+        document.addEventListener("touchmove", dragMove, {
+            passive: false
+        });
+
+        document.addEventListener("mousemove", dragMove);
+
+        document.addEventListener("touchend", stopDrag);
+
+        document.addEventListener("mouseup", stopDrag);
+    }
+
+    function dragMove(e) {
+
+        if (!isDragging) return;
+
+        e.preventDefault();
+
+        const touch = e.touches ? e.touches[0] : e;
+
+        let dx = touch.clientX - startX;
+        let dy = touch.clientY - startY;
+
+        let newX = initialX + dx;
+        let newY = initialY + dy;
+
+        const maxX = window.innerWidth - mini.offsetWidth;
+        const maxY = window.innerHeight - mini.offsetHeight;
+
+        newX = Math.max(0, Math.min(newX, maxX));
+        newY = Math.max(0, Math.min(newY, maxY));
+
+        mini.style.left = newX + "px";
+        mini.style.top = newY + "px";
+
+        mini.style.right = "auto";
+        mini.style.bottom = "auto";
+    }
+
+    function stopDrag() {
+
+        isDragging = false;
+
+        document.removeEventListener("touchmove", dragMove);
+
+        document.removeEventListener("mousemove", dragMove);
+
+        document.removeEventListener("touchend", stopDrag);
+
+        document.removeEventListener("mouseup", stopDrag);
+    }
+
+})();
+
+
+
+function showYoutube() {
+
+    document
+        .getElementById("youtubeContainer")
+        .classList.add("active");
+}
+
+function closeYoutube() {
+
+    document
+        .getElementById("youtubeContainer")
+        .classList.remove("active");
+}
+
 // Inisialisasi
 loadAccount();
 loadData();
 renderGames();
 </script>
+
+
+
 </body>
 </html>
