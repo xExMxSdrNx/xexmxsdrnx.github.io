@@ -580,7 +580,7 @@ function renderGames() {
     let activeGames = getActiveGames();
     let groups = { biru:[], hijau:[], oranye:[], ungu:[], hitam:[] }; 
     for (let g of activeGames) groups[g.g].push(g); 
-    let groupNames = { biru:"💙 POLA 1 (Yomi)", hijau:"💚 POLA 2 (Duole)", oranye:"🧡 POLA 3 (Osgame) 🏺Money Jar", ungu:"💜 POLA 4 (CloudFront)", hitam:"🖤 POLA 5 (Lainnya)" }; 
+    let groupNames = { biru:"💙 Server 1 (Yomi)", hijau:"💚 Server 2 (Duole)", oranye:"🧡 Server 3 (Osgame)", ungu:"💜 Server 4 (CloudFront)", hitam:"🖤 Server 5 (Lainnya)" }; 
     
     for (let [key, gameList] of Object.entries(groups)) { 
         if (gameList.length === 0) continue; 
