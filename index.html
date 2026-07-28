@@ -96,11 +96,11 @@
         .game-name { font-size: 11px; font-weight: 500; margin-top: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .group { margin-bottom: 28px; padding: 12px; border-radius: 24px; background: rgba(10,15,30,0.3); }
         .group-title { font-size: 14px; font-weight: bold; margin-bottom: 14px; padding-left: 12px; border-left: 4px solid; display: flex; align-items: center; gap: 8px; }
-        .group-biru { border-left-color: #3b82f6; }
-        .group-hijau { border-left-color: #22c55e; }
-        .group-oranye { border-left-color: #f97316; }
-        .group-ungu { border-left-color: #a855f7; }
-        .group-hitam { border-left-color: #6b7280; }
+        .group-yomi { border-left-color: #3b82f6; }
+        .group-duole { border-left-color: #22c55e; }
+        .group-osgame { border-left-color: #f97316; }
+        .group-cloudfront { border-left-color: #a855f7; }
+        .group-xooncdn { border-left-color: #6b7280; }
 
         /* GAME CONTAINER WITH SIDEBAR */
         .game-container {
@@ -465,54 +465,54 @@ function escapeHtml(str) {
 }
 
 const ALL_GAMES = [
-    { n:"Racing Car", img:"https://i.ibb.co.com/0jVVsPpK/image-291941ed.png", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=speed_racing&", g:"ungu", moneyjar: true },
-    { n:"Mahjong Ways", img:"https://i.ibb.co.com/xSX4Gshj/image-c3be9824.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/55?", g:"biru" },
-    { n:"Yummy Slots", img:"https://i.ibb.co.com/93YBy8dD/image-6f232e98.png", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?mode=games&game_name=yammy_slots&", g:"ungu", moneyjar: true },
-    { n:"World Goal", img:"https://i.ibb.co.com/pBY0QpB4/image-26e69896.png", u:"https://api-sg-v2.yomi1413.com/gate/gateway/zzaaym/284?isHalf=false&heightRatio=1&gameMaker=2", g:"biru" },
-    { n:"Greedy Lion II", img:"https://i.ibb.co.com/452fkdb/image-c721045.png", u:"https://www.duolefast.com/common-web/full/game853/1.1.3/web-mobile/index.html?bizAppId=100049&gameid=1200012&engameid=853&isHalf=false&heightRatio=1&gameMaker=2", g:"biru" },
-    { n:"Jammin Jars", img:"https://i.ibb.co.com/cK1Jvw07/image-9cd6d73d.png", u:"https://www.duolefast.com/common-web/full/game1016/1.0.1/web-mobile/index.html?bizAppId=100049&gameid=1200010&engameid=1016&", g:"hijau" },
-    { n:"Gold Tree", img:"https://i.ibb.co.com/Qv03qzgK/image-876895c5.png", u:"https://api-sg-v2.yomi1413.com/gate/gateway/zzaaym/561?isHalf=false&heightRatio=1&gameMaker=2", g:"hijau" },
-    { n:"Futebol Fever", img:"https://i.ibb.co.com/kgSKDd1x/image-1a47e78.png", u:"https://www.duolefast.com/common-web/vert/game1028/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200009&engameid=1028&heightRatio=0.7&", g:"hijau" },
-    { n:"Major Bass", img:"https://i.ibb.co.com/b5DsSk96/image-47eb5477.png", u:"https://api-sg-v2.yomi1413.com/gate/gateway/zzaaym/562?isHalf=false&heightRatio=1&gameMaker=2", g:"hijau" },
-    { n:"Super Ace", img:"https://i.ibb.co.com/S43wwsc1/image-3096ca0.png", u:"https://www.duolefast.com/common-web/full/game1015/1.1.3/web-mobile/index.html?bizAppId=100049&gameid=1200013&engameid=1015&isHalf=false&heightRatio=1&gameMaker=2", g:"biru" },
-    { n:"Gates Of Hades", img:"https://i.ibb.co.com/Pvxg0wHj/image-76501474.png", u:"https://www.duolefast.com/common-web/full/game1029/1.1.3/web-mobile/index.html?bizAppId=100049&gameid=1200014&engameid=1029&isHalf=false&heightRatio=1&gameMaker=2", g:"hitam" },
-    { n:"Bandito", img:"https://i.ibb.co.com/4nyzcVkH/image-78c04432.png", u:"https://www.duolefast.com/common-web/full/game1026/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200008&engameid=1026&", g:"hijau" },
-    { n:"Fortune Pot", img:"https://i.ibb.co.com/F48MCD5b/image-c442ea28.png", u:"https://api-sg-v2.yomi1413.com/gate/gateway/zzaaym/560?isHalf=false&heightRatio=1&gameMaker=2", g:"ungu" },
-    { n:"Crazy Treasure", img:"https://i.ibb.co.com/svCsCCyt/image-89696056.png", u:"https://api-sg-v2.yomi1413.com/gate/gateway/zzaaym/559?isHalf=false&heightRatio=1&gameMaker=2", g:"ungu" },
-    { n:"Lucky Gem", img:"https://i.ibb.co.com/cSzPymHW/image-af0c016a.png", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=fortune_gems&", g:"ungu", moneyjar: true },
-    { n:"Poker Ace", img:"https://i.ibb.co.com/TqYmvxjm/image-6095cb4d.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/52?", g:"biru" },
-    { n:"Golden Tree", img:"https://i.ibb.co.com/JfJHT9T/image-25ae0677.png", u:"https://api.osgametheme.com/plug_new/theme37/xoon_full?", g:"oranye", moneyjar: true },
-    { n:"Olympus II", img:"https://i.ibb.co.com/jZ3KpQf0/image-9439adea.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/27?", g:"biru" },
-    { n:"MegaJackpot", img:"https://i.ibb.co.com/99ss7rWM/image-1c20034.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/62?", g:"biru" },
-    { n:"Mahjong Ways II", img:"https://i.ibb.co.com/b58gmwKX/image-8cbe9cc0.png", u:"https://www.duolefast.com/common-web/full/game1009/1.0.4/web-mobile/index.html?bizAppId=100049&gameid=1200006&engameid=1009&", g:"hijau" },
-    { n:"Lucky 777", img:"https://i.ibb.co.com/ccN427rz/image-844094.png", u:"https://d1wtralw2m821s.cloudfront.net/games/lucky777/index.html?", g:"hitam" },
-    { n:"CrazyGems", img:"https://i.ibb.co.com/QvJ098ct/image-5b088966.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/43?", g:"biru" },
-    { n:"Monkey King I", img:"https://i.ibb.co.com/GYFL4sG/image-daf45e7f.png", u:"https://d1wtralw2m821s.cloudfront.net/games/monkeyking/index.html?pl=xoon&v=11&mode=games&game_name=monkeyking&isHalf=false&heightRatio=1&gameMaker=2&game_id=128", g:"hijau" },
-    { n:"Treasure", img:"https://i.ibb.co.com/WWGsqCRm/image-a3e85944.png", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=deep_sea_treasures&", g:"ungu", moneyjar: true },
-    { n:"Monkey King II", img:"https://i.ibb.co.com/5hmGg12W/image-201fbf0f.png", u:"https://www.duolefast.com/common-web/full/game1014/1.0.4/web-mobile/index.html?bizAppId=100049&gameid=1200007&engameid=1014&isHalf=false&heightRatio=1&gameMaker=2", g:"hijau" },
-    { n:"Wealthy Tiger", img:"https://i.ibb.co.com/60dY6bHK/image-9169f717.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/60?", g:"biru" },
-    { n:"LuckyPig", img:"https://i.ibb.co.com/HTGTWtns/image-86adbd02.png", u:"https://www.duolefast.com/common-web/full/game1017/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200002&engameid=1017&", g:"hijau" },
-    { n:"Showdown", img:"https://i.ibb.co.com/FqYRw3p0/image-748da0e4.png", u:"https://www.duolefast.com/common-web/full/game1024/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200003&engameid=1024&", g:"hijau" },
-    { n:"Aztec", img:"https://i.ibb.co.com/MyLSy6qz/image-e53a217c.png", u:"https://www.duolefast.com/common-web/full/game1006/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200001&engameid=1006&", g:"hijau" },
-    { n:"Pirate King 2", img:"https://i.ibb.co.com/fZqbjvP/image-fc213f52.png", u:"https://d1wtralw2m821s.cloudfront.net/games/pirate_king/index.html?pl=xoon&v=11&isHalf=false&game_id=136&", g:"ungu" },
-    { n:"King Of Olympus", img:"https://i.ibb.co.com/8nDVwzmx/image-adbf1924.png", u:"https://cdn-xoon.leadercc.com/games/gatesOfOlympus/index.html?", g:"hitam" },
-    { n:"Mr Rich", img:"https://i.ibb.co.com/PshtqbWD/image-f646294c.png", u:"https://d1wtralw2m821s.cloudfront.net/games/mrrich/index.html?pl=xoon&v=11&mode=games&game_name=mrrich&isHalf=false&game_id=129&", g:"ungu" },
-    { n:"King Of Olympus II", img:"https://i.ibb.co.com/SXJJ748s/image-5a904193.png", u:"https://www.duolefast.com/common-web/full/game1000/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200005&engameid=1000&isHalf=false&heightRatio=1&gameMaker=2", g:"hitam" },
-    { n:"Sweet Bonanza", img:"https://i.ibb.co.com/kv9CP9k/image-2149c8f.png", u:"https://d1wtralw2m821s.cloudfront.net/games/sweet_feast/index.html?mode=games&game_name=sweet_feast&isHalf=false&game_id=106", g:"ungu", moneyjar: true },
-    { n:"Mahjong II", img:"https://i.ibb.co.com/GQp31hwC/image-2071d400.png", u:"https://api.osgametheme.com/plug_new/theme7/xoon_full?isHalf=false&heightRatio=1&gameMaker=2", g:"oranye", moneyjar: true },
-    { n:"Book Of Death", img:"https://i.ibb.co.com/kzfyCKk/image-ca21281f.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/63?", g:"biru" },
-    { n:"Deep Sea", img:"https://i.ibb.co.com/Qvh455Zx/image-f5af3b5a.png", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=deep_sea_fish&", g:"ungu" },
-    { n:"Original 777", img:"https://i.ibb.co.com/QFYgB2Wd/image-46f6aacb.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/57?", g:"biru" },
-    { n:"Gold Miner", img:"https://i.ibb.co.com/v4HfF5Y9/image-3d71e7f3.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/53?", g:"biru" },
-    { n:"Fishing I", img:"https://i.ibb.co.com/hSmDTJQ/image-2ee7d78b.png", u:"https://d1wtralw2m821s.cloudfront.net/games/fish6/index.html?mode=games&game_name=fish6&isHalf=false&game_id=104&", g:"ungu", moneyjar: true },
-    { n:"Fruit Flash", img:"https://i.ibb.co.com/fGSqdbLn/image-42557977.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/35?", g:"biru" },
-    { n:"Lucky Slot", img:"https://i.ibb.co.com/Q7VwwgVB/image-4596ad14.png", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=luckyslots&", g:"ungu" },
-    { n:"Sweet Sugar", img:"https://i.ibb.co.com/1GWWGGVj/image-f55e69e0.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/41?", g:"biru" },
-    { n:"Greedy Monkey", img:"https://i.ibb.co.com/hFrqjVym/image-1a720f12.png", u:"https://d1wtralw2m821s.cloudfront.net/games/monkey_wheel/index.html?", g:"ungu" },
-    { n:"Emperor", img:"https://i.ibb.co.com/Jw4ZtC07/image-eea8fc8c.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/48?", g:"biru" },
-    { n:"GradyKing", img:"https://i.ibb.co.com/Q70MPxms/image-e9fc13ca.png", u:"https://www.duolefast.com/common-web/full/game845/", g:"hitam" },
-    { n:"Big Hammer", img:"https://i.ibb.co.com/VWK2Py3f/image-35f096ca.png", u:"https://cdn-xoon.leadercc.com/games/big_hammer/", g:"hitam", moneyjar: true },
-    { n:"Fishing II", img:"https://i.ibb.co.com/gL76WH2F/image-4687926a.png", u:"https://api-sg-v2.yomi1413.com/gate/gateway/zzaaym/128?", g:"hitam" }
+    { n:"Racing Car", img:"https://i.ibb.co.com/0jVVsPpK/image-291941ed.png", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=speed_racing&", g:"cloudfront", moneyjar: true },
+    { n:"Mahjong Ways", img:"https://i.ibb.co.com/xSX4Gshj/image-c3be9824.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/55?", g:"yomi" },
+    { n:"Yummy Slots", img:"https://i.ibb.co.com/93YBy8dD/image-6f232e98.png", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?mode=games&game_name=yammy_slots&", g:"cloudfront", moneyjar: true },
+    { n:"World Goal", img:"https://i.ibb.co.com/pBY0QpB4/image-26e69896.png", u:"https://api-sg-v2.yomi1413.com/gate/gateway/zzaaym/284?isHalf=false&heightRatio=1&gameMaker=2", g:"yomi" },
+    { n:"Greedy Lion II", img:"https://i.ibb.co.com/452fkdb/image-c721045.png", u:"https://www.duolefast.com/common-web/full/game853/1.1.3/web-mobile/index.html?bizAppId=100049&gameid=1200012&engameid=853&isHalf=false&heightRatio=1&gameMaker=2", g:"yomi" },
+    { n:"Jammin Jars", img:"https://i.ibb.co.com/cK1Jvw07/image-9cd6d73d.png", u:"https://www.duolefast.com/common-web/full/game1016/1.0.1/web-mobile/index.html?bizAppId=100049&gameid=1200010&engameid=1016&", g:"duole" },
+    { n:"Gold Tree", img:"https://i.ibb.co.com/Qv03qzgK/image-876895c5.png", u:"https://api-sg-v2.yomi1413.com/gate/gateway/zzaaym/561?isHalf=false&heightRatio=1&gameMaker=2", g:"duole" },
+    { n:"Futebol Fever", img:"https://i.ibb.co.com/kgSKDd1x/image-1a47e78.png", u:"https://www.duolefast.com/common-web/vert/game1028/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200009&engameid=1028&heightRatio=0.7&", g:"duole" },
+    { n:"Major Bass", img:"https://i.ibb.co.com/b5DsSk96/image-47eb5477.png", u:"https://api-sg-v2.yomi1413.com/gate/gateway/zzaaym/562?isHalf=false&heightRatio=1&gameMaker=2", g:"duole" },
+    { n:"Super Ace", img:"https://i.ibb.co.com/S43wwsc1/image-3096ca0.png", u:"https://www.duolefast.com/common-web/full/game1015/1.1.3/web-mobile/index.html?bizAppId=100049&gameid=1200013&engameid=1015&isHalf=false&heightRatio=1&gameMaker=2", g:"yomi" },
+    { n:"Gates Of Hades", img:"https://i.ibb.co.com/Pvxg0wHj/image-76501474.png", u:"https://www.duolefast.com/common-web/full/game1029/1.1.3/web-mobile/index.html?bizAppId=100049&gameid=1200014&engameid=1029&isHalf=false&heightRatio=1&gameMaker=2", g:"duole" }, 
+    { n:"Bandito", img:"https://i.ibb.co.com/4nyzcVkH/image-78c04432.png", u:"https://www.duolefast.com/common-web/full/game1026/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200008&engameid=1026&", g:"duole" },
+    { n:"Fortune Pot", img:"https://i.ibb.co.com/F48MCD5b/image-c442ea28.png", u:"https://api-sg-v2.yomi1413.com/gate/gateway/zzaaym/560?isHalf=false&heightRatio=1&gameMaker=2", g:"cloudfront" },
+    { n:"Crazy Treasure", img:"https://i.ibb.co.com/svCsCCyt/image-89696056.png", u:"https://api-sg-v2.yomi1413.com/gate/gateway/zzaaym/559?isHalf=false&heightRatio=1&gameMaker=2", g:"cloudfront" },
+    { n:"Lucky Gem", img:"https://i.ibb.co.com/cSzPymHW/image-af0c016a.png", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=fortune_gems&", g:"cloudfront", moneyjar: true },
+    { n:"Poker Ace", img:"https://i.ibb.co.com/TqYmvxjm/image-6095cb4d.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/52?", g:"yomi" },
+    { n:"Golden Tree", img:"https://i.ibb.co.com/JfJHT9T/image-25ae0677.png", u:"https://api.osgametheme.com/plug_new/theme37/xoon_full?", g:"osgame", moneyjar: true },
+    { n:"Olympus II", img:"https://i.ibb.co.com/jZ3KpQf0/image-9439adea.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/27?", g:"yomi" },
+    { n:"MegaJackpot", img:"https://i.ibb.co.com/99ss7rWM/image-1c20034.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/62?", g:"yomi" },
+    { n:"Mahjong Ways II", img:"https://i.ibb.co.com/b58gmwKX/image-8cbe9cc0.png", u:"https://www.duolefast.com/common-web/full/game1009/1.0.4/web-mobile/index.html?bizAppId=100049&gameid=1200006&engameid=1009&", g:"duole" },
+    { n:"Lucky 777", img:"https://i.ibb.co.com/ccN427rz/image-844094.png", u:"https://d1wtralw2m821s.cloudfront.net/games/lucky777/index.html?", g:"cloudfront" }, 
+    { n:"CrazyGems", img:"https://i.ibb.co.com/QvJ098ct/image-5b088966.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/43?", g:"yomi" },
+    { n:"Monkey King I", img:"https://i.ibb.co.com/GYFL4sG/image-daf45e7f.png", u:"https://d1wtralw2m821s.cloudfront.net/games/monkeyking/index.html?pl=xoon&v=11&mode=games&game_name=monkeyking&isHalf=false&heightRatio=1&gameMaker=2&game_id=128", g:"duole" },
+    { n:"Treasure", img:"https://i.ibb.co.com/WWGsqCRm/image-a3e85944.png", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=deep_sea_treasures&", g:"cloudfront", moneyjar: true },
+    { n:"Monkey King II", img:"https://i.ibb.co.com/5hmGg12W/image-201fbf0f.png", u:"https://www.duolefast.com/common-web/full/game1014/1.0.4/web-mobile/index.html?bizAppId=100049&gameid=1200007&engameid=1014&isHalf=false&heightRatio=1&gameMaker=2", g:"duole" },
+    { n:"Wealthy Tiger", img:"https://i.ibb.co.com/60dY6bHK/image-9169f717.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/60?", g:"yomi" },
+    { n:"LuckyPig", img:"https://i.ibb.co.com/HTGTWtns/image-86adbd02.png", u:"https://www.duolefast.com/common-web/full/game1017/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200002&engameid=1017&", g:"duole" },
+    { n:"Showdown", img:"https://i.ibb.co.com/FqYRw3p0/image-748da0e4.png", u:"https://www.duolefast.com/common-web/full/game1024/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200003&engameid=1024&", g:"duole" },
+    { n:"Aztec", img:"https://i.ibb.co.com/MyLSy6qz/image-e53a217c.png", u:"https://www.duolefast.com/common-web/full/game1006/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200001&engameid=1006&", g:"duole" },
+    { n:"Pirate King 2", img:"https://i.ibb.co.com/fZqbjvP/image-fc213f52.png", u:"https://d1wtralw2m821s.cloudfront.net/games/pirate_king/index.html?pl=xoon&v=11&isHalf=false&game_id=136&", g:"cloudfront" },
+    { n:"King Of Olympus", img:"https://i.ibb.co.com/8nDVwzmx/image-adbf1924.png", u:"https://cdn-xoon.leadercc.com/games/gatesOfOlympus/index.html?", g:"xooncdn" },
+    { n:"Mr Rich", img:"https://i.ibb.co.com/PshtqbWD/image-f646294c.png", u:"https://d1wtralw2m821s.cloudfront.net/games/mrrich/index.html?pl=xoon&v=11&mode=games&game_name=mrrich&isHalf=false&game_id=129&", g:"cloudfront" },
+    { n:"King Of Olympus II", img:"https://i.ibb.co.com/SXJJ748s/image-5a904193.png", u:"https://www.duolefast.com/common-web/full/game1000/1.0.2/web-mobile/index.html?bizAppId=100049&gameid=1200005&engameid=1000&isHalf=false&heightRatio=1&gameMaker=2", g:"duole" }, 
+    { n:"Sweet Bonanza", img:"https://i.ibb.co.com/kv9CP9k/image-2149c8f.png", u:"https://d1wtralw2m821s.cloudfront.net/games/sweet_feast/index.html?mode=games&game_name=sweet_feast&isHalf=false&game_id=106", g:"cloudfront", moneyjar: true },
+    { n:"Mahjong II", img:"https://i.ibb.co.com/GQp31hwC/image-2071d400.png", u:"https://api.osgametheme.com/plug_new/theme7/xoon_full?isHalf=false&heightRatio=1&gameMaker=2", g:"osgame", moneyjar: true },
+    { n:"Book Of Death", img:"https://i.ibb.co.com/kzfyCKk/image-ca21281f.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/63?", g:"yomi" },
+    { n:"Deep Sea", img:"https://i.ibb.co.com/Qvh455Zx/image-f5af3b5a.png", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=deep_sea_fish&", g:"cloudfront" },
+    { n:"Original 777", img:"https://i.ibb.co.com/QFYgB2Wd/image-46f6aacb.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/57?", g:"yomi" },
+    { n:"Gold Miner", img:"https://i.ibb.co.com/v4HfF5Y9/image-3d71e7f3.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/53?", g:"yomi" },
+    { n:"Fishing I", img:"https://i.ibb.co.com/hSmDTJQ/image-2ee7d78b.png", u:"https://d1wtralw2m821s.cloudfront.net/games/fish6/index.html?mode=games&game_name=fish6&isHalf=false&game_id=104&", g:"cloudfront", moneyjar: true },
+    { n:"Fruit Flash", img:"https://i.ibb.co.com/fGSqdbLn/image-42557977.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/35?", g:"yomi" },
+    { n:"Lucky Slot", img:"https://i.ibb.co.com/Q7VwwgVB/image-4596ad14.png", u:"https://d1wtralw2m821s.cloudfront.net/games/index.html?game_name=luckyslots&", g:"cloudfront" },
+    { n:"Sweet Sugar", img:"https://i.ibb.co.com/1GWWGGVj/image-f55e69e0.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/41?", g:"yomi" },
+    { n:"Greedy Monkey", img:"https://i.ibb.co.com/hFrqjVym/image-1a720f12.png", u:"https://d1wtralw2m821s.cloudfront.net/games/monkey_wheel/index.html?", g:"cloudfront" },
+    { n:"Emperor", img:"https://i.ibb.co.com/Jw4ZtC07/image-eea8fc8c.png", u:"https://api-sg.yomi1413.com/balance/game/zzaa/302057/2/48?", g:"yomi" },
+    { n:"GradyKing", img:"https://i.ibb.co.com/Q70MPxms/image-e9fc13ca.png", u:"https://www.duolefast.com/common-web/full/game845/", g:"duole" }, 
+    { n:"Big Hammer", img:"https://i.ibb.co.com/VWK2Py3f/image-35f096ca.png", u:"https://cdn-xoon.leadercc.com/games/big_hammer/", g:"xooncdn", moneyjar: true },
+    { n:"Fishing II", img:"https://i.ibb.co.com/gL76WH2F/image-4687926a.png", u:"https://api-sg-v2.yomi1413.com/gate/gateway/zzaaym/128?", g:"yomi" } 
 ];
     
 let clicks = {};
@@ -578,9 +578,9 @@ function renderGames() {
     container.innerHTML = ""; 
     
     let activeGames = getActiveGames();
-    let groups = { biru:[], hijau:[], oranye:[], ungu:[], hitam:[] }; 
+    let groups = { yomi:[], duole:[], osgame:[], cloudfront:[], xooncdn:[] }; 
     for (let g of activeGames) groups[g.g].push(g); 
-    let groupNames = { biru:"💙 Server 1 (Yomi)", hijau:"💚 Server 2 (Duole)", oranye:"🧡 Server 3 (Osgame)", ungu:"💜 Server 4 (CloudFront)", hitam:"🖤 Server 5 (Lainnya)" }; 
+    let groupNames = { yomi:"💙 Server 1 (Yomi)", duole:"💚 Server 2 (Duole)", osgame:"🧡 Server 3 (Osgame)", cloudfront:"💜 Server 4 (CloudFront)", xooncdn:"🖤 Server 5 (XoonCDN)" }; 
     
     for (let [key, gameList] of Object.entries(groups)) { 
         if (gameList.length === 0) continue; 
